@@ -7,38 +7,23 @@
     <%= csp_meta_tag %>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-    <link rel="stylesheet" href="../lib/adminlte.min.css">
-    <script src="../lib/jquery/jquery.min.js"></script>
-    <script src="../lib/jquery-ui/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="../lib/toastr/toastr.min.css">
-    <link rel="stylesheet" href="../lib/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="../lib/overlayScrollbars/css/OverlayScrollbars.min.css">
+   <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+
 
   </head>
   <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
  <%= render  'layouts/header'  %>
 
-
  <%= render  'layouts/sidebar'  %>
 
     <%= yield %>
 <%= render 'layouts/footer' %>
   </div>
-
-<%#
-
-
-
-<%# <script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script> %>
-
-<%# <script src="https://adminlte.io/themes/v3/plugins/jquery-ui/jquery-ui.min.js"></script> %>
-    <script src="../lib/toastr/toastr.min.js"></script>
-    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../lib/adminlte.js"></script>
-    <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-   <script type="module" src="../lib/popper/popper.min.js"></script> %>
 
 <style>
 

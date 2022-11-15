@@ -1,8 +1,4 @@
 {
-  "engines": {
-    "node": "18.12.1",
-    "yarn":"1.22.19"
-  },
   "name": "app",
   "private": "true",
   "dependencies": {

@@ -2,13 +2,14 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 
-// import "admin-lte/build/js/AdminLTE"
-import "bootstrap"
+import "admin-lte"
+import * as bootstrap from "bootstrap"
 
-// window.toastr = require('toastr')
+window.toastr = require('toastr')
 
 import  "@fortawesome/fontawesome-free/js/all"
 
 import Popper from "popper.js"
 
 window.popper = Popper
+// 

@@ -2,10 +2,10 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 
-import "admin-lte/build/js/AdminLTE"
-import * as bootstrap from "bootstrap"
+// import "admin-lte/build/js/AdminLTE"
+import "bootstrap"
 
-window.toastr = require('toastr')
+// window.toastr = require('toastr')
 
 import  "@fortawesome/fontawesome-free/js/all"
 

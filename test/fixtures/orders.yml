@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payment_method: MyString
+  shipping_cost: 9.99
+  discount: 9.99
+  status: MyString
+  completed_at: 2022-11-17 10:14:34
+  note: MyText
+
+two:
+  payment_method: MyString
+  shipping_cost: 9.99
+  discount: 9.99
+  status: MyString
+  completed_at: 2022-11-17 10:14:34
+  note: MyText

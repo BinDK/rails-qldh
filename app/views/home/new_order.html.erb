@@ -1,0 +1,205 @@
+ <div class="content-wrapper">
+     <!-- Content Header (Page header) -->
+     <div class="content-header">
+
+         <div class="container-fluid">
+             <div class="row mb-1">
+
+             </div>
+         </div>
+
+     </div>
+     <!--/ Content Header -->
+
+
+     <!-- Main content -->
+     <section class="content">
+         <div class="container-fluid">
+             <!-- Old Customer -->
+             <div class="row">
+                 <div class="col">
+
+                     <div class="card card-outline card-pink">
+                         <div class="card-header">
+                             <h3 class="card-title">Khách Hàng Cũ</h3>
+                         </div>
+                         <div class="card-body">
+                             <div class="row">
+                                 <div class="col col-lg-4 col-md-4">
+                                     <div class="form-group">
+                                         <label for="oldcus">Tên - Số điện thoại</label>
+                                         <select class="form-control" id="oldCus">
+                                         </select>
+                                     </div>
+                                 </div>
+                                 <div class="col col-lg-8 col-md-8">
+                                     <div class="form-group">
+                                         <label for="oldcus">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
+                                         <select class="form-control" id="oldAddress">
+
+                                         </select>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+             </div>
+             <!-- /.Old Customer -->
+
+
+             <div class="row">
+
+                 <div class="col col-lg-5 col-md-5">
+                     <div class="card card-primary">
+                         <div class="card-header">
+                             <h3 class="card-title">Khách Hàng Mới</h3>
+                         </div>
+
+
+                         <form>
+                             <div class="card-body">
+                                 <div class="row">
+                                     <div class="col">
+                                         <div class="form-group">
+                                             <label for="exampleInputEmail1">Họ Tên</label>
+                                             <input type="email" class="form-control" id="cusName" placeholder="Tên Khách Hàng">
+                                         </div>
+                                     </div>
+
+                                     <div class="col">
+                                         <div class="form-group">
+                                             <label for="exampleInputPassword1">Số Điện Thoại</label>
+                                             <input type="text" class="form-control" id="cusPame" placeholder="Phone" name="phone">
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col col-md-4">
+                                         <div class="form-group">
+                                             <label for="province">Tỉnh - Thành Phố</label>
+                                             <select class="form-control fsel" id="province">
+                                             </select>
+                                         </div>
+                                     </div>
+
+                                     <div class="col col-md-4">
+                                         <div class="form-group">
+                                             <label for="district">Quận - Hyện</label>
+                                             <select class="form-control fsel" id="district">
+                                             </select>
+                                         </div>
+                                     </div>
+
+                                     <div class="col col-md-4">
+                                         <div class="form-group">
+                                             <label for="ward">Phường - Xã</label>
+                                             <select class="form-control fsel" id="ward">
+                                             </select>
+                                         </div>
+                                     </div>
+
+                                 </div>
+
+                                 <input class="form-control" type="text" id="street" placeholder="Địa chỉ và tên đường">
+
+                             </div>
+
+                             <div class="card-footer">
+                                 <button type="submit" class="btn btn-primary">Submit</button>
+                             </div>
+                         </form>
+                     </div>
+
+                 </div>
+                 <!--/end left col  -->
+
+
+             </div>
+
+
+         </div>
+     </section>
+     <!-- /.content -->
+ </div>
+
+ <style>
+     .plk {
+         margin: 15px;
+     }
+
+     .plx:hover {
+         box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
+     }
+ </style>
+ <script>
+     window.onload = orderSyle();
+     window.onload = callPro(undefined);
+
+     function orderSyle() {
+         $('.nitem2').addClass('menu-open');
+         $('#side_order_menu').addClass('active');
+         $('#side_order_menu').css('background-color', '#F7A4A4')
+         $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
+
+         $('#side_order1').addClass('active');
+         $('#side_order1').css('background-color', '#F7A4A429');
+         $('#side_order1').css('color', '#000');
+
+     }
+
+     //a sẽ là p - tỉnh/thành phố, d/ distrioct
+     //b là id tỉnh thành thành, quận huyện
+     //c la chổ đổ vào
+     function callPro(a, b, c) {
+         if (a == undefined) {
+             $.get("https://provinces.open-api.vn/api/?depth=1", function(data) {
+                 var hold = ""
+                 data.forEach(x => {
+                     hold += '<option value="' + x.code + '-'+x.name+'">' + x.name + '</option>'
+                 });
+                 $("#province").html(hold);
+             });
+         } else {
+             $.get("https://provinces.open-api.vn/api/" + a + "/" + b + "?depth=2", function(data) {
+                 var hold = ""
+                 if (a == 'p') {
+                     for (let i = 0; i < data.districts.length; i++) {
+                         hold += '<option value="' + data.districts[i].code + '-'+data.districts[i].name+'">' + data.districts[i].name + '</option>';
+                     }
+                 } else {
+                     for (let i = 0; i < data.wards.length; i++) {
+                         hold += '<option value="' + data.wards[i].code + '-'+data.wards[i].name+'">' + data.wards[i].name + '</option>';
+                     }
+                 }
+
+                 $(c).html(hold);
+             });
+         }
+     }
+
+     $(".fsel").on('change', function() {
+         var a = 'p';
+         var b = $('#' + $(this).attr("id")).find(":selected").val();
+         b.split("-")
+         var c = $(this).attr("id");
+         if (c == "province") {
+             c = "district";
+         } else if (c == "district") {
+             a = 'd'
+             c = "ward";
+         }
+         callPro(a, b[0], '#' + c);
+     });
+
+     function isNumberKeyx(evt) {
+         var charCode = (evt.which) ? evt.which : evt.keyCode
+         // if (charCode > 31 && (charCode < 37 && charCode > 41))
+         if (charCode == 37 || charCode == 38 || charCode == 39 || charCode == 40) {
+             return true;
+         } else if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+             return false;
+         } else return false;
+     }
+ </script>

@@ -33,11 +33,15 @@
                                      </div>
                                  </div>
                                  <div class="col col-lg-8 col-md-8">
-                                     <div class="form-group">
-                                         <label for="oldcus">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
-                                         <select class="form-control" id="oldAddress">
-
-                                         </select>
+                                    <div class="form-group">
+                                        <label for="oldAddress">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
+                                        <div class="input-group">
+                                            <select class="custom-select" id="oldAddress">
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-danger disabled" >Chọn</button>
+                                            </div>
+                                        </div>
                                      </div>
                                  </div>
                              </div>
@@ -52,26 +56,26 @@
              <div class="row">
 
                  <div class="col col-lg-5 col-md-5">
-                     <div class="card card-primary">
+                     <div class="card card-outline card-primary">
                          <div class="card-header">
                              <h3 class="card-title">Khách Hàng Mới</h3>
                          </div>
 
 
-                         <form>
+                         <form id="cusForm">
                              <div class="card-body">
                                  <div class="row">
                                      <div class="col">
                                          <div class="form-group">
-                                             <label for="exampleInputEmail1">Họ Tên</label>
-                                             <input type="email" class="form-control" id="cusName" placeholder="Tên Khách Hàng">
+                                             <label for="cusName">Họ Tên</label>
+                                             <input type="text" class="form-control" id="cusName" name="name" placeholder="Tên Khách Hàng">
                                          </div>
                                      </div>
 
                                      <div class="col">
                                          <div class="form-group">
-                                             <label for="exampleInputPassword1">Số Điện Thoại</label>
-                                             <input type="text" class="form-control" id="cusPame" placeholder="Phone" name="phone">
+                                             <label for="cusPhone">Số Điện Thoại</label>
+                                             <input type="text" minlength="10" maxlength="10" class="form-control" id="cusPhone" placeholder="Phone" name="phone">
                                          </div>
                                      </div>
                                  </div>
@@ -79,7 +83,7 @@
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="province">Tỉnh - Thành Phố</label>
-                                             <select class="form-control fsel" id="province">
+                                             <select name="province" class="form-control fsel" id="province">
                                              </select>
                                          </div>
                                      </div>
@@ -87,7 +91,7 @@
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="district">Quận - Hyện</label>
-                                             <select class="form-control fsel" id="district">
+                                             <select name="district" class="form-control fsel" id="district">
                                              </select>
                                          </div>
                                      </div>
@@ -95,19 +99,21 @@
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="ward">Phường - Xã</label>
-                                             <select class="form-control fsel" id="ward">
+                                             <select name="ward" class="form-control fsel" id="ward">
                                              </select>
                                          </div>
                                      </div>
 
                                  </div>
 
-                                 <input class="form-control" type="text" id="street" placeholder="Địa chỉ và tên đường">
+                                 <input class="form-control" type="text" id="street" name="street" placeholder="Địa chỉ và tên đường">
 
                              </div>
 
                              <div class="card-footer">
-                                 <button type="submit" class="btn btn-primary">Submit</button>
+                               <input type="hidden" name="oldCusID" id="oldCusID" value="0">
+                               <input type="hidden" name="oldAdress" id="oldAdress" value="0">
+                               <button id="createCus" type="button" class="btn btn-primary">Submit</button>
                              </div>
                          </form>
                      </div>
@@ -115,6 +121,132 @@
                  </div>
                  <!--/end left col  -->
 
+               <div class="col col-lg-7 col-md-7">
+                 <div class="card card-outline card-warning">
+                   <div class="card-header">
+                     <h3 class="card-title">Đơn Hàng</h3>
+                   </div>
+
+
+                   <form id="orderForm">
+                     <div class="card-body">
+                       <div class="row">
+                         <div class="col">
+                           <div class="form-group">
+                             <label for="refName">Người Giới Thiệu</label>
+                             <input type="text" class="form-control" id="refName" name="refname" placeholder="Tên Người Giới Thiệu" required="">
+                           </div>
+                           <div class="form-group">
+                             <label for="refPhone">Số Điện Thoại</label>
+                             <input type="text" minlength="10" maxlength="10" class="form-control" id="refPhone" placeholder="Phone" name="refphone" required="" style="border-width: 1px;">
+                           </div>
+                         </div>
+
+                         <div class="col">
+                           <div class="form-group">
+                             <label for="refBank">Thông Tin Chuyển Khoản</label>
+                             <textarea type="text" rows="4"  class="form-control" id="refBank" placeholder="Thông Tin Chuyển Khoản Của người giới thiệu" name="refbank" required="" style="border-width: 1px;"></textarea>
+                           </div>
+                         </div>
+                       </div>
+
+                       <div class="row">
+                         <div class="col">
+                           <div class="form-group">
+                             <label for="prods">Các Sản Phẩm</label>
+                             <div class="input-group">
+                               <select class="custom-select" id="prods">
+                                 <option selected>Chọn sản phẩm</option>
+                                 <% @products.each do |product|  %>
+                                   <option value="<%= product.id %>"><%= product.name %> - <%= product.volume %> - <%= product.price %></option>
+                                 <% end %>
+                               </select>
+                               <div class="input-group-append">
+                                 <button class="btn btn-outline-danger" id="prodChoose" onclick="event.preventDefault();">Chọn</button>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+
+                       <div class="row">
+                         <div class="col">
+                           <div class="card">
+
+                             <div class="card-body table-responsive p-0" style="height:300px;">
+                               <table class="table" id="line_items">
+                                 <thead>
+                                 <tr>
+                                   <th style="width: 10px">#</th>
+                                   <th>Tên Sản Phẩm</th>
+                                   <th>Số lượng</th>
+                                   <th>Giá Tiền</th>
+
+                                   <th style="width: 40px">Thao Tác</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+
+                                 </tbody>
+                               </table>
+                             </div>
+
+                           </div>
+
+
+
+                         </div>
+
+                       </div>
+
+                       <div class="row">
+                         <div class="col col-md-3">
+                           <div class="form-group">
+                             <label for="discount">Giảm Giá</label>
+                             <input type="number" min="0" max="100" step="1" minlength="1" maxlength="2" class="form-control" id="discount">
+
+                           </div>
+                         </div>
+
+                         <div class="col col-md-3">
+                           <div class="form-group">
+                             <label for="shipping">Phí Vận Chuyển</label>
+                             <input type="number" min="0"  name="shipping" class="form-control" id="shipping">
+
+                           </div>
+                         </div>
+
+                         <div class="col col-md-3">
+                           <div class="form-group">
+                             <label for="shipping">Thanh Toán Bằng</label>
+                             <select name="payment" id="payment" class="form-control">
+                               <option value="Chuyển Khoản">Chuyển Khoản</option>
+                               <option value="COD">COD</option>
+                             </select>
+                           </div>
+                         </div>
+
+                         <div class="col col-md-6">
+                           <div class="form-group">
+                             <label for="note">Note</label>
+                             <textarea name="note" id="note" class="form-control" rows="3"></textarea>
+                           </div>
+                         </div>
+
+                       </div>
+
+                     </div>
+
+                     <div class="card-footer">
+                       <input type="hidden" name="orderCusID" id="orderCusID" value="" required="">
+                       <input type="hidden" name="orderrefID" id="orderrefID" value="" required="">
+                       <button type="button" class="btn btn-primary" id="createOrder">Tạo Đơn</button>
+                       <input type="text" name="total" id="totalCost" class="float-right" >
+                     </div>
+                   </form>
+                 </div>
+
+               </div>
 
              </div>
 
@@ -123,21 +255,29 @@
      </section>
      <!-- /.content -->
  </div>
-
  <style>
-     .plk {
-         margin: 15px;
-     }
-
-     .plx:hover {
-         box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
-     }
+   #totalCost{
+       background-color: transparent;
+       color:red;
+       font-size: 24px;
+       font-weight: bold;
+       border:none;
+       border-bottom: 1px solid #1890ff;
+       padding: 5px 10px;
+       outline: none;
+       text-align:right;
+       width: 300px;
+   }
  </style>
  <script>
+
      window.onload = orderSyle();
      window.onload = callPro(undefined);
 
      function orderSyle() {
+         $("#totalCost").attr("readonly",true);
+         $("#totalCost").val(0);
+
          $('.nitem2').addClass('menu-open');
          $('#side_order_menu').addClass('active');
          $('#side_order_menu').css('background-color', '#F7A4A4')
@@ -146,8 +286,242 @@
          $('#side_order1').addClass('active');
          $('#side_order1').css('background-color', '#F7A4A429');
          $('#side_order1').css('color', '#000');
-
+          stuff = [];
      }
+
+     $("#cusForm").prop('required',true);
+     $("#createCus").click(function(e) {
+         e.preventDefault();
+         var form = $('form#cusForm');
+         var actionUrl = '<%= customer_check_path %>';
+         $.ajax({
+             type: "POST",
+             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+             url: actionUrl,
+             data: form.serialize(), // serializes the form's elements.
+             success: function(data) {
+                 toastr.success(data.customer.name,data.message,{
+                     timeOut: 3000,
+                     progressBar: true,
+                     progressAnimation: 'increasing'
+                 });
+                 $("#oldAdress").val("1")
+                 $('#orderCusID').val(data.customer.id);
+             }
+         });
+
+     });
+
+     //Print line items
+     var stt =1;
+     var total=0;
+     $('#prodChoose').click(function(){
+         id= $("#prods").find(":selected").val();
+         const existingItem = stuff.find((item) => {
+             return parseInt(id) === item.id;
+         });
+         if(existingItem){
+             existingItem.qty++;
+             $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
+             total = total + existingItem.price;
+             $('input#totalCost').val( total.toFixed(3) );
+
+         }else{
+           $.get("<%= product_info_path %>", {id:id},function(data) {
+             var hold = '<tr id="row-'+stt+'">';
+                 hold += '<td id="'+data.prod.id+'" >'+ stt +'</td> <td>'+data.prod.name+' - '+data.prod.volume+'</td>';
+                 hold += '<td><i type="button" class="fas fa-angle-down qtybtn" id="down-'+data.prod.id+'"></i>' +
+                     '&nbsp;&nbsp;<span id="prodQty">1</span>&nbsp;&nbsp;' +
+                     '<i type="button" class="fas fa-angle-up qtybtn" id="up-'+data.prod.id+'"></i></td>';
+                 hold += '<td><span id="prodPrice">'+data.prod.price+'</span></td>';
+                 hold += '<td><button type="button" class="btn btn-sm btn-outline-warning btndel">Xóa</button></td>';
+                 hold += '</tr>';
+             $("#line_items tbody").append(hold);
+             stuff.push({id: parseInt(data.prod.id), price: parseFloat(data.prod.price), qty: 1,row: 'row-'+stt+''});
+             total = parseFloat(data.prod.price) + total;
+             $("#totalCost").val(total.toFixed(3));
+             stt++
+           });
+         }
+
+     });
+
+      // Increase - Decrease Item Qty
+     $("#line_items").on('click','.qtybtn', function() {
+         var actionID =  $(this).attr("id").split('-');
+         updownQty(actionID[0], actionID[1]);
+     });
+     function updownQty(action, id){
+         const existingItem = stuff.find((item) => {
+             return parseInt(id) === item.id;
+         });
+         var dis = parseInt($('#discount').val());
+         var ship = parseFloat($('#shipping').val());
+         if(action == "up"){
+
+             existingItem.qty++;
+             $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
+             total = total + existingItem.price;
+             if(isNaN(dis) == false && isNaN(ship) == false){
+                 var sum = total - ((total * dis) / 100) + ship;
+             }
+             $('input#totalCost').val( sum.toFixed(3) );
+         } else if (action =="down"){
+             if(existingItem.qty == 1){
+                 toastr.info('Xóa Hoặc số lượng bằng 1','',{
+                     timeOut: 2000,
+                     progressBar: true,
+                     progressAnimation: 'increasing'
+                 });
+             }
+             else{
+                 existingItem.qty--;
+                 $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
+                 // total = total - existingItem.price;
+                     total = total - existingItem.price;
+                 if(isNaN(dis) == false && isNaN(ship) == false){
+                     var sum = total - ((total * dis) / 100) + ship;
+                 }
+                 $('input#totalCost').val( sum.toFixed(3) );
+             }
+         }
+     }
+
+     //Delete selected line_items
+     $('#line_items').on('click','.btndel',function (){
+        var curRowID = $(this).closest('tr').attr('id');
+         var dis = parseInt($('#discount').val());
+         var ship = parseFloat($('#shipping').val());
+        console.log(curRowID);
+        const curItem = stuff.find((item) => {
+            return curRowID === item.row;
+        });
+        var sum = parseFloat(curItem.price) * curItem.qty;
+        total = total - sum;
+        if (total < 0 ){
+            total = 0;
+            $('input#totalCost').val( total );
+        }else{
+
+            total = (total - ((total * dis) / 100)) + ship;
+            $('input#totalCost').val( total.toFixed(3) );
+        }
+        $(this).closest('tr').remove();
+        stuff = stuff.filter(x => {
+            return  x.id != curItem.id;
+        })
+        console.log(curItem);
+    });
+
+
+     $('#discount').on('keyup paste',function(){
+
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        var amount = parseInt($(this).val());
+         var ship = parseFloat($('#shipping').val());
+
+         if(isNaN(amount) || isNaN(ship)){
+
+            var hold = 0;
+            stuff.forEach( x =>{
+                hold += parseFloat(x.price * x.qty);
+            })
+             hold += ship;
+             $('input#totalCost').val( hold.toFixed(3) );
+            $(this).val(0);
+        }
+        else{
+            var sum = total - ((total * amount) / 100) + ship;
+            $('input#totalCost').val( parseFloat(sum.toFixed(3)) );
+        }
+
+
+    });
+     $('#shipping').on('keyup paste',function(){
+         $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+         var amount = parseFloat($(this).val());
+         var dis = parseInt($('#discount').val());
+
+         if(isNaN(amount) || isNaN(dis)){
+             var hold = 0;
+             stuff.forEach( x =>{
+                 hold += parseFloat(x.price * x.qty);
+             })
+             hold = hold - ((total * dis) / 100);
+
+             $('input#totalCost').val( hold.toFixed(3) );
+             $(this).val(0);
+         }
+         else{
+             var sum = total - ((total * dis) / 100) + amount;
+             $('input#totalCost').val( parseFloat(sum.toFixed(3)));
+         }
+
+
+     });
+
+     //Hàm này sẽ handle việc thêm sản phẩm mà đã có giảm giá + phí ship trước
+     //Chưa hoạt động theo DRY
+     function extraTotalPrice(){
+         var dis = parseInt($('#discount').val());
+         var ship = parseFloat($('#shipping').val());
+
+         if(dis == 0 || isNaN(dis) || dis == '' ||
+             ship == 0 || isNaN(ship) || ship == ''){
+
+             var hold = 0;
+             stuff.forEach( x =>{
+                 hold += parseFloat(x.price * x.qty);
+             })
+             $('input#totalCost').val( hold.toFixed(3) );
+             $('#discount #shipping').val(0);
+         } else {
+             var sum = (total - ((total * dis) / 100)) + ship;
+             $('input#totalCost').val( parseFloat(sum.toFixed(3)) );
+         }
+     }
+
+     $("#createOrder").click(function(e) {
+         e.preventDefault();
+         var rowCount = $('#line_items tbody tr').length;
+         var actionUrl = '<%= testt_path %>';
+         var cv = [];
+         $('#line_items tbody tr').each(function () {
+             cv.push({
+                 prodID: parseInt($(this).find('td:first-child').attr("id")),
+                 prodQty: parseInt($(this).find('#prodQty').html()),
+                 prodPrice: parseFloat($(this).find('#prodPrice').html()).toFixed(3)
+             });
+         });
+         console.log(cv);
+         // alert(rowCount)
+         $.ajax({
+             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+             type: 'GET',
+             url: actionUrl,
+             data: {
+                 items: cv,
+                 item_length: rowCount,
+                 total: parseFloat($('#totalCost').val()).toFixed(3),
+                 note: $('#note').val(),
+                 discount: $('#discount').val(),
+                 customer_id: parseInt($('#orderCusID').val()),
+                 payment: $("#payment").find(":selected").val(),
+                 shipping: $('#shipping').val(),
+                 orderrefID: $('#orderrefID').val(),
+                 refname: $('#refName').val(),
+                 refphone: $('#refPhone').val(),
+                 refbank: $('#refBank').val()
+
+             },
+             success: function (data) {
+                console.log(data + "xxx");
+
+             }
+         });
+
+     });
+
 
      //a sẽ là p - tỉnh/thành phố, d/ distrioct
      //b là id tỉnh thành thành, quận huyện
@@ -157,7 +531,7 @@
              $.get("https://provinces.open-api.vn/api/?depth=1", function(data) {
                  var hold = ""
                  data.forEach(x => {
-                     hold += '<option value="' + x.code + '-'+x.name+'">' + x.name + '</option>'
+                     hold += '<option value="' + x.code + '-' + x.name + '">' + x.name + '</option>'
                  });
                  $("#province").html(hold);
              });
@@ -166,11 +540,11 @@
                  var hold = ""
                  if (a == 'p') {
                      for (let i = 0; i < data.districts.length; i++) {
-                         hold += '<option value="' + data.districts[i].code + '-'+data.districts[i].name+'">' + data.districts[i].name + '</option>';
+                         hold += '<option value="' + data.districts[i].code + '-' + data.districts[i].name + '">' + data.districts[i].name + '</option>';
                      }
                  } else {
                      for (let i = 0; i < data.wards.length; i++) {
-                         hold += '<option value="' + data.wards[i].code + '-'+data.wards[i].name+'">' + data.wards[i].name + '</option>';
+                         hold += '<option value="' + data.wards[i].code + '-' + data.wards[i].name + '">' + data.wards[i].name + '</option>';
                      }
                  }
 
@@ -178,28 +552,115 @@
              });
          }
      }
+      $('#street').on('keyup', function() {$("#oldAdress").val("0")});
 
      $(".fsel").on('change', function() {
          var a = 'p';
-         var b = $('#' + $(this).attr("id")).find(":selected").val();
-         b.split("-")
+         var b = $(this).find(":selected").val().split("-")[0];
          var c = $(this).attr("id");
          if (c == "province") {
+            $('#district,#ward').html("")
              c = "district";
+             callPro(a, b, '#' + c);
          } else if (c == "district") {
              a = 'd'
              c = "ward";
+             callPro(a, b, '#' + c);
          }
-         callPro(a, b[0], '#' + c);
+         $("#oldAdress").val("0")
      });
 
-     function isNumberKeyx(evt) {
+     $('#cusPhone').bind('input paste propertychange',function () {
+         $(this).val($(this).val().replace(/[^0-9+]/g, ''));
+            var hold = $(this).val().length;
+            var checkPhoneURL = "<%= phone_check_path %>";
+              $('#oldCusID').val(0);
+         if (hold == 10){
+                $.ajax({
+                    type: "GET",
+                    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                    url: checkPhoneURL,
+                    data: {
+                        phone:  $(this).val()
+                    },
+                    success: function(data) {
+                       if(data.status == true) {
+                           toastr.info(data.message, '', {
+                               timeOut: 2000,
+                               progressBar: true,
+                               progressAnimation: 'increasing'
+                           });
+                           $('#oldCusID').val(0);
+                       } else {
+                           toastr.warning(data.customer.name, "Khách Hàng Tên:", {
+                               timeOut: 2000,
+                               progressBar: true,
+                               progressAnimation: 'increasing'
+                           });
+                           $('#cusPhone').addClass("border-warning").css('border-width','thick');
+                           setTimeout(function(){
+                               $('#cusPhone').removeClass("border-warning").css('border-width','1px');
+                           },2000);
+                           $('#oldCusID').val(data.customer.id);
+                       }
+                    }
+                });
+            }
+
+     });
+
+     $('#refPhone').bind('input paste propertychange',function () {
+         $(this).val($(this).val().replace(/[^0-9+]/g, ''));
+         var hold = $(this).val().length;
+         var checkPhoneURL = "<%= ref_phone_check_path %>";
+         $('#orderrefID').val(0);
+         if($(this).val() == $('#cusPhone').val()) {
+             toastr.warning('Không Được Trùng SĐT Với Người Mua', '', {
+                 timeOut: 2000,
+                 progressBar: true,
+                 progressAnimation: 'increasing'
+             });
+             $(this).val('');
+         }
+         else if (hold == 10){
+
+             $.ajax({
+                 type: "GET",
+                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                 url: checkPhoneURL,
+                 data: {
+                     phone:  $(this).val()
+                 },
+                 success: function(data) {
+                     if(data.status == true) {
+                         toastr.info(data.message, '', {
+                             timeOut: 2000,
+                             progressBar: true,
+                             progressAnimation: 'increasing'
+                         });
+                         $('#oldCusID').val(0);
+                     } else {
+                         toastr.warning(data.ref.name, "Người Giới thiệu  Tên:", {
+                             timeOut: 2000,
+                             progressBar: true,
+                             progressAnimation: 'increasing'
+                         });
+                         $('#refPhone').addClass("border-warning").css('border-width','thick');
+                         setTimeout(function(){
+                             $('#refPhone').removeClass("border-warning").css('border-width','1px');
+                         },2000);
+                         $('#orderrefID').val(data.ref.id);
+                     }
+                 }
+             });
+         }
+
+     });
+     function isNumberKeyx(evt){
          var charCode = (evt.which) ? evt.which : evt.keyCode
          // if (charCode > 31 && (charCode < 37 && charCode > 41))
-         if (charCode == 37 || charCode == 38 || charCode == 39 || charCode == 40) {
-             return true;
-         } else if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
-             return false;
-         } else return false;
+         if (charCode == 37 || charCode == 38 || charCode == 39 || charCode == 40){return true;}
+         else if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)){return false;}
+         else return false;
      }
  </script>

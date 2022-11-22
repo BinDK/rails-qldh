@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  root 'home#index'
 
   scope :home do
+
     scope :api do
-      get 'index', to: 'apix#index'
+      get 'testt', to: 'apix#testt'
+      get 'phone_check', to: 'apix#phone_check'
+      get 'ref_phone_check', to: 'apix#ref_phone_check'
+
+      get 'product_info', to: 'apix#product_info'
+
+      post 'customer_check', to: 'apix#customer_check'
+
     end
 
     get 'index', to: 'home#index'
@@ -13,6 +20,7 @@ Rails.application.routes.draw do
 
   end
 
+  root 'home#index'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

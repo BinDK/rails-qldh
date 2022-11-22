@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_101449) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_22_172451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,9 +27,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_101449) do
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
-    t.integer "phone"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["phone"], name: "index_customers_on_phone", unique: true
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -54,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_101449) do
     t.datetime "updated_at", null: false
     t.bigint "customer_id", null: false
     t.bigint "referrer_id", null: false
+    t.decimal "total"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["referrer_id"], name: "index_orders_on_referrer_id"
   end
@@ -68,7 +70,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_101449) do
 
   create_table "referrers", force: :cascade do |t|
     t.string "name"
-    t.integer "phone"
+    t.string "phone"
     t.text "banking_informations"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

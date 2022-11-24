@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: qldh_production
-  username: pixie
-  password: <%= Rails.application.credentials.dig(:db_pass) %>
+  url: <%= Rails.application.credentials.dig(:prod_url) %>
+  database: <%= Rails.application.credentials.dig(:prod_db) %>
+  username: <%= Rails.application.credentials.dig(:prod_uname) %>
+  password: <%= Rails.application.credentials.dig(:prod_pass) %>

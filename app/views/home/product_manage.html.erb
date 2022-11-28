@@ -1,0 +1,160 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-1">
+
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">DataTable with default features</h3>
+              <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md">Thêm Sản Phẩm</button>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive">
+              <table id="prodTable" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Tên Sản Phẩm</th>
+                  <th>Price</th>
+                  <th>Dung Tích</th>
+                  <th>Thao Tác</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                </tbody>
+
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+</div>
+<div class="modal fade" id="modal-md">
+
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm Sản Phẩm </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productForm">
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="pname">Tên Sản Phẩm</label>
+          <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+        </div>
+
+        <div class="form-group">
+          <label for="pprice">Giá Sản Pẩm</label>
+          <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+        </div>
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Dung Tích</label>
+          <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
+        </div>
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
+      </div>
+      </form>
+
+    </div>
+    <!-- /.modal-content -->
+
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+
+    function orderSyle() {
+
+        $('.nitem2').addClass('menu-open');
+        $('#side_order_menu').addClass('active');
+        $('#side_order_menu').css('background-color', '#F7A4A4')
+        $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
+
+        $('#side-order3').addClass('active');
+        $('#side-order3').css('background-color', '#B6E2A1');
+        $('#side-order3').css('color', '#000');
+    }
+
+
+    $("#prodTable").DataTable({
+        "responsive": true,
+        "lengthChange": true,
+        "autoWidth": false,
+    });
+    var flag = 0;
+    $("#createProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= add_prod_path %>';
+        var form = $('form#productForm');
+
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.prod.name,data.message,{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                var hold = ''
+                hold += '<tr><td>'+data.prod.name+'</td>';
+                hold += '<td>'+data.prod.price+'</td>';
+                hold += '<td>'+data.prod.volume+'</td>';
+                hold += '<td> <button class="btn">Action</button></td></tr>';
+                if(flag == 0){
+                $('#prodTable tbody').html(hold);
+                    flag++;
+                }else{
+                    $('#prodTable tbody').append(hold);
+
+                }
+
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+            }
+        });
+
+
+
+    });
+
+
+
+
+
+</script>
+
+

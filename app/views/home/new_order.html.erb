@@ -284,7 +284,7 @@
          $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
 
          $('#side_order1').addClass('active');
-         $('#side_order1').css('background-color', '#F7A4A429');
+         $('#side_order1').css('background-color', '#FEBE8C');
          $('#side_order1').css('color', '#000');
           stuff = [];
      }
@@ -484,7 +484,7 @@
      $("#createOrder").click(function(e) {
          e.preventDefault();
          var rowCount = $('#line_items tbody tr').length;
-         var actionUrl = '<%= testt_path %>';
+         var actionUrl = '<%= add_order_path %>';
          var cv = [];
          $('#line_items tbody tr').each(function () {
              cv.push({

@@ -1,6 +1,6 @@
 class ApixController < ApplicationController
   # protect_from_forgery with: :null_session
-  def testt
+  def add_order
     @number = params[:item_length].to_s.to_i
     bb = add_ref
     @orderinfo = Order.new(payment_method: params[:payment],total: params[:total],
@@ -63,6 +63,17 @@ class ApixController < ApplicationController
       end
 
     end
+
+  end
+
+
+
+  #For Product
+
+  def add_prod
+    @product = Product.new(name: params[:pname],price: params[:pprice],volume: params[:pvol])
+    @product.save
+    render json: {prod: @product ,message: "Thêm Sản Phẩm Thành Công"}, status: :ok
 
   end
 

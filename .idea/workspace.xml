@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="update credential" />
+    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="update credential">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rakefile" beforeDir="false" afterPath="$PROJECT_DIR$/Rakefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.bootstrap.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/apix_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/apix_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/controllers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/controllers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/index.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/index.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/new_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/new_order.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/database.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/importmap.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/importmap.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="ERB File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -30,10 +45,11 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/pixie/Desktop/qldh/lib/assets/images&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/pixie/Desktop/qldh/app/javascript/libs&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;ruby.rails.projectView.checked&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/pixie/.local/share/JetBrains/Toolbox/apps/RubyMine/ch-0/222.3739.56/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -160,7 +176,14 @@
       <workItem from="1669089016101" duration="28913000" />
       <workItem from="1669211853195" duration="7098000" />
       <workItem from="1669279149239" duration="10251000" />
-      <workItem from="1669347927152" duration="3206000" />
+      <workItem from="1669347927152" duration="8803000" />
+      <workItem from="1669440870011" duration="1238000" />
+      <workItem from="1669451213754" duration="912000" />
+      <workItem from="1669458484449" duration="15363000" />
+      <workItem from="1669517120136" duration="599000" />
+      <workItem from="1669522098936" duration="18505000" />
+      <workItem from="1669568398369" duration="2633000" />
+      <workItem from="1669603646007" duration="6529000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

@@ -68,6 +68,7 @@ class ApixController < ApplicationController
 
 
 
+
   #For Product
 
   def add_prod

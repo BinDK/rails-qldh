@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="Product management, product's Adding form 2" />
+    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="Product management, product's Adding form 2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -170,7 +172,7 @@
       <workItem from="1669522098936" duration="18505000" />
       <workItem from="1669568398369" duration="2633000" />
       <workItem from="1669603646007" duration="6529000" />
-      <workItem from="1669641437832" duration="14525000" />
+      <workItem from="1669641437832" duration="15658000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

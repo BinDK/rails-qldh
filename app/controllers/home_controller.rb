@@ -20,10 +20,12 @@ class HomeController < ApplicationController
   # other number to find specific product
   def product_find(desire)
     if desire == 0
-      @products = Product.all
+      @products = Product.all.order(:created_at)
+      return  @products
     else
-      @products = Product.find(desire)
+      @product = Product.find(desire)
+      return  @product
     end
-    @products
+
   end
 end

@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
 
       post 'add_prod', to: 'apix#add_prod'
+      get 'find_prod', to: 'apix#find_prod'
+      put 'update_prod', to: 'apix#update_prod'
+      delete 'delete_prod', to: 'apix#delete_prod'
+
     end
 
 

@@ -1,5 +1,7 @@
 class ApixController < ApplicationController
   # protect_from_forgery with: :null_session
+  before_action :set_prod, only: %i[ update_prod delete_prod ]
+
   def add_order
     @number = params[:item_length].to_s.to_i
     bb = add_ref
@@ -75,10 +77,45 @@ class ApixController < ApplicationController
     @product = Product.new(name: params[:pname],price: params[:pprice],volume: params[:pvol])
     @product.save
     render json: {prod: @product ,message: "Thêm Sản Phẩm Thành Công"}, status: :ok
+  end
+
+  def update_prod
+
+    if @prod.update(name: params[:pname], price: params[:pprice], volume: params[:pvol])
+      render json: {prod: @prod ,message: "Cập Nhật Thành Công"},status: :ok
+    else
+      render json: {message: "Cập Nhật Không Thành Công"}, status: :unprocessable_entity
+    end
+  end
+
+  def delete_prod
+    @prod.destroy
+    render json: {message: "Xóa Thành Công"},status: :ok
+  end
+  def find_prod
+    choice = params[:choice].to_s.to_i
+    if  choice == 3
+      @product = Product.find(params[:id])
+      render json: {prod: @product }, status: :ok
+    elsif choice == 0
+      @products = Product.all.order(:created_at)
+      render json: {prod: @products }
+    else
+      kw = "%#{Product.sanitize_sql_like(params[:kw])}%"
+      @products = Product.where("name like :keyx or volume like :keyx", keyx: kw)
+      render json: {prod: @products }, status: :ok
+
+    end
 
   end
 
+
   private
+  #For product
+  def set_prod
+    @prod = Product.find(params[:id])
+  end
+  # end for product
   def customer_address_params
     @cus_id = params[:oldCusID].to_s.to_i
     @old_address = params[:oldAdress].to_s.to_i

@@ -53,7 +53,7 @@ class ApixController < ApplicationController
 
       create_address(@new_customer.id)
 
-      render json: {customer: @new_customer ,message: msg[0]}, status: :ok
+      render json: {customer: @new_customer,address_id: @new_customer ,message: msg[0]}, status: :ok
     else
 
       @old_cus = Customer.find(@cus_id)
@@ -116,6 +116,7 @@ class ApixController < ApplicationController
     @prod = Product.find(params[:id])
   end
   # end for product
+  #
   def customer_address_params
     @cus_id = params[:oldCusID].to_s.to_i
     @old_address = params[:oldAdress].to_s.to_i
@@ -146,7 +147,7 @@ class ApixController < ApplicationController
 
   def add_ref
     if params[:orderrefID].to_s.to_i == 0
-      @ref = Referrer.new(name: params[:refname].to_s,phone: params[:refphone].to_s.to_i,banking_informations:params[:refbank])
+      @ref = Referrer.new(name: params[:refname].to_s,phone: params[:refphone],banking_informations:params[:refbank])
       @ref.save
     else
       @ref = Referrer.find(params[:orderrefID].to_s.to_i)
@@ -158,7 +159,7 @@ class ApixController < ApplicationController
     @customer_address = Address.new(province_city:@prov,district: @dist,
                                     ward: @ward,street: @street,customer_id: cust_id )
     @customer_address.save
-    p @customer_address
+    # p @customer_address
   end
 
 end

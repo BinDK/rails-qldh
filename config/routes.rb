@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
     get 'product_manage', to: 'home#product_manage'
 
+    get 'order_manage', to: 'home#order_manage'
+
   end
 
   root 'home#index'

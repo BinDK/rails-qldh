@@ -357,13 +357,16 @@
          });
          var dis = parseInt($('#discount').val());
          var ship = parseFloat($('#shipping').val());
+         var sum = 0;
          if(action == "up"){
 
              existingItem.qty++;
              $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
              total = total + existingItem.price;
-             if(isNaN(dis) == false && isNaN(ship) == false){
-                 var sum = total - ((total * dis) / 100) + ship;
+             if((isNaN(dis) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
+                 sum = total - ((total * dis) / 100) + ship;
+             }else {
+                 sum = total;
              }
              $('input#totalCost').val( sum.toFixed(3) );
          } else if (action =="down"){
@@ -379,8 +382,10 @@
                  $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
                  // total = total - existingItem.price;
                      total = total - existingItem.price;
-                 if(isNaN(dis) == false && isNaN(ship) == false){
-                     var sum = total - ((total * dis) / 100) + ship;
+                 if((isNaN(dis) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
+                     sum = total - ((total * dis) / 100) + ship;
+                 }else {
+                     sum = total;
                  }
                  $('input#totalCost').val( sum.toFixed(3) );
              }

@@ -10,7 +10,11 @@ class HomeController < ApplicationController
 
   def product_manage
     product_find(0)
+  end
 
+  def order_manage
+    @orders = Order.all
+    return @orders
   end
 
   private

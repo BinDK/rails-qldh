@@ -1,0 +1,333 @@
+<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.css"/>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>-->
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-1">
+
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12">
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Fixed Header Table</h3>
+
+              <div class="card-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                  <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Search">
+
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 400px;">
+              <table id="prodTable"  class="table table-head-fixed table-striped text-nowrap">
+
+                <thead>
+                <tr>
+                  <th>Tên Sản Phẩm</th>
+                  <th>Price</th>
+                  <th>Dung Tích</th>
+                  <th style="width: 20px;">Thao Tác</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @orders.each do |order|  %>
+<!--                  <tr>-->
+<!--                    <td><%#= product.name %></td>-->
+<!--                    <td><%#= product.price %></td>-->
+<!--                    <td><%#= product.volume %></td>-->
+<!--                    <td><button class="btn btn-outline-success float-right btnUp" id="prod-<%#= product.id %>" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button>-->
+<!--                    </td></tr>-->
+                <% end %>
+                </tbody>
+
+
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+</div>
+<div class="modal fade" id="modal-md">
+
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm Sản Phẩm </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productForm">
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="pname">Tên Sản Phẩm</label>
+            <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+          </div>
+
+          <div class="form-group">
+            <label for="pprice">Giá Sản Pẩm</label>
+            <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Dung Tích</label>
+            <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
+        </div>
+      </form>
+
+    </div>
+    <!-- /.modal-content -->
+
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-md2">
+
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cập Nhật Sản Phẩm </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productUForm">
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="pname">Tên Sản Phẩm</label>
+            <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+          </div>
+
+          <div class="form-group">
+            <label for="pprice">Giá Sản Pẩm</label>
+            <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Dung Tích</label>
+            <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger delProd" ><i class="fas fa-delete-left"></i></button>
+          <input type="hidden" name="id" id="prodID">
+          <button type="button" class="btn btn-primary uProd" ><i class="fas fa-floppy-disk"></i></button>
+        </div>
+      </form>
+
+    </div>
+    <!-- /.modal-content -->
+
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+</script>
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+
+    function orderSyle() {
+
+        $('.nitem2').addClass('menu-open');
+        $('#side_order_menu').addClass('active');
+        $('#side_order_menu').css('background-color', '#F7A4A4')
+        $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
+
+        $('#side-order2').addClass('active');
+        $('#side-order2').css('background-color', '#FFFBC1');
+        $('#side-order2').css('color', '#000');
+    }
+
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+
+    $('#prodSearch').keyup(debounce(function (event){
+        var kw = $('#prodSearch').val();
+        if(kw == '' && kw.length == 0){
+            findProductByKW(kw,0);
+        }else {
+            findProductByKW(kw,1);
+
+        }
+
+    },3000));
+
+    $('#prodTable').on('click','.btnUp',function (){
+        var id =  $(this).attr('id').split('-')[1];
+        findProduct(parseInt(id),3)
+    });
+
+
+    function findProductByKW(kw,choice) {
+        var actionUrl = '<%= find_prod_path %>';
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                kw: kw,
+                choice: choice
+            }, // serializes the form's elements.
+            success: function(data) {
+
+
+                var hold = ''
+                for(let i = 0;i < data.prod.length; i++  ){
+
+                    hold += '<tr><td>'+data.prod[i].name+'</td>';
+                    hold += '<td>'+data.prod[i].price+'</td>';
+                    hold += '<td>'+data.prod[i].volume+'</td>';
+                    hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                }
+                $('#prodTable tbody').html(hold);
+
+            }
+        });
+    }
+
+
+    function findProduct(id,choice) {
+        var actionUrl = '<%= find_prod_path %>';
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                id: id,
+                choice: choice
+            },
+            success: function(data) {
+
+                $('form#productUForm #pname').val(data.prod.name);
+                $('form#productUForm #pprice').val(data.prod.price);
+                $('form#productUForm #pvol').val(data.prod.volume);
+                $('form#productUForm #prodID').val(data.prod.id)
+
+            }
+        });
+    }
+
+
+    $("#createProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= add_prod_path %>';
+        var form = $('form#productForm');
+
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.prod.name,data.message,{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                var hold = ''
+                hold += '<tr><td>'+data.prod.name+'</td>';
+                hold += '<td>'+data.prod.price+'</td>';
+                hold += '<td>'+data.prod.volume+'</td>';
+                hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                $('#prodTable tbody').append(hold);
+
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+            }
+        });
+    });
+
+    $(".delProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= delete_prod_path %>';
+        var id = $('#prodID').val();
+        $.ajax({
+            type: "DELETE",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                id:id
+            }, // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.message,'',{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                findProductByKW('',0);
+            }
+        });
+    });
+
+    $(".uProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= update_prod_path %>';
+        var form = $('form#productUForm');
+
+        $.ajax({
+            type: "PUT",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.message,'',{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                findProductByKW('',0);
+            }
+        });
+    });
+
+
+
+</script>
+
+

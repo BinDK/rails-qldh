@@ -82,7 +82,7 @@ test:
 production:
   <<: *default
 #url below connect to heroku database
-  url: < %#= ENV["DATABASE_URL"] %>
+  url: <%= ENV["DATABASE_URL"] %>
 
 
 #  database: qldh_production

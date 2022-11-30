@@ -114,7 +114,7 @@
             <div class="col-sm-4 invoice-col">
               Thông Tin Khách
               <address>
-                <strong id="cusname"></strong><br>
+                <span id="cusName"></span><br>
                 <span id="cusAddr"></span><br>
                 <span id="cusPhone"></span><br>
                 <span id="cusPayment"></span>
@@ -124,7 +124,7 @@
             <div class="col-sm-4 invoice-col">
               Người giới thiệu
               <address>
-                <strong id="refName"></strong><br>
+                <span id="refName"></span><br>
                 <span id="refPhone"></span><br>
                 <span id="refBank"></span><br>
               </address>
@@ -170,7 +170,7 @@
                   </tr>
                   <tr>
                     <th>Phí Ship:</th>
-                    <td id="orderSub"></td>
+                    <td id="orderShip"></td>
                   </tr>
                   <tr>
                     <th>Total:</th>
@@ -324,8 +324,40 @@
                 orderID: id,
             },
             success: function(data) {
+                //Items
+                var hold = ''
+                var subtotal = 0;
+                for(let i = 0;i < data.items.length; i++  ){
+                    hold += '<tr><td>'+data.items[i].name+'</td>';
+                    hold += '<td>'+data.items[i].quantity+'</td>';
+                    hold += '<td>'+data.items[i].price+'</td>';
+                    hold += '<td>'+parseFloat(data.items[i].quantity * data.items[i].price).toFixed(3) +'</td>';
+                    subtotal = subtotal +  (data.items[i].quantity * data.items[i].price);
+                }
+                $('#lineItems tbody').html(hold);
 
-            console.log(data)
+                $('#orderSub').html(subtotal);
+                $('#orderDis').html('Giảm ('+data.order.discount+'%):')
+                $('#orderDisMoney').html(parseFloat((data.order.total * data.order.discount) / 100).toFixed(3))
+                $('#orderTotal').html(data.order.total);
+                $('#orderShip').html(data.order.shipping_cost);
+                $('#orderCre').html('Ngày tạo: '+data.order.created_at);
+                $('#orderUpd').html(data.order.updated_at);
+                $('#orderComp').html(data.order.completed_at ? data.order.completed_at : 'Chưa Hoàn Tất' );
+
+                //Customer
+                $('#cusName').html('<b>Tên: </b>'+ data.cus.name);
+                $('#cusAddr').html('<b>Địa Chỉ: </b>'+ data.address.street+', '+data.address.ward+ ', '+data.address.district+ ', '+data.address.province_city);
+                $('#cusPhone').html('<b>Điện Thoại: </b>'+ data.cus.phone);
+                $('#cusPayment').html('<b>Thanh Toán Bằng: </b>'+ data.order.payment_method);
+                //Refer
+                if(data.ref){
+                    $('#refName').html('<b>Tên: </b>'+data.ref.name);
+                    $('#refPhone').html('<b>Điện Thoại: </b>'+data.ref.phone);
+                    $('#refBank').html('<b>Thông Tin CK: </b>'+data.ref.banking_informations);
+                }else{
+                    $('#refName').html('<b>Không Có Người Giới Thiệu</b>');
+                }
 
             }
         });

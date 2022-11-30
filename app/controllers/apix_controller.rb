@@ -113,7 +113,7 @@ class ApixController < ApplicationController
 
   #For order
   def find_order
-    render json: {order: @order,cus: @order.customer, address: @order.address, ref: @order.referrer }, status: :ok
+    render json: {order: @order,cus: @order.customer, address: @order.address, items: @order.line_items,ref: @order.referrer }, status: :ok
 
   end
 

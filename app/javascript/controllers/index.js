@@ -2,7 +2,7 @@
 
 import { application } from "./application"
 import Hello_controller from "./hello_controller";
-application.register("hello", HelloController)
+// application.register("hello", HelloController)
 
 
 

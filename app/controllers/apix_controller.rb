@@ -117,7 +117,6 @@ class ApixController < ApplicationController
 
   end
 
-
   private
   #For product
   def set_prod

@@ -240,6 +240,7 @@
                      <div class="card-footer">
                        <input type="hidden" name="orderCusID" id="orderCusID" value="" required="">
                        <input type="hidden" name="orderrefID" id="orderrefID" value="" required="">
+                       <input type="hidden" name="address_id" id="addressID" value="" required="">
                        <button type="button" class="btn btn-primary" id="createOrder">Tạo Đơn</button>
                        <input type="text" name="total" id="totalCost" class="float-right" >
                      </div>
@@ -307,6 +308,9 @@
                  });
                  $("#oldAdress").val("1")
                  $('#orderCusID').val(data.customer.id);
+             if(data.address ){
+               $('#addressID').val(data.address.id)
+              }
              }
          });
 

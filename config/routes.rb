@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       put 'update_prod', to: 'apix#update_prod'
       delete 'delete_prod', to: 'apix#delete_prod'
 
+      get 'find_order', to: 'apix#find_order'
+
     end
 
 

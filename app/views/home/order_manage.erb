@@ -17,11 +17,27 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Fixed Header Table</h3>
+              <div class="card-title">
+                <button class="btn btn-outline-danger mr-2 statBtn" title="Mới Tạo">
+                  <i class="fas fa-box-open"></i>
+                </button>
 
-              <div class="card-tools">
+                <button class="btn btn-outline-warning mr-2 statBtn" title="Sẵn Sàng Giao">
+                  <i class="fas fa-box"></i>
+                </button>
+
+                <button class="btn btn-outline-info mr-2 statBtn" title="Đã giao thành công" >
+                  <i class="fas fa-dolly-flatbed"></i>
+                </button>
+
+                <button class="btn btn-outline-success mr-2 statBtn" title="Đơn Đã Hoàn Tất">
+                  <i class="fas fa-check"></i>
+                </button>
+              </div>
+
+              <div class="card-tools ">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Search">
+                  <input type="text" id="prodSearch" name="table_search" class="form-control " placeholder="Search">
 
                   <div class="input-group-append">
                     <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
@@ -35,21 +51,26 @@
 
                 <thead>
                 <tr>
-                  <th>Tên Sản Phẩm</th>
-                  <th>Price</th>
-                  <th>Dung Tích</th>
+                  <th>Ngày tạo / Cập Nhật Lần Cuối</th>
+                  <th>Tổng Tiền</th>
+                  <th>Trạng Thái</th>
+                  <th>Của Khách</th>
+                  <th>Tại</th>
                   <th style="width: 20px;">Thao Tác</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 <% @orders.each do |order|  %>
-<!--                  <tr>-->
-<!--                    <td><%#= product.name %></td>-->
-<!--                    <td><%#= product.price %></td>-->
-<!--                    <td><%#= product.volume %></td>-->
-<!--                    <td><button class="btn btn-outline-success float-right btnUp" id="prod-<%#= product.id %>" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button>-->
-<!--                    </td></tr>-->
+                  <tr>
+                    <td><%= order.created_at %></td>
+                    <td><%= order.total %></td>
+                    <td><%= order.status %></td>
+                    <td><%= order.customer.name %></td>
+                    <td><%= order.address.ward %>, <%= order.address.district %>, <%= order.address.province_city %></td>
+
+                    <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
+                  </tr>
                 <% end %>
                 </tbody>
 
@@ -68,38 +89,103 @@
   </section>
 
 </div>
-<div class="modal fade" id="modal-md">
+<div class="modal fade" id="modal-xl">
 
-  <div class="modal-dialog modal-dialog-centered modal-md">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Thêm Sản Phẩm </h4>
+        <h4 class="modal-title">Chi Tiết Đơn Hàng </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="productForm">
+      <form id="orderDetail">
 
         <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+          <div class="row">
+            <div class="col-12">
+              <h4>
+                <small class="float-right" id="orderCre">Ngày Tạo: </small>
+              </h4>
+            </div>
+
+          </div>
+          <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+              Thông Tin Khách
+              <address>
+                <strong id="cusname"></strong><br>
+                <span id="cusAddr"></span><br>
+                <span id="cusPhone"></span><br>
+                <span id="cusPayment"></span>
+              </address>
+            </div>
+
+            <div class="col-sm-4 invoice-col">
+              Người giới thiệu
+              <address>
+                <strong id="refName"></strong><br>
+                <span id="refPhone"></span><br>
+                <span id="refBank"></span><br>
+              </address>
+            </div>
+
+            <div class="col-sm-4 invoice-col">
+              <b>Thông Tin Khác</b><br>
+              <br>
+              <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"></span><br>
+              <b>Ngày Hoàn Tất: </b> <span id="orderComp"></span>
+            </div>
+
           </div>
 
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+          <div class="row mt-2">
+            <div class="col col-md-7 table-responsive">
+              <table class="table table-striped" id="lineItems">
+                <thead>
+                <tr>
+                  <th>Tên</th>
+                  <th>Số Lượng</th>
+                  <th>Giá</th>
+                  <th>Tổng Giá SP</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col col-md-5">
+
+              <div class="table-responsive">
+                <table class="table" id="orderPrice">
+                  <tbody><tr>
+                    <th style="width:50%">Tổng phụ :</th>
+                    <td id="orderSub"></td>
+                  </tr>
+                  <tr>
+                    <th id="orderDis">Giảm (10%):</th>
+                    <td id="orderDisMoney"></td>
+                  </tr>
+                  <tr>
+                    <th>Phí Ship:</th>
+                    <td id="orderSub"></td>
+                  </tr>
+                  <tr>
+                    <th>Total:</th>
+                    <td id="orderTotal"></td>
+                  </tr>
+                  </tbody></table>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
-          </div>
         </div>
 
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-          <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
+          <button type="button" class="btn btn-primary" id="updateOrder">Cập Nhật</button>
         </div>
       </form>
 
@@ -194,7 +280,7 @@
 
     $('#prodTable').on('click','.btnUp',function (){
         var id =  $(this).attr('id').split('-')[1];
-        findProduct(parseInt(id),3)
+        findProduct(parseInt(id))
     });
 
 
@@ -227,23 +313,19 @@
     }
 
 
-    function findProduct(id,choice) {
-        var actionUrl = '<%= find_prod_path %>';
+    function findProduct(id) {
+        var actionUrl = '<%= find_order_path %>';
 
         $.ajax({
             type: "GET",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: actionUrl,
             data: {
-                id: id,
-                choice: choice
+                orderID: id,
             },
             success: function(data) {
 
-                $('form#productUForm #pname').val(data.prod.name);
-                $('form#productUForm #pprice').val(data.prod.price);
-                $('form#productUForm #pvol').val(data.prod.volume);
-                $('form#productUForm #prodID').val(data.prod.id)
+            console.log(data)
 
             }
         });

@@ -1,19 +1,20 @@
 class ApixController < ApplicationController
   # protect_from_forgery with: :null_session
   before_action :set_prod, only: %i[ update_prod delete_prod ]
-
+  before_action :set_order, only: %i[ find_order ]
   def add_order
     @number = params[:item_length].to_s.to_i
     bb = add_ref
     @orderinfo = Order.new(payment_method: params[:payment],total: params[:total],
                            discount: params[:discount],shipping_cost: params[:shipping],
                            status: "Đơn Mới", note: params[:note], completed_at: nil,
-                           customer_id: params[:customer_id],referrer_id: bb )
+                           customer_id: params[:customer_id],referrer_id: bb,
+                           address_id: params[:addressID])
     @orderinfo.save
     pp = @orderinfo.id
     add_items(pp,@number)
 
-    render json: {status: "SUCCESS", message: "Fetched all the friends successfully"}, status: :ok
+    render json: {status: "SUCCESS", message: "Tạo Đơn Hàng THành Công"}, status: :ok
   end
 
   def product_info
@@ -53,13 +54,13 @@ class ApixController < ApplicationController
 
       create_address(@new_customer.id)
 
-      render json: {customer: @new_customer,address_id: @new_customer ,message: msg[0]}, status: :ok
+      render json: {customer: @new_customer,address: @customer_address ,message: msg[0]}, status: :ok
     else
 
       @old_cus = Customer.find(@cus_id)
       if @old_address == 0
         create_address(@old_cus.id)
-        render json: {customer: @old_cus ,message: msg[0]}, status: :ok
+        render json: {customer: @old_cus,address: @customer_address ,message: msg[0]}, status: :ok
       else
         render json: {customer: @old_cus ,message: msg[1]}, status: :ok
       end
@@ -110,13 +111,32 @@ class ApixController < ApplicationController
   end
 
 
+  #For order
+  def find_order
+    render json: {order: @order,cus: @order.customer, address: @order.address, ref: @order.referrer }, status: :ok
+
+  end
+
+
   private
   #For product
   def set_prod
     @prod = Product.find(params[:id])
   end
   # end for product
-  #
+
+
+  #For order
+  def set_order
+    @order = Order.includes(:customer,:referrer,:address,:line_items).find(params[:orderID])
+  end
+
+
+
+
+  # end for order
+
+
   def customer_address_params
     @cus_id = params[:oldCusID].to_s.to_i
     @old_address = params[:oldAdress].to_s.to_i

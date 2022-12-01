@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def new_order
     product_find(0)
-
+    @customers = Customer.all
   end
 
   def product_manage

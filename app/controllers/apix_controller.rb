@@ -69,6 +69,11 @@ class ApixController < ApplicationController
 
   end
 
+  def customer_address
+    @addr = Address.where(customer_id: params[:id])
+    render json: {addrs: @addr }, status: :ok
+  end
+
 
 
 
@@ -113,7 +118,20 @@ class ApixController < ApplicationController
 
   #For order
   def find_order
-    render json: {order: @order,cus: @order.customer, address: @order.address, items: @order.line_items,ref: @order.referrer }, status: :ok
+    @prodx = []
+    @pol = @order.line_items
+    @pol.each do |xx|
+      @prodx << LineItem.joins(:product).select('line_items.*','products.name').where(:products => {:id => xx.product_id })
+    end
+
+    render json: {order: @order,cus: @order.customer, address: @order.address, items: @order.line_items,itemx:@prodx.map { |x| x },ref: @order.referrer }, status: :ok
+
+  end
+
+  def change_order_stat
+    @o = Order.find(params[:id].to_s.to_i)
+    @o.update(status: params[:order_status].to_s)
+    render json: {order: @order}, status: :ok
 
   end
 
@@ -129,8 +147,6 @@ class ApixController < ApplicationController
   def set_order
     @order = Order.includes(:customer,:referrer,:address,:line_items).find(params[:orderID])
   end
-
-
 
 
   # end for order

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'ref_phone_check', to: 'apix#ref_phone_check'
       get 'product_info', to: 'apix#product_info'
       post 'customer_check', to: 'apix#customer_check'
+      get 'customer_address', to: 'apix#customer_address'
 
 
       post 'add_prod', to: 'apix#add_prod'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
       delete 'delete_prod', to: 'apix#delete_prod'
 
       get 'find_order', to: 'apix#find_order'
+      put 'change_order_stat', to: 'apix#change_order_stat'
 
     end
 

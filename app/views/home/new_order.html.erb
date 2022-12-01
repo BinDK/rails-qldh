@@ -27,19 +27,22 @@
                              <div class="row">
                                  <div class="col col-lg-4 col-md-4">
                                      <div class="form-group">
-                                         <label for="oldcus">Tên - Số điện thoại</label>
-                                         <select class="form-control" id="oldCus">
+                                         <label for="oldCusSelect">Tên - Số điện thoại</label>
+                                         <select class="form-control" id="oldCusSelect">
+                                           <% @customers.each do |customer|  %>
+                                             <option value="<%= customer.id %>"><%= customer.name %> - <%= customer.phone %></option>
+                                           <% end %>
                                          </select>
                                      </div>
                                  </div>
                                  <div class="col col-lg-8 col-md-8">
                                     <div class="form-group">
-                                        <label for="oldAddress">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
+                                        <label for="oldAddressSelect">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
                                         <div class="input-group">
-                                            <select class="custom-select" id="oldAddress">
+                                            <select class="custom-select" id="oldAddressSelect">
                                             </select>
                                             <div class="input-group-append">
-                                                <button class="btn btn-outline-danger disabled" >Chọn</button>
+                                                <button class="btn btn-outline-danger" id="chooseCusAddr">Chọn</button>
                                             </div>
                                         </div>
                                      </div>
@@ -518,6 +521,8 @@
                  payment: $("#payment").find(":selected").val(),
                  shipping: $('#shipping').val(),
                  orderrefID: $('#orderrefID').val(),
+                 addressID: $('#addressID').val(),
+
                  refname: $('#refName').val(),
                  refphone: $('#refPhone').val(),
                  refbank: $('#refBank').val()
@@ -561,6 +566,50 @@
              });
          }
      }
+
+
+     $('#oldCusSelect').bind('change',function () {
+         var id = $(this).find(":selected").val();
+
+         $.get("<%= customer_address_path  %>",{id:id}, function(data) {
+             var hold = ""
+             data.addrs.forEach(x => {
+                 hold += '<option value="'+x.id+'">' + x.street + ', ' + x.ward + ', ' + x.district + ', ' + x.province_city + '</option>'
+             });
+             $("#oldAddressSelect").html(hold);
+         });
+     });
+
+     $('#chooseCusAddr').bind('click',function () {
+         var idOldCus = $('#oldCusSelect').find(":selected");
+         var choosen_addr = $('#oldAddressSelect').find(":selected");
+         var h1 = idOldCus.html().split(' - ');
+         var h2 = choosen_addr.html().split(', ')
+
+         $('#oldCusID').val(idOldCus.val());
+         $('#orderCusID').val(idOldCus.val());
+         $('#oldAdress').val(choosen_addr.val());
+         $('#addressID').val(choosen_addr.val());
+
+
+         $('#cusName').val(h1[0]);
+         $('#cusPhone').val(h1[1]);
+
+         $('#province option').each(function () {
+             if($(this).html() == h2[3]){
+                 $(this).attr('selected','selected');
+             }
+         });
+         $('#district').each(function () {
+             $(this).prepend('<option>'+h2[2]+'</option>');
+         });
+         $('#ward').each(function () {
+             $(this).prepend('<option>'+h2[1]+'</option>');
+         });
+        $('#street').val(h2[0]);
+
+     });
+
       $('#street').on('keyup', function() {$("#oldAdress").val("0")});
 
      $(".fsel").on('change', function() {
@@ -658,6 +707,8 @@
                          setTimeout(function(){
                              $('#refPhone').removeClass("border-warning").css('border-width','1px');
                          },2000);
+                         $('#refName').val(data.ref.name);
+                         $('#refBank').val(data.ref.banking_informations);
                          $('#orderrefID').val(data.ref.id);
                      }
                  }

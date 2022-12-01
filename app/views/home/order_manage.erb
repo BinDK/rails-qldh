@@ -63,12 +63,13 @@
                 <tbody>
                 <% @orders.each do |order|  %>
                   <tr>
-                    <td><%= order.created_at %></td>
+                    <td><%= l(order.created_at,format: :custom) %> -
+                      <%= l(order.updated_at,format: :custom) %>
+                    </td>
                     <td><%= order.total %></td>
                     <td><%= order.status %></td>
                     <td><%= order.customer.name %></td>
                     <td><%= order.address.ward %>, <%= order.address.district %>, <%= order.address.province_city %></td>
-
                     <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
                   </tr>
                 <% end %>
@@ -134,6 +135,8 @@
               <b>Thông Tin Khác</b><br>
               <br>
               <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"></span><br>
+
+              <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"></span><br>
               <b>Ngày Hoàn Tất: </b> <span id="orderComp"></span>
             </div>
 
@@ -178,6 +181,25 @@
                   </tr>
                   </tbody></table>
               </div>
+            </div>
+          </div>
+
+
+          <div class="row mt-2 mb-2">
+            <div class="col-3">
+              <div class="form-group">
+                <label>Select</label>
+                <select class="form-control orderStat" >
+                  <option id="1">Mới Tạo</option>
+                  <option id="2">Sẵn Sàng Giao</option>
+                  <option id="3">Giao Thành Công</option>
+                  <option id="4">Hoàn Tất Đơn</option>
+                  <option id="5">Huỷ</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-9">
+
             </div>
           </div>
 
@@ -267,6 +289,29 @@
     }
 
 
+    $('.orderStat').bind('change',function () {
+        var statSel = $(this).find(":selected");
+        var orderID = $(this).attr('id');
+
+        var actionUrl = '<%= change_order_stat_path %>';
+        $.ajax({
+            type: "PUT",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                id: orderID,
+                order_status: statSel.html()
+            },
+            success: function(data) {
+                toastr.success('Đổi Thành Công','',{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+                $('#orderUpd').val(data.order.updated_at);
+            }
+        });
+    });
     $('#prodSearch').keyup(debounce(function (event){
         var kw = $('#prodSearch').val();
         if(kw == '' && kw.length == 0){
@@ -312,6 +357,16 @@
         });
     }
 
+    //Do items là trả về array chứa array chứa mảng, nen mới xài func extract
+    function extract( array, newarray ){
+        if( !newarray ) newarray = [] ;
+        if( array ) for( var i = 0 ; i < array.length ; ++i )
+        {
+            if( array[i].constructor.name === "Array" ) extract( array[i], newarray ) ;
+            else newarray.push( array[i] ) ;
+        }
+        return newarray ;
+    }
 
     function findProduct(id) {
         var actionUrl = '<%= find_order_path %>';
@@ -327,15 +382,17 @@
                 //Items
                 var hold = ''
                 var subtotal = 0;
-                for(let i = 0;i < data.items.length; i++  ){
-                    hold += '<tr><td>'+data.items[i].name+'</td>';
-                    hold += '<td>'+data.items[i].quantity+'</td>';
-                    hold += '<td>'+data.items[i].price+'</td>';
-                    hold += '<td>'+parseFloat(data.items[i].quantity * data.items[i].price).toFixed(3) +'</td>';
-                    subtotal = subtotal +  (data.items[i].quantity * data.items[i].price);
+                var items = extract(data.itemx);
+                for(let i = 0;i < items.length; i++  ){
+                    hold += '<tr><td>'+items[i].name+'</td>';
+                    hold += '<td>'+items[i].quantity+'</td>';
+                    hold += '<td>'+items[i].price+'</td>';
+                    hold += '<td>'+parseFloat(items[i].quantity * items[i].price).toFixed(3) +'</td>';
+                    subtotal = subtotal +  (items[i].quantity * items[i].price);
                 }
                 $('#lineItems tbody').html(hold);
 
+                $('.orderStat').attr('id',data.order.id);
                 $('#orderSub').html(subtotal);
                 $('#orderDis').html('Giảm ('+data.order.discount+'%):')
                 $('#orderDisMoney').html(parseFloat((data.order.total * data.order.discount) / 100).toFixed(3))

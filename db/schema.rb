@@ -56,7 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_29_193206) do
     t.bigint "customer_id", null: false
     t.bigint "referrer_id", null: false
     t.decimal "total"
-    t.bigint "address_id", null: false
+    t.bigint "address_id"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["referrer_id"], name: "index_orders_on_referrer_id"

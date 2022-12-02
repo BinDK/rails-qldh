@@ -18,19 +18,23 @@
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <button class="btn btn-outline-danger mr-2 statBtn" title="Mới Tạo">
+
+                <button class="btn btn-outline-secondary btn-outline-custom mr-2 statBtn" id="stat1" title="0-Tất Cả Đơn">
+                  <i class="fas fa-boxes"></i>
+                </button>
+                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat2" title="1-Mới Tạo">
                   <i class="fas fa-box-open"></i>
                 </button>
 
-                <button class="btn btn-outline-warning mr-2 statBtn" title="Sẵn Sàng Giao">
+                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat3" title="2-Sẵn Sàng Giao">
                   <i class="fas fa-box"></i>
                 </button>
 
-                <button class="btn btn-outline-info mr-2 statBtn" title="Đã giao thành công" >
+                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat4" title="3-Đã giao thành công" >
                   <i class="fas fa-dolly-flatbed"></i>
                 </button>
 
-                <button class="btn btn-outline-success mr-2 statBtn" title="Đơn Đã Hoàn Tất">
+                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat5" title="4-Đơn Đã Hoàn Tất">
                   <i class="fas fa-check"></i>
                 </button>
               </div>
@@ -261,7 +265,12 @@
   <!-- /.modal-dialog -->
 </div>
 
-</script>
+<style>
+  .btn-outline-custom{
+      border-color: #87a8ff !important;
+      color: #87A8FF !important;
+  }
+</style>
 <script type="text/javascript" charset="utf-8">
     window.onload = orderSyle();
 
@@ -304,6 +313,26 @@
         };
     }
 
+    var $btns = $('.statBtn').click(function() {
+        $btns.not(this).removeClass('btn-outline-custom');
+        var curBTN = $(this);
+        var choice = curBTN.attr('title').split('-')[0];
+        $.get("<%= find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
+            var hold = '';
+            var orders = data.orders;
+            for(let i = 0;i < orders.length; i++  ){
+                hold+= '<tr><td>'+ formatDate(orders[i].created_at) + ' - '+formatDate(orders[i].updated_at)+'</td>'
+                hold+= '<td>'+orders[i].total+'</td>'
+                hold+= '<td>'+orders[i].status+'</td>'
+                hold+= '<td>'+orders[i].name+'</td>'
+                hold+= '<td>'+orders[i].ward+', '+orders[i].district+', '+orders[i].province_city+'</td>'
+                hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
+                hold+= '</tr>';
+            }
+            $('#prodTable tbody').html(hold);
+        });
+        curBTN.toggleClass("btn-outline-custom");
+    });
 
     $('.orderStat').bind('change',function () {
         var statSel = $(this).find(":selected");
@@ -328,7 +357,6 @@
                 $('#orderStatus').html(data.order.status);
                 $('#orderUpd').html(formatDate(data.order.updated_at));
                 $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
-
             }
         });
     });
@@ -402,7 +430,7 @@
                 //Items
                 var hold = ''
                 var subtotal = 0;
-                var items = extract(data.itemx);
+                var items = extract(data.items);
                 for(let i = 0;i < items.length; i++  ){
                     hold += '<tr><td>'+items[i].name+'</td>';
                     hold += '<td>'+items[i].quantity+'</td>';

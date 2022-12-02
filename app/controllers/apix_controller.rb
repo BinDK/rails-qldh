@@ -124,7 +124,7 @@ class ApixController < ApplicationController
       @prodx << LineItem.joins(:product).select('line_items.*','products.name').where(:products => {:id => xx.product_id })
     end
 
-    render json: {order: @order,cus: @order.customer, address: @order.address, items: @order.line_items,itemx:@prodx.map { |x| x },ref: @order.referrer }, status: :ok
+    render json: {order: @order,cus: @order.customer, address: @order.address, items: @prodx,ref: @order.referrer }, status: :ok
 
   end
 
@@ -132,8 +132,24 @@ class ApixController < ApplicationController
     @o = Order.find(params[:id].to_s.to_i)
     @o.update(status: params[:order_status].to_s)
     render json: {order: @o}, status: :ok
-
   end
+
+  def find_order_by_stat
+    stat = ["Mới Tạo","Sẵn Sàng Giao","Đã giao thành công","Đơn Đã Hoàn Tất"]
+    choice = params[:choice].to_s.to_i
+    @orders
+    if(choice == 0)
+      @orders = Order.joins(:customer,:address).select('orders.*, customers.name, addresses.province_city,addresses.district,addresses.ward').all
+
+    else
+
+      @orders = Order.joins(:customer,:address).select('orders.*, customers.name, addresses.province_city,addresses.district,addresses.ward').where(status: stat[choice - 1].to_s)
+
+    end
+
+    render json: {orders: @orders}, status: :ok
+  end
+
 
   private
   #For product

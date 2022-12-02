@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
       get 'find_order', to: 'apix#find_order'
       put 'change_order_stat', to: 'apix#change_order_stat'
+      get 'find_order_by_stat', to: 'apix#find_order_by_stat'
+
 
     end
 

@@ -134,7 +134,7 @@
             <div class="col-sm-4 invoice-col">
               <b>Thông Tin Khác</b><br>
               <br>
-              <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"></span><br>
+              <b>Trạng Thái: </b> <span id="orderStatus"></span><br>
 
               <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"></span><br>
               <b>Ngày Hoàn Tất: </b> <span id="orderComp"></span>
@@ -276,6 +276,22 @@
         $('#side-order2').css('background-color', '#FFFBC1');
         $('#side-order2').css('color', '#000');
     }
+    function formatDate(date) {
+        var d = new Date(date),
+          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+          year = d.getFullYear(),
+          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
 
     function debounce(fn, delay) {
         var timer = null;
@@ -308,7 +324,11 @@
                     progressBar: true,
                     progressAnimation: 'increasing'
                 });
-                $('#orderUpd').val(data.order.updated_at);
+                console.log(data);
+                $('#orderStatus').html(data.order.status);
+                $('#orderUpd').html(formatDate(data.order.updated_at));
+                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
+
             }
         });
     });
@@ -397,10 +417,11 @@
                 $('#orderDis').html('Giảm ('+data.order.discount+'%):')
                 $('#orderDisMoney').html(parseFloat((data.order.total * data.order.discount) / 100).toFixed(3))
                 $('#orderTotal').html(data.order.total);
+                $('#orderStatus').html(data.order.status);
                 $('#orderShip').html(data.order.shipping_cost);
-                $('#orderCre').html('Ngày tạo: '+data.order.created_at);
-                $('#orderUpd').html(data.order.updated_at);
-                $('#orderComp').html(data.order.completed_at ? data.order.completed_at : 'Chưa Hoàn Tất' );
+                $('#orderCre').html('Ngày tạo: '+formatDate(data.order.created_at));
+                $('#orderUpd').html(formatDate(data.order.updated_at));
+                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
 
                 //Customer
                 $('#cusName').html('<b>Tên: </b>'+ data.cus.name);

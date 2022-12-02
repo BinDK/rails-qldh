@@ -16,7 +16,7 @@ module Qldh
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Hanoi"
+    config.time_zone = "Hanoi"
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.available_locales = [:en,:vi]
     config.i18n.default_locale = :vi

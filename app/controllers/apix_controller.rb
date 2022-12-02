@@ -131,7 +131,7 @@ class ApixController < ApplicationController
   def change_order_stat
     @o = Order.find(params[:id].to_s.to_i)
     @o.update(status: params[:order_status].to_s)
-    render json: {order: @order}, status: :ok
+    render json: {order: @o}, status: :ok
 
   end
 

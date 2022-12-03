@@ -55,7 +55,7 @@
 
                 <thead>
                 <tr>
-                  <th>Ngày tạo / Cập Nhật Lần Cuối</th>
+                  <th>Ngày tạo</th>
                   <th>Tổng Tiền</th>
                   <th>Trạng Thái</th>
                   <th>Của Khách</th>
@@ -67,13 +67,12 @@
                 <tbody>
                 <% @orders.each do |order|  %>
                   <tr>
-                    <td><%= l(order.created_at,format: :custom) %> -
-                      <%= l(order.updated_at,format: :custom) %>
+                    <td><%= l(order.created_at,format: :custom) %>
                     </td>
                     <td><%= order.total %></td>
                     <td><%= order.status %></td>
                     <td><%= order.customer.name %></td>
-                    <td><%= order.address.ward %>, <%= order.address.district %>, <%= order.address.province_city %></td>
+                    <td class="text-wr"><%= order.address_info %></td>
                     <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
                   </tr>
                 <% end %>
@@ -452,8 +451,9 @@
                 $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
 
                 //Customer
+
                 $('#cusName').html('<b>Tên: </b>'+ data.cus.name);
-                $('#cusAddr').html('<b>Địa Chỉ: </b>'+ data.address.street+', '+data.address.ward+ ', '+data.address.district+ ', '+data.address.province_city);
+                $('#cusAddr').html('<b>Địa Chỉ: </b>'+ data.address_info);
                 $('#cusPhone').html('<b>Điện Thoại: </b>'+ data.cus.phone);
                 $('#cusPayment').html('<b>Thanh Toán Bằng: </b>'+ data.order.payment_method);
                 //Refer
@@ -463,6 +463,8 @@
                     $('#refBank').html('<b>Thông Tin CK: </b>'+data.ref.banking_informations);
                 }else{
                     $('#refName').html('<b>Không Có Người Giới Thiệu</b>');
+                    $('#refPhone').html('');
+                    $('#refBank').html('');
                 }
 
             }

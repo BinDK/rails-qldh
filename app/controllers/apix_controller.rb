@@ -4,12 +4,14 @@ class ApixController < ApplicationController
   before_action :set_order, only: %i[ find_order ]
   def add_order
     @number = params[:item_length].to_s.to_i
-    bb = add_ref
+    @bb = add_ref
+    @hold = @bb.nil? ? nil : @bb.id
     @orderinfo = Order.new(payment_method: params[:payment],total: params[:total],
                            discount: params[:discount],shipping_cost: params[:shipping],
-                           status: "Đơn Mới", note: params[:note], completed_at: nil,
-                           customer_id: params[:customer_id],referrer_id: bb,
-                           address_id: params[:addressID])
+                           status: "Mới Tạo", note: params[:note], completed_at: nil,
+                           customer_id: params[:customer_id],referrer_id: @hold,
+                           address_info: params[:address_info])
+
     @orderinfo.save
     pp = @orderinfo.id
     add_items(pp,@number)
@@ -124,7 +126,7 @@ class ApixController < ApplicationController
       @prodx << LineItem.joins(:product).select('line_items.*','products.name').where(:products => {:id => xx.product_id })
     end
 
-    render json: {order: @order,cus: @order.customer, address: @order.address, items: @prodx,ref: @order.referrer }, status: :ok
+    render json: {order: @order,cus: @order.customer, items: @prodx,ref: @order.referrer }, status: :ok
 
   end
 
@@ -139,11 +141,11 @@ class ApixController < ApplicationController
     choice = params[:choice].to_s.to_i
     @orders
     if(choice == 0)
-      @orders = Order.joins(:customer,:address).select('orders.*, customers.name, addresses.province_city,addresses.district,addresses.ward').all
+      @orders = Order.joins(:customer,:address).select('orders.*, customers.name').all
 
     else
 
-      @orders = Order.joins(:customer,:address).select('orders.*, customers.name, addresses.province_city,addresses.district,addresses.ward').where(status: stat[choice - 1].to_s)
+      @orders = Order.joins(:customer,:address).select('orders.*, customers.name').where(status: stat[choice - 1].to_s)
 
     end
 
@@ -161,7 +163,7 @@ class ApixController < ApplicationController
 
   #For order
   def set_order
-    @order = Order.includes(:customer,:referrer,:address,:line_items).find(params[:orderID])
+    @order = Order.includes(:customer,:referrer,:line_items).find(params[:orderID])
   end
 
 
@@ -197,13 +199,17 @@ class ApixController < ApplicationController
   end
 
   def add_ref
-    if params[:orderrefID].to_s.to_i == 0
+    @ref
+    if params[:refname].empty? and params[:refphone].empty? and params[:refbank].empty? and params[:orderrefID].to_s.to_i == 0
+      @ref = nil
+    elsif params[:orderrefID].to_s.to_i == 0
       @ref = Referrer.new(name: params[:refname].to_s,phone: params[:refphone],banking_informations:params[:refbank])
       @ref.save
+
     else
       @ref = Referrer.find(params[:orderrefID].to_s.to_i)
     end
-    return @ref.id
+    return @ref
   end
 
   def create_address(cust_id)

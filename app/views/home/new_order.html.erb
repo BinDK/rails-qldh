@@ -243,7 +243,7 @@
                      <div class="card-footer">
                        <input type="hidden" name="orderCusID" id="orderCusID" value="" required="">
                        <input type="hidden" name="orderrefID" id="orderrefID" value="" required="">
-                       <input type="hidden" name="address_id" id="addressID" value="" required="">
+                       <input type="hidden" name="address" id="address_info" value="" required="">
                        <button type="button" class="btn btn-primary" id="createOrder">Tạo Đơn</button>
                        <input type="text" name="total" id="totalCost" class="float-right" >
                      </div>
@@ -309,10 +309,11 @@
                      progressBar: true,
                      progressAnimation: 'increasing'
                  });
-                 $("#oldAdress").val("1")
                  $('#orderCusID').val(data.customer.id);
-             if(data.address ){
-               $('#addressID').val(data.address.id)
+                 $('#oldCusID').val(data.customer.id);
+                 if(data.address ){
+                 $("#oldAdress").val(data.address.id);
+                 $('#address_info').val(data.address.street+', '+data.address.ward+', '+data.address.district+', '+data.address.province_city)
               }
              }
          });
@@ -521,7 +522,7 @@
                  payment: $("#payment").find(":selected").val(),
                  shipping: $('#shipping').val(),
                  orderrefID: $('#orderrefID').val(),
-                 addressID: $('#addressID').val(),
+                 address_info: $('#address_info').val(),
 
                  refname: $('#refName').val(),
                  refphone: $('#refPhone').val(),
@@ -584,12 +585,13 @@
          var idOldCus = $('#oldCusSelect').find(":selected");
          var choosen_addr = $('#oldAddressSelect').find(":selected");
          var h1 = idOldCus.html().split(' - ');
-         var h2 = choosen_addr.html().split(', ')
+         var h3 = choosen_addr.html();
+         var h2 = choosen_addr.html().split(', ');
 
          $('#oldCusID').val(idOldCus.val());
          $('#orderCusID').val(idOldCus.val());
          $('#oldAdress').val(choosen_addr.val());
-         $('#addressID').val(choosen_addr.val());
+         $('#address_info').val(h3);
 
 
          $('#cusName').val(h1[0]);
@@ -610,7 +612,7 @@
 
      });
 
-      $('#street').on('keyup', function() {$("#oldAdress").val("0")});
+      $('#street').on('keyup', function() {$("#oldAdress").val("0");$("#address_info").val("");});
 
      $(".fsel").on('change', function() {
          var a = 'p';
@@ -625,7 +627,9 @@
              c = "ward";
              callPro(a, b, '#' + c);
          }
-         $("#oldAdress").val("0")
+         $("#oldAdress").val("0");
+         $("#address_info").val("");
+
      });
 
      $('#cusPhone').bind('input paste propertychange',function () {
@@ -660,6 +664,8 @@
                                $('#cusPhone').removeClass("border-warning").css('border-width','1px');
                            },2000);
                            $('#oldCusID').val(data.customer.id);
+                           $('#orderCusID').val(data.customer.id);
+
                        }
                     }
                 });
@@ -696,7 +702,10 @@
                              progressBar: true,
                              progressAnimation: 'increasing'
                          });
-                         $('#oldCusID').val(0);
+                         $('#refName').val('');
+                         $('#refBank').val('');
+                         $('#orderrefID').val(0);
+
                      } else {
                          toastr.warning(data.ref.name, "Người Giới thiệu  Tên:", {
                              timeOut: 2000,

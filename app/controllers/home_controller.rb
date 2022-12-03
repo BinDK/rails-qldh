@@ -13,7 +13,7 @@ class HomeController < ApplicationController
   end
 
   def order_manage
-    @orders = Order.all
+    @orders = Order.order(created_at: :desc).all
     return @orders
   end
 

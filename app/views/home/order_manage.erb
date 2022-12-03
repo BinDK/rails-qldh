@@ -197,7 +197,7 @@
                   <option id="2">Sẵn Sàng Giao</option>
                   <option id="3">Giao Thành Công</option>
                   <option id="4">Hoàn Tất Đơn</option>
-                  <option id="5">Huỷ</option>
+                  <option id="5">Hủy</option>
                 </select>
               </div>
             </div>
@@ -320,11 +320,11 @@
             var hold = '';
             var orders = data.orders;
             for(let i = 0;i < orders.length; i++  ){
-                hold+= '<tr><td>'+ formatDate(orders[i].created_at) + ' - '+formatDate(orders[i].updated_at)+'</td>'
+                hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
                 hold+= '<td>'+orders[i].total+'</td>'
                 hold+= '<td>'+orders[i].status+'</td>'
                 hold+= '<td>'+orders[i].name+'</td>'
-                hold+= '<td>'+orders[i].ward+', '+orders[i].district+', '+orders[i].province_city+'</td>'
+                hold+= '<td>'+orders[i].address_info+'</td>'
                 hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
                 hold+= '</tr>';
             }
@@ -336,7 +336,7 @@
     $('.orderStat').bind('change',function () {
         var statSel = $(this).find(":selected");
         var orderID = $(this).attr('id');
-
+        // var curRow = $('order-'+orderID).closest('tr');
         var actionUrl = '<%= change_order_stat_path %>';
         $.ajax({
             type: "PUT",
@@ -352,10 +352,20 @@
                     progressBar: true,
                     progressAnimation: 'increasing'
                 });
-                console.log(data);
+                if(data.order){
+
                 $('#orderStatus').html(data.order.status);
                 $('#orderUpd').html(formatDate(data.order.updated_at));
                 $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
+                } else{
+                    //Phải lấy row ở ngoài table
+                    $('#prodTable #order-'+orderID).closest('tr').remove();
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $("#modal-xl").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+
+                }
+
             }
         });
     });

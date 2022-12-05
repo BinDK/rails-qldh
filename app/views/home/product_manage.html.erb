@@ -56,7 +56,19 @@
 
               </table>
             </div>
-            <!-- /.card-body -->
+                  <!-- /.card-body -->
+
+                  <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                      <li class="page-item"><a class="page-link" href="#">«</a></li>
+                      <% (@pages).times do |i | page =  i + 1 %>
+                      <li class="page-item"><a class="page-link btnPage" id="<%= page %>" href="#"><%= page %></a></li>
+
+                      <% end %>
+                      <li class="page-item"><a class="page-link" href="#">»</a></li>
+                    </ul>
+                  </div>
+
           </div>
           <!-- /.card -->
         </div>
@@ -196,6 +208,33 @@
         findProduct(parseInt(id),3)
     });
 
+        $('.btnPage').click(function (e) {
+            e.preventDefault();
+            var pageNo = $(this).attr('id');
+            var actionUrl = '<%= prod_page_path %>';
+
+            $.ajax({
+                type: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                },
+                url: actionUrl,
+                data: {
+                    page: parseInt(pageNo)
+                },
+                success: function (data) {
+                    var hold = ''
+                    for (let i = 0; i < data.prod.length; i++) {
+                        hold += '<tr><td>' + data.prod[i].name + '</td>';
+                        hold += '<td>' + data.prod[i].price + '</td>';
+                        hold += '<td>' + data.prod[i].volume + '</td>';
+                        hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-' + data.prod[i].id + '" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                    }
+                    $('#prodTable tbody').html(hold);
+
+                }
+            });
+        });
 
     function findProductByKW(kw,choice) {
         var actionUrl = '<%= find_prod_path %>';

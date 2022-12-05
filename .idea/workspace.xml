@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="uncomment hello controller in index.js">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/apix_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/apix_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/product.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/product.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +198,11 @@
       <workItem from="1669971047392" duration="9471000" />
       <workItem from="1670003538275" duration="3578000" />
       <workItem from="1670041229470" duration="3346000" />
-      <workItem from="1670057407069" duration="13705000" />
+      <workItem from="1670057407069" duration="14546000" />
+      <workItem from="1670205048339" duration="2733000" />
+      <workItem from="1670225270364" duration="3065000" />
+      <workItem from="1670239433498" duration="2373000" />
+      <workItem from="1670252129405" duration="5353000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

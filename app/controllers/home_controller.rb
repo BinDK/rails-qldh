@@ -9,7 +9,12 @@ class HomeController < ApplicationController
   end
 
   def product_manage
-    product_find(0)
+    # product_find(0)
+    @entries = 3
+    @pages = Product.pages(@entries)
+    @offset = (@pages - 1) * @entries
+    @products = Product.all.limit(@entries)
+
   end
 
   def order_manage

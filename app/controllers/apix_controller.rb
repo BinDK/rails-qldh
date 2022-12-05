@@ -117,6 +117,20 @@ class ApixController < ApplicationController
 
   end
 
+  def prod_page
+    @entries = 3
+    @pages = params[:page].to_s.to_i
+    if @pages == 1
+      @products = Product.limit(@entries)
+    else
+      @offset = ((@pages - 1) * @entries) -1
+      @products = Product.offset(@offset).limit(@entries)
+    end
+    render json: {prod: @products }, status: :ok
+
+  end
+
+  #End for product
 
   #For order
   def find_order

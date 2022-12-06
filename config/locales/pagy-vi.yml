@@ -1,0 +1,20 @@
+vi:
+  pagy:
+
+    item_name:
+      one: "Sản Phẩm"
+      other: "Các Sản Phẩm"
+
+    nav:
+      prev: "&lsaquo;&nbsp;Trước"
+      next: "Sau&nbsp;&rsaquo;"
+      gap: "&hellip;"
+
+    info:
+      no_items: "Sản Phẩm %{item_name} này không tìm thấy "
+      single_page: "Displaying <b>%{count}</b> %{item_name}"
+      multiple_pages: "Displaying %{item_name} <b>%{from}-%{to}</b> of <b>%{count}</b> in total"
+
+    combo_nav_js: "<label>Trang thứ %{page_input} trong số %{pages}</label>"
+
+    items_selector_js: "<label>Hiển Thị %{items_input} %{item_name} mổi trang</label>"

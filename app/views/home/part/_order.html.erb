@@ -1,0 +1,8 @@
+  <tr>
+    <td><%= l(order.created_at,format: :custom) %></td>
+    <td><%= order.total %></td>
+    <td><%= order.status %></td>
+    <td><%= order.customer.name %></td>
+    <td class="text-wr"><%= order.address_info %></td>
+    <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
+  </tr>

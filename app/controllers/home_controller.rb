@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  include Pagy::Backend
   def index
 
   end
@@ -10,16 +11,17 @@ class HomeController < ApplicationController
 
   def product_manage
     # product_find(0)
-    @entries = 3
-    @pages = Product.pages(@entries)
-    @products = Product.all.limit(@entries)
+    # @entries = 3
+    # @pages = Product.pages(@entries)
+    @pagy,@products = pagy(Product.all)
 
   end
 
   def order_manage
     @entries = 3
-    @pages = Order.pages(@entries)
-    @orders = Order.order(created_at: :desc).all.limit(@entries)
+    # @pages = Order.pages(@entries)
+    @pagy,@orders = pagy(Order.order(created_at: :desc).all)
+
 
   end
 

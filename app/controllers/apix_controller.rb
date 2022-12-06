@@ -118,14 +118,7 @@ class ApixController < ApplicationController
   end
 
   def prod_page
-    @entries = 3
-    @pages = params[:page].to_s.to_i
-    if @pages == 1
-      @products = Product.limit(@entries)
-    else
-      @offset = ((@pages - 1) * @entries) -1
-      @products = Product.offset(@offset).limit(@entries)
-    end
+    prod_page_setup
     render json: {prod: @products }, status: :ok
 
   end
@@ -172,6 +165,11 @@ class ApixController < ApplicationController
     render json: {orders: @orders}, status: :ok
   end
 
+  def order_page
+    order_page_setup
+    render json: {orders: @orders }, status: :ok
+
+  end
 
   private
   #For product
@@ -179,13 +177,33 @@ class ApixController < ApplicationController
     @prod = Product.find(params[:id])
   end
   # end for product
-
+  def prod_page_setup
+    @entries = 3
+    @pages = params[:page].to_s.to_i
+    if @pages == 1
+      @products = Product.limit(@entries)
+    else
+      @offset = ((@pages - 1) * @entries)
+      @products = Product.offset(@offset).limit(@entries)
+    end
+    return @product
+  end
 
   #For order
   def set_order
     @order = Order.includes(:customer,:referrer,:line_items).find(params[:orderID])
   end
-
+  def order_page_setup
+    @entries = 3
+    @pages = params[:page].to_s.to_i
+    if @pages == 1
+      @orders = Order.joins(:customer).select('orders.*, customers.name').order(created_at: :desc).all.limit(@entries)
+    else
+      @offset = ((@pages - 1) * @entries)
+      @orders = Order.joins(:customer).select('orders.*, customers.name').order(created_at: :desc).offset(@offset).limit(@entries)
+    end
+    return @orders
+  end
 
   # end for order
 

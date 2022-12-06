@@ -12,14 +12,15 @@ class HomeController < ApplicationController
     # product_find(0)
     @entries = 3
     @pages = Product.pages(@entries)
-    @offset = (@pages - 1) * @entries
     @products = Product.all.limit(@entries)
 
   end
 
   def order_manage
-    @orders = Order.order(created_at: :desc).all
-    return @orders
+    @entries = 3
+    @pages = Order.pages(@entries)
+    @orders = Order.order(created_at: :desc).all.limit(@entries)
+
   end
 
   private

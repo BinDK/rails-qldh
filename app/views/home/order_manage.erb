@@ -81,6 +81,18 @@
 
               </table>
             </div>
+
+            <!-- card footer-->
+            <div class="card-footer clearfix">
+              <ul class="pagination pagination-sm m-0 float-right">
+                <li class="page-item"><a class="page-link" href="#">«</a></li>
+                <% (@pages).times do |i | page =  i + 1 %>
+                  <li class="page-item"><a class="page-link btnPage" id="<%= page %>" href="#"><%= page %></a></li>
+
+                <% end %>
+                <li class="page-item"><a class="page-link" href="#">»</a></li>
+              </ul>
+            </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
@@ -93,6 +105,8 @@
   </section>
 
 </div>
+<!--BEGIN MODAL-->
+
 <div class="modal fade" id="modal-xl">
 
   <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -223,44 +237,7 @@
 
 <div class="modal fade" id="modal-md2">
 
-  <div class="modal-dialog modal-dialog-centered modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Cập Nhật Sản Phẩm </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="productUForm">
 
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
-          </div>
-
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
-          </div>
-
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
-          </div>
-        </div>
-
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-danger delProd" ><i class="fas fa-delete-left"></i></button>
-          <input type="hidden" name="id" id="prodID">
-          <button type="button" class="btn btn-primary uProd" ><i class="fas fa-floppy-disk"></i></button>
-        </div>
-      </form>
-
-    </div>
-    <!-- /.modal-content -->
-
-  </div>
   <!-- /.modal-dialog -->
 </div>
 
@@ -482,82 +459,37 @@
     }
 
 
-    $("#createProd").click(function(e) {
+    $('.btnPage').click(function (e) {
         e.preventDefault();
-        var actionUrl = '<%= add_prod_path %>';
-        var form = $('form#productForm');
+        var pageNo = $(this).attr('id');
+        var actionUrl = '<%= order_page_path %>';
 
         $.ajax({
-            type: "POST",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.prod.name,data.message,{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                var hold = ''
-                hold += '<tr><td>'+data.prod.name+'</td>';
-                hold += '<td>'+data.prod.price+'</td>';
-                hold += '<td>'+data.prod.volume+'</td>';
-                hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
-                $('#prodTable tbody').append(hold);
-
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
-            }
-        });
-    });
-
-    $(".delProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= delete_prod_path %>';
-        var id = $('#prodID').val();
-        $.ajax({
-            type: "DELETE",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            type: "GET",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
             url: actionUrl,
             data: {
-                id:id
-            }, // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
+                page: parseInt(pageNo)
+            },
+            success: function (data) {
+                var hold = '';
+                var orders = data.orders;
+                for(let i = 0;i < orders.length; i++  ){
+                    hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
+                    hold+= '<td>'+orders[i].total+'</td>'
+                    hold+= '<td>'+orders[i].status+'</td>'
+                    hold+= '<td>'+orders[i].name+'</td>'
+                    hold+= '<td>'+orders[i].address_info+'</td>'
+                    hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
+                    hold+= '</tr>';
+                }
+                $('#prodTable tbody').html(hold);
 
-                findProductByKW('',0);
             }
         });
     });
-
-    $(".uProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= update_prod_path %>';
-        var form = $('form#productUForm');
-
-        $.ajax({
-            type: "PUT",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                findProductByKW('',0);
-            }
-        });
-    });
-
 
 
 </script>

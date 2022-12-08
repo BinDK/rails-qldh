@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_action :http_auth
+
   include Pagy::Backend
   def index
 
@@ -26,6 +28,13 @@ class HomeController < ApplicationController
   end
 
   private
+  def http_auth
+    return true if Rails.env == "development"
+    authenticate_or_request_with_http_basic do |username,password|
+     username == Rails.application.credentials.dig(:http_auth,:uname).to_s &&
+     password == Rails.application.credentials.dig(:http_auth,:pass).to_s
+  end
+  end
 
 
   # 0 to find all

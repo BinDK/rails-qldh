@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="uncomment hello controller in index.js">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/82274c73-4264-4870-a352-34a27596dcae.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/82274c73-4264-4870-a352-34a27596dcae.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/credentials.yml.enc" beforeDir="false" afterPath="$PROJECT_DIR$/config/credentials.yml.enc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +23,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -202,6 +211,15 @@
       <workItem from="1670239433498" duration="2373000" />
       <workItem from="1670252129405" duration="6182000" />
       <workItem from="1670296461089" duration="16814000" />
+      <workItem from="1670341240099" duration="664000" />
+      <workItem from="1670342312020" duration="1253000" />
+      <workItem from="1670390052301" duration="55000" />
+      <workItem from="1670390201605" duration="2568000" />
+      <workItem from="1670399383941" duration="612000" />
+      <workItem from="1670414535661" duration="31000" />
+      <workItem from="1670416979708" duration="775000" />
+      <workItem from="1670423885768" duration="3099000" />
+      <workItem from="1670464529095" duration="1135000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>
@@ -259,5 +277,8 @@
     <MESSAGE value="Product management, product's Adding form 2" />
     <MESSAGE value="uncomment hello controller in index.js" />
     <option name="LAST_COMMIT_MESSAGE" value="uncomment hello controller in index.js" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/qldh@Development__qldh.rcov" NAME="Development: qldh Coverage Results" MODIFIED="1670429511604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="qldh" />
   </component>
 </project>

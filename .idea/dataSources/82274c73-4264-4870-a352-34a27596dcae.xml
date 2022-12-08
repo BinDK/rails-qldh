@@ -4,20 +4,20 @@
     <root id="1">
       <ServerVersion>14.5</ServerVersion>
     </root>
-    <database id="2" parent="1" name="pg_development"/>
-    <database id="3" parent="1" name="pg_test"/>
-    <database id="4" parent="1" name="pixie"/>
-    <database id="5" parent="1" name="postgres"/>
-    <database id="6" parent="1" name="pst_development"/>
-    <database id="7" parent="1" name="pst_test"/>
-    <database id="8" parent="1" name="qldh_development"/>
+    <database id="2" parent="1" name="postgres"/>
+    <database id="3" parent="1" name="template1"/>
+    <database id="4" parent="1" name="template0"/>
+    <database id="5" parent="1" name="pixie"/>
+    <database id="6" parent="1" name="testt"/>
+    <database id="7" parent="1" name="pst_development"/>
+    <database id="8" parent="1" name="pst_test"/>
     <database id="9" parent="1" name="qldh_production">
       <Current>1</Current>
     </database>
-    <database id="10" parent="1" name="qldh_test"/>
-    <database id="11" parent="1" name="template0"/>
-    <database id="12" parent="1" name="template1"/>
-    <database id="13" parent="1" name="testt"/>
+    <database id="10" parent="1" name="pg_development"/>
+    <database id="11" parent="1" name="pg_test"/>
+    <database id="12" parent="1" name="qldh_development"/>
+    <database id="13" parent="1" name="qldh_test"/>
     <schema id="14" parent="9" name="information_schema"/>
     <schema id="15" parent="9" name="pg_catalog"/>
     <schema id="16" parent="9" name="public">

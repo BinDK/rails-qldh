@@ -324,7 +324,9 @@
      var stt =1;
      var total=0;
      $('#prodChoose').click(function(){
-         id= $("#prods").find(":selected").val();
+         var id= $("#prods").find(":selected").val();
+         var dis = parseInt($('#discount').val());
+         var ship = parseFloat($('#shipping').val());
          const existingItem = stuff.find((item) => {
              return parseInt(id) === item.id;
          });
@@ -332,7 +334,9 @@
              existingItem.qty++;
              $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
              total = total + existingItem.price;
-             $('input#totalCost').val( total.toFixed(3) );
+             if(dis != 0) $('input#totalCost').val( (total - ((total * dis) / 100) + ship).toFixed(3) );
+             else $('input#totalCost').val( (total + ship).toFixed(3) );
+
 
          }else{
            $.get("<%= product_info_path %>", {id:id},function(data) {
@@ -347,7 +351,8 @@
              $("#line_items tbody").append(hold);
              stuff.push({id: parseInt(data.prod.id), price: parseFloat(data.prod.price), qty: 1,row: 'row-'+stt+''});
              total = parseFloat(data.prod.price) + total;
-             $("#totalCost").val(total.toFixed(3));
+               if(dis != 0) $('input#totalCost').val( (total - ((total * dis) / 100) + ship).toFixed(3) );
+               else $('input#totalCost').val( (total + ship).toFixed(3) );
              stt++
            });
          }
@@ -405,19 +410,22 @@
         var curRowID = $(this).closest('tr').attr('id');
          var dis = parseInt($('#discount').val());
          var ship = parseFloat($('#shipping').val());
-        console.log(curRowID);
         const curItem = stuff.find((item) => {
             return curRowID === item.row;
         });
         var sum = parseFloat(curItem.price) * curItem.qty;
-        total = total - sum;
-        if (total < 0 ){
+         total = total - sum;
+        if (total <= 0 ){
             total = 0;
             $('input#totalCost').val( total );
         }else{
+            if(dis != 0){
+            $('input#totalCost').val( (((total * dis) / 100) + ship).toFixed(3) );
 
-            total = (total - ((total * dis) / 100)) + ship;
-            $('input#totalCost').val( total.toFixed(3) );
+            }else {
+                $('input#totalCost').val( (total + ship).toFixed(3) );
+
+            }
         }
         $(this).closest('tr').remove();
         stuff = stuff.filter(x => {

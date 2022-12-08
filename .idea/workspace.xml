@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="uncomment hello controller in index.js">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/82274c73-4264-4870-a352-34a27596dcae.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/82274c73-4264-4870-a352-34a27596dcae.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/credentials.yml.enc" beforeDir="false" afterPath="$PROJECT_DIR$/config/credentials.yml.enc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -219,7 +217,8 @@
       <workItem from="1670414535661" duration="31000" />
       <workItem from="1670416979708" duration="775000" />
       <workItem from="1670423885768" duration="3099000" />
-      <workItem from="1670464529095" duration="1135000" />
+      <workItem from="1670464529095" duration="2287000" />
+      <workItem from="1670503381761" duration="8451000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

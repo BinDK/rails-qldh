@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
     scope :api do
 
-      get 'add_order', to: 'apix#add_order'
+      post 'add_order', to: 'apix#add_order'
       get 'phone_check', to: 'apix#phone_check'
       get 'ref_phone_check', to: 'apix#ref_phone_check'
       get 'product_info', to: 'apix#product_info'

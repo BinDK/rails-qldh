@@ -1,5 +1,3 @@
-<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.css"/>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>-->
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
@@ -52,11 +50,9 @@
               </table>
             </div>
                   <!-- /.card-body -->
-
                   <div class="card-footer clearfix">
                     <ul class="pagination pagination-sm m-0 float-right">
                       <%== pagy_bootstrap_nav(@pagy) %>
-
                     </ul>
                   </div>
 
@@ -86,20 +82,17 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="pname">Tên Sản Phẩm</label>
-          <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+          <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
         </div>
-
         <div class="form-group">
           <label for="pprice">Giá Sản Pẩm</label>
-          <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+          <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
         </div>
-
         <div class="form-group">
           <label for="exampleInputEmail1">Dung Tích</label>
-          <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
+          <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
         </div>
       </div>
-
       <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
         <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
@@ -128,17 +121,17 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="pname" placeholder="Nhập Tên">
+            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
           </div>
 
           <div class="form-group">
             <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="pprice" placeholder="Giá">
+            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
           </div>
 
           <div class="form-group">
             <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="pvol" placeholder="lít, ml...">
+            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
           </div>
         </div>
 
@@ -189,7 +182,6 @@
             findProductByKW(kw,0);
         }else {
             findProductByKW(kw,1);
-
         }
 
     },3000));
@@ -198,34 +190,6 @@
       var id =  $(this).attr('id').split('-')[1];
         findProduct(parseInt(id),3)
     });
-
-        // $('.btnPage').click(function (e) {
-            // e.preventDefault();
-            // var pageNo = $(this).attr('id');
-<!--            var actionUrl = '<%#= prod_page_path %>';-->
-
-            // $.ajax({
-            //     type: "GET",
-            //     beforeSend: function (xhr) {
-            //         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-            //     },
-            //     url: actionUrl,
-            //     data: {
-            //         page: parseInt(pageNo)
-            //     },
-            //     success: function (data) {
-            //         var hold = ''
-            //         for (let i = 0; i < data.prod.length; i++) {
-            //             hold += '<tr><td>' + data.prod[i].name + '</td>';
-            //             hold += '<td>' + data.prod[i].price + '</td>';
-            //             hold += '<td>' + data.prod[i].volume + '</td>';
-            //             hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-' + data.prod[i].id + '" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
-            //         }
-            //         $('#prodTable tbody').html(hold);
-            //
-            //     }
-            // });
-        // });
 
     function findProductByKW(kw,choice) {
         var actionUrl = '<%= find_prod_path %>';

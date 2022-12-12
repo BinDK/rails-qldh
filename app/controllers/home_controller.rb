@@ -3,6 +3,12 @@ class HomeController < ApplicationController
 
   include Pagy::Backend
   def index
+    @new = Order.new_order_count
+    @prepared = Order.prepared_order_count
+    @shipped = Order.shipped_order_count
+    @completed = Order.completed_order_count
+
+
 
   end
 
@@ -23,8 +29,6 @@ class HomeController < ApplicationController
     @entries = 3
     # @pages = Order.pages(@entries)
     @pagy,@orders = pagy(Order.order(created_at: :desc).all)
-
-
   end
 
   private

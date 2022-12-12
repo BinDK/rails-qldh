@@ -11,7 +11,7 @@ class Order < ApplicationRecord
   scope :shipped_order_count, -> {Order.order(created_at: :desc).where('lower(status)= ?','Giao Thành Công'.downcase).count}
   scope :completed_order_count, -> {Order.order(created_at: :desc).where('lower(status)= ?','Hoàn Tất Đơn'.downcase).count}
 
-
+  scope :all_except, ->(status) { where.not('lower(status) = ?', status.downcase) }
   def testx
     @p = Order.joins(:customer).where(customers: id == customer_id)
   end

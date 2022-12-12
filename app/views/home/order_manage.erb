@@ -39,15 +39,7 @@
                 </button>
               </div>
 
-              <div class="card-tools ">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" id="prodSearch" name="table_search" class="form-control " placeholder="Search">
 
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
-                  </div>
-                </div>
-              </div>
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0" style="height: 400px;">
@@ -265,16 +257,6 @@
         return a + ' ' + b;
     }
 
-    function debounce(fn, delay) {
-        var timer = null;
-        return function () {
-            var context = this, args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-                fn.apply(context, args);
-            }, delay);
-        };
-    }
 
     var $btns = $('.statBtn').click(function() {
         $btns.not(this).removeClass('btn-outline-custom');
@@ -333,16 +315,7 @@
             }
         });
     });
-    $('#prodSearch').keyup(debounce(function (event){
-        var kw = $('#prodSearch').val();
-        if(kw == '' && kw.length == 0){
-            findProductByKW(kw,0);
-        }else {
-            findProductByKW(kw,1);
 
-        }
-
-    },3000));
 
     $('#prodTable').on('click','.btnUp',function (){
         var id =  $(this).attr('id').split('-')[1];

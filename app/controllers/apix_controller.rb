@@ -111,7 +111,7 @@ class ApixController < ApplicationController
       render json: {prod: @products }
     else
       kw = "%#{Product.sanitize_sql_like(params[:kw])}%"
-      @products = Product.where("name like :keyx or volume like :keyx", keyx: kw)
+      @products = Product.where("lower(name) like :keyx or lower(volume) like :keyx", keyx: kw.downcase)
       render json: {prod: @products }, status: :ok
     end
   end

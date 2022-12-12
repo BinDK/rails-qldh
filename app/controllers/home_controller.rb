@@ -28,7 +28,7 @@ class HomeController < ApplicationController
   def order_manage
     @entries = 3
     # @pages = Order.pages(@entries)
-    @pagy,@orders = pagy(Order.order(created_at: :desc).all)
+    @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
   end
 
   private

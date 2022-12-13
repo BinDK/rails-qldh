@@ -11,23 +11,26 @@ class HomeController < ApplicationController
 
 
   end
+  def cus
+    @pagy,@customers = pagy(Customer.all)
 
+  end
+  def ref
+    @pagy,@refs = pagy(Referrer.all)
+
+  end
   def new_order
     product_find(0)
     @customers = Customer.all
   end
 
   def product_manage
-    # product_find(0)
-    # @entries = 3
-    # @pages = Product.pages(@entries)
     @pagy,@products = pagy(Product.all)
 
   end
 
   def order_manage
     @entries = 3
-    # @pages = Order.pages(@entries)
     @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
   end
 

@@ -23,11 +23,15 @@ Rails.application.routes.draw do
       get 'find_order_by_stat', to: 'apix#find_order_by_stat'
       get 'order_page', to: 'apix#order_page'
 
+      get 'cus_search', to: 'apix#cus_search'
+      get 'ref_search', to: 'apix#ref_search'
 
     end
 
 
     get 'index', to: 'home#index'
+    get 'cus', to: 'home#cus'
+    get 'ref', to: 'home#ref'
 
     get 'new_order', to: 'home#new_order'
 

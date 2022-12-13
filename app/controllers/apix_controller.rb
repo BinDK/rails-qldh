@@ -152,6 +152,25 @@ class ApixController < ApplicationController
     end
     render json: {orders: @orders}, status: :ok
   end
+  #end for order
+
+
+  #Customer & ref search
+  def cus_search
+    kw = "%#{Customer.sanitize_sql_like(params[:kw])}%"
+    choice = params[:choice].to_s.to_i
+    @cuss = Customer.all if kw.empty? or choice == 0
+    @cuss = Customer.where("lower(name) like :keyx or lower(phone) like :keyx",
+                           keyx: kw.downcase) unless kw.empty?
+    render json: {cus: @cuss }, status: :ok
+  end
+  def ref_search
+    kw = "%#{Referrer.sanitize_sql_like(params[:kw])}%"
+    choice = params[:choice].to_s.to_i
+    @refs = Referrer.all if kw.empty? or choice == 0
+    @refs = Referrer.where("lower(name) like :keyx or lower(phone) like :keyx", keyx: kw.downcase)
+    render json: {ref: @refs }, status: :ok
+  end
 
   private
   #Model param

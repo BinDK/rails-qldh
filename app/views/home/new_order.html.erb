@@ -28,7 +28,8 @@
                                  <div class="col col-lg-4 col-md-4">
                                      <div class="form-group">
                                          <label for="oldCusSelect">Tên - Số điện thoại</label>
-                                         <select class="form-control" id="oldCusSelect">
+                                         <select class="form-control" id="oldCusSelect" autocomplete="off">
+                                           <option disabled selected="selected">Chọn Khách Hàng Cũ</option>
                                            <% @customers.each do |customer|  %>
                                              <option value="<%= customer.id %>"><%= customer.name %> - <%= customer.phone %></option>
                                            <% end %>
@@ -63,9 +64,7 @@
                          <div class="card-header">
                              <h3 class="card-title">Khách Hàng Mới</h3>
                          </div>
-
-
-                         <form id="cusForm">
+                         <form id="cusForm" autocomplete="off">
                              <div class="card-body">
                                  <div class="row">
                                      <div class="col">
@@ -116,12 +115,42 @@
                              <div class="card-footer">
                                <input type="hidden" name="oldCusID" id="oldCusID" value="0">
                                <input type="hidden" name="oldAdress" id="oldAdress" value="0">
-                               <button id="createCus" type="button" class="btn btn-primary">Submit</button>
+                               <button id="createCus" type="button" class="btn btn-primary">Tạo Khách</button>
                              </div>
                          </form>
                      </div>
 
+                   <!-- Ref form-->
+                   <div class="card card-outline card-danger">
+                     <div class="card-header">
+                       <h3 class="card-title">Người Giới Thiệu</h3>
+                     </div>
+                     <form id="refForm" autocomplete="off">
+                       <div class="card-body">
+                         <div class="row">
+                           <div class="col">
+                             <div class="form-group">
+                               <label for="refName">Tên</label>
+                               <input type="text" class="form-control" id="refName" name="referrer[name]" placeholder="Tên Người Giới Thiệu" required="">
+                             </div>
+                             <div class="form-group">
+                               <label for="refPhone">Số Điện Thoại</label>
+                               <input type="text" minlength="10" maxlength="10" class="form-control" id="refPhone" placeholder="Phone" name="referrer[phone]" required="" style="border-width: 1px;">
+                             </div>
+                           </div>
+                           <div class="col">
+                             <div class="form-group">
+                               <label for="refBank">Thông Tin Chuyển Khoản</label>
+                               <textarea type="text" rows="4" class="form-control" id="refBank" placeholder="Thông Tin Chuyển Khoản Của người giới thiệu" name="referrer[banking_informations]" required="" style="border-width: 1px;"></textarea>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+
+                     </form>
+                   </div>
                  </div>
+
                  <!--/end left col  -->
 
                <div class="col col-lg-7 col-md-7">
@@ -129,27 +158,9 @@
                    <div class="card-header">
                      <h3 class="card-title">Đơn Hàng</h3>
                    </div>
-                   <form id="orderForm">
+                   <form id="orderForm" autocomplete="off">
                      <div class="card-body">
-                       <div class="row">
-                         <div class="col">
-                           <div class="form-group">
-                             <label for="refName">Người Giới Thiệu</label>
-                             <input type="text" class="form-control" id="refName" name="referrer[name]" placeholder="Tên Người Giới Thiệu" required="">
-                           </div>
-                           <div class="form-group">
-                             <label for="refPhone">Số Điện Thoại</label>
-                             <input type="text" minlength="10" maxlength="10" class="form-control" id="refPhone" placeholder="Phone" name="referrer[phone]" required="" style="border-width: 1px;">
-                           </div>
-                         </div>
 
-                         <div class="col">
-                           <div class="form-group">
-                             <label for="refBank">Thông Tin Chuyển Khoản</label>
-                             <textarea type="text" rows="4"  class="form-control" id="refBank" placeholder="Thông Tin Chuyển Khoản Của người giới thiệu" name="referrer[banking_informations]" required="" style="border-width: 1px;"></textarea>
-                           </div>
-                         </div>
-                       </div>
 
                        <div class="row">
                          <div class="col">
@@ -525,7 +536,7 @@
              items: cv,
              item_length: rowCount,
          }
-         var form = $('#orderForm').serialize();
+         var form = $('#orderForm, #refForm').serialize();
          $.ajax({
              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
              type: 'POST',

@@ -108,45 +108,160 @@
   <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="modal-md2">
-
-  <div class="modal-dialog modal-dialog-centered modal-md">
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Cập Nhật Sản Phẩm </h4>
+        <h4 class="modal-title">Extra Large Modal</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">×</span>
         </button>
       </div>
-      <form id="productUForm">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="../../dist/img/user4-128x128.jpg"
+                       alt="User profile picture">
+                </div>
 
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
-          </div>
+                <h3 class="profile-username text-center">Nina Mcintire</h3>
 
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
-          </div>
+                <p class="text-muted text-center">Software Engineer</p>
 
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
+                <form id="refInfo" autocomplete="off">
+                  <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                      <b>Tên</b> <input type="text" class="float-right text-right border-0" name="referer[name]">
+                    </li>
+                    <li class="list-group-item">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" name="referer[phone]">
+                    </li>
+                    <li class="list-group-item">
+                      <small></small><b>Banking info</b></small> <textarea type="text" class="float-right border-0" rows="5" name="referer[phone]"></textarea>
+                    </li>
+                  </ul>
+                  <button class="btn btn-primary btn-block"><b>Cập Nhật</b></button>
+                </form>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
           </div>
+          <!-- /.col -->
+
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+
+                  <div class="active tab-pane" id="addressPane">
+
+
+                    <!-- Post -->
+                    <div class="post">
+                      <div class="user-block">
+                        <strong>Địa chỉ</strong>
+                      </div>
+
+                      <form class="addrForm" id="" >
+                        <div class="row">
+                          <div class="col col-md-4">
+                            <div class="form-group">
+                              <label for="province">Tỉnh - Thành Phố</label>
+                              <select name="address[province_city]" class="form-control fsel" id="province"></select>
+                            </div>
+                          </div>
+
+                          <div class="col col-md-4">
+                            <div class="form-group">
+                              <label for="district">Quận - Hyện</label>
+                              <select name="address[district]" class="form-control fsel" id="district">
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="col col-md-4">
+                            <div class="form-group">
+                              <label for="ward">Phường - Xã</label>
+                              <select name="address[ward]" class="form-control fsel" id="ward">
+                              </select>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="input-group input-group-sm mb-0">
+                          <input class="form-control" type="text" id="street" name="address[street]"
+                                 placeholder="Địa chỉ và tên đường">
+
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-danger">Cập Nhật</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /.post -->
+                  </div>
+
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                    <!-- The timeline -->
+                    <div class="timeline timeline-inverse">
+                      <!-- timeline time label -->
+                      <div class="time-label">
+                        <span class="bg-danger">
+                          10 Feb. 2014
+                        </span>
+                      </div>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+
+                      <!-- END timeline item -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-user bg-info"></i>
+
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
+
+                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
+                          </h3>
+                        </div>
+                      </div>
+                      <div>
+                        <i class="far fa-clock bg-gray"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
         </div>
-
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-danger delProd" ><i class="fas fa-delete-left"></i></button>
-          <input type="hidden" name="id" id="prodID">
-          <button type="button" class="btn btn-primary uProd" ><i class="fas fa-floppy-disk"></i></button>
-        </div>
-      </form>
-
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
     <!-- /.modal-content -->
-
   </div>
   <!-- /.modal-dialog -->
 </div>

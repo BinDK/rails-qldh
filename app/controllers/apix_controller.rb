@@ -2,6 +2,8 @@ class ApixController < ApplicationController
   # protect_from_forgery with: :null_session
   before_action :set_prod, only: %i[ update_prod delete_prod ]
   before_action :set_order, only: %i[ find_order ]
+  before_action :set_cus,  only: %i[ cus_info_update ]
+  before_action :set_addr , only: %i[ cus_addr_update ]
   before_action :customer_params, only: %i[ customer_check ]
   before_action :address_params, only: %i[ customer_check ]
   before_action :ref_params, only: %i[ add_order ]
@@ -157,13 +159,39 @@ class ApixController < ApplicationController
 
   #Customer & ref search
   def cus_search
-    kw = "%#{Customer.sanitize_sql_like(params[:kw])}%"
     choice = params[:choice].to_s.to_i
-    @cuss = Customer.all if kw.empty? or choice == 0
-    @cuss = Customer.where("lower(name) like :keyx or lower(phone) like :keyx",
-                           keyx: kw.downcase) unless kw.empty?
+
+    if choice.eql? 0
+    @cuss = Customer.all
     render json: {cus: @cuss }, status: :ok
+
+    elsif choice.eql?3
+      @cus = Customer.find(params[:id])
+      @orders= Order.order(created_at: :desc).where(customer_id: @cus.id)
+      @addrs = Address.where(customer_id: @cus.id)
+      render json: {cus: @cus, orders: @orders,address: @addrs}, status: :ok
+    else
+      kw = "%#{Customer.sanitize_sql_like(params[:kw])}%"
+
+      @cuss = Customer.where("lower(name) like :keyx or lower(phone) like :keyx",
+                                 keyx: kw.downcase)
+      render json: {cus: @cuss }, status: :ok
+    end
   end
+
+  def cus_info_update
+    if @cus.update(customer_params)
+      render json: {statusx: true }, status: :ok
+    else
+      render json: {statusx: false }, status: :unprocessable_entity
+    end
+  end
+
+  def cus_addr_update
+    @addr.update(address_params)
+      render json: {statusx: true }, status: :ok
+  end
+
   def ref_search
     kw = "%#{Referrer.sanitize_sql_like(params[:kw])}%"
     choice = params[:choice].to_s.to_i
@@ -245,4 +273,10 @@ class ApixController < ApplicationController
     @customer_address.save
   end
 
+  def set_cus
+    @cus = Customer.find(params[:idCus].to_s.to_i)
+  end
+  def set_addr
+    @addr = Address.find(params[:addressID].to_s.to_i)
+  end
 end

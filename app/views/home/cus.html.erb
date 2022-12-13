@@ -108,45 +108,117 @@
   <!-- /.modal-dialog -->
 </div>
 
-<div class="modal fade" id="modal-md2">
-
-  <div class="modal-dialog modal-dialog-centered modal-md">
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Cập Nhật Sản Phẩm </h4>
+        <h4 class="modal-title">Bảng Chi tiết KH</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">×</span>
         </button>
       </div>
-      <form id="productUForm">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src=""
+                       alt="Cus pic" id="cuspic">
+                </div>
 
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
-          </div>
+                <h3 class="profile-username text-center" id="demoName"></h3>
 
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
-          </div>
+                <p class="text-muted text-center" id="demoPhone"></p>
 
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
+                <form id="cusInfo" autocomplete="off">
+                  <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                      <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="customer[name]">
+                    </li>
+                    <li class="list-group-item">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" name="customer[phone]">
+                    </li>
+                  </ul>
+                  <input type="hidden" name="idCus" id="idCus" value="0">
+                  <button class="btn btn-primary btn-block" id="cusUpdate"><b>Cập Nhật</b></button>
+                </form>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
           </div>
+          <!-- /.col -->
+
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+
+                  <div class="active tab-pane" id="addressPane">
+
+
+                    <!-- Post -->
+
+                    <!-- /.post -->
+                  </div>
+
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                    <!-- The timeline -->
+                    <div class="timeline timeline-inverse">
+                      <!-- timeline time label -->
+                      <div class="time-label">
+                        <span class="bg-danger">
+                          10 Feb. 2014
+                        </span>
+                      </div>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+
+                      <!-- END timeline item -->
+                      <!-- timeline item -->
+                      <div>
+                        <i class="fas fa-user bg-info"></i>
+
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
+
+                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
+                          </h3>
+                        </div>
+                      </div>
+                      <div>
+                        <i class="far fa-clock bg-gray"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
         </div>
-
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-danger delProd" ><i class="fas fa-delete-left"></i></button>
-          <input type="hidden" name="id" id="prodID">
-          <button type="button" class="btn btn-primary uProd" ><i class="fas fa-floppy-disk"></i></button>
-        </div>
-      </form>
-
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
     <!-- /.modal-content -->
-
   </div>
   <!-- /.modal-dialog -->
 </div>
@@ -182,7 +254,7 @@
 
     $('#prodTable').on('click','.btnUp',function (){
         var id =  $(this).attr('id').split('-')[1];
-        findProduct(parseInt(id),3)
+        findCusDetail(parseInt(id),3)
     });
 
     function findCustomerKW(kw,choice) {
@@ -215,8 +287,8 @@
     }
 
 
-    function findProduct(id,choice) {
-        var actionUrl = '<%= find_prod_path %>';
+    function findCusDetail(id,choice) {
+        var actionUrl = '<%= cus_search_path %>';
 
         $.ajax({
             type: "GET",
@@ -227,15 +299,121 @@
                 choice: choice
             },
             success: function(data) {
+                console.log(data)
+            //    Customer
+                $('#cuspic').attr('src','https://avatars.dicebear.com/api/adventurer/'+data.cus.phone+'.svg')
+                $('#demoName').html (data.cus.name);
+                $('#demoPhone').html(data.cus.phone);
+                $('#inpName').val (data.cus.name);
+                $('#inpPhone').val(data.cus.phone);
 
-                $('form#productUForm #pname').val(data.prod.name);
-                $('form#productUForm #pprice').val(data.prod.price);
-                $('form#productUForm #pvol').val(data.prod.volume);
-                $('form#productUForm #prodID').val(data.prod.id)
-
+                $('#idCus').val(data.cus.id);
+            //  Address
+                printAddress(data.address);
             }
         });
     }
+    function printAddress(adress){
+        hold = '';
+        if (adress == null){
+            $('addressPane').html('<h3>Không Tìm Thấy</h3>');
+        }else {
+              var no = 1;
+            for (let i = 0;i < adress.length;i++){
+                hold += '<div class="post"><div class="user-block">'+
+                    '<strong >Địa chỉ '+ no++ +'</strong></div>'+
+                '<form class="addrForm" id="add-'+adress[i].id+'" >'+
+                    '<div class="row"><div class="col col-md-4"><div class="form-group">'+
+                    '<label for="province">Tỉnh - Thành Phố</label>'+
+                    '<select  class="form-control fpro fsel" id="province-'+adress[i].id+'">' +
+                    '<option>'+adress[i].province_city+'</option></select></div></div>'+
+                        '<div class="col col-md-4"><div class="form-group">'+
+                                '<label for="district">Quận - Hyện</label>'+
+                                '<select  class="form-control fdis" id="district-'+adress[i].id+'">' +
+                                              '<option>'+adress[i].district+'</option></select></div></div>'+
+                        '<div class="col col-md-4"><div class="form-group">'+
+                                '<label for="ward">Phường - Xã</label>'+
+                                '<select  class="form-control fsel fward" id="ward-'+adress[i].id+'">' +
+                    '<option>'+adress[i].ward+'</option></select></div></div></div>'+
+                    '<div class="input-group input-group-sm mb-0">'+
+'                        <input class="form-control" type="text" id="street-'+adress[i].id+'" value="'+adress[i].street+'" placeholder="Địa chỉ và tên đường">'+
+                            '<div class="input-group-append"><input type="hidden" name="addressID" value="'+adress[i].id+'"/>'+
+                                '<button class="btn btn-danger addrUP" id="'+adress[i].id+'">Cập Nhật</button></div></div></form></div>';
+
+            }
+            $('#addressPane').append(hold);
+        }
+    }
+
+    $('.modal-xl').on('focus','.fpro',function (){
+        var id = $(this).attr('id').split('-')[1];
+        $.get("https://provinces.open-api.vn/api/?depth=1", function(data) {
+            var hold = ""
+            data.forEach(x => {
+                hold += '<option value="' + x.code + '-' + x.name + '">' + x.name + '</option>'
+            });
+            $('#province-'+id).html('');
+            $('#province-'+id).append(hold);
+        });
+    });
+
+    $('.modal-xl').on('focus','.fdis',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var proCode = $('#province-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/p/" + proCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.districts.length; i++) {
+                    hold += '<option value="' + data.districts[i].code + '-' + data.districts[i].name + '">' + data.districts[i].name + '</option>';
+                }
+            $('#district-'+id).html('');
+            $('#district-'+id).append(hold);
+        });
+    });
+
+    $('.modal-xl').on('focus','.fward',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var disCode = $('#district-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/d/" + disCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.wards.length; i++) {
+                hold += '<option value="' + data.wards[i].code + '-' + data.wards[i].name + '">' + data.wards[i].name + '</option>';
+            }
+
+            $('#ward-'+id).html('');
+            $('#ward-'+id).append(hold);
+        });
+    });
+    $('.modal-xl').on('click','.addrUP',function (e) {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var form = $('#add-'+id);
+        var actionUrlx = '<%= cus_addr_path %>';
+
+        var adress= {
+            address:{
+                province_city: $('#province-'+id).find(":selected").val().split('-')[1],
+                district: $('#district-'+id).find(":selected").val().split('-')[1],
+                ward: $('#ward-'+id).find(":selected").val().split('-')[1],
+                street: $('#street-'+id).val()
+            }
+        };
+        $.ajax({
+            type: "PUT",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            url: actionUrlx,
+            data: form.serialize() + '&' + $.param(adress), // serializes the form's elements.
+            success: function (data) {
+                toastr.success(data.statusx, 'Cạp Nhật Địa CHỈ Thành Công', {
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+            }
+        });
+    });
+
 
 
     $("#createProd").click(function(e) {
@@ -292,10 +470,10 @@
         });
     });
 
-    $(".uProd").click(function(e) {
+    $("#cusUpdate").click(function(e) {
         e.preventDefault();
-        var actionUrl = '<%= update_prod_path %>';
-        var form = $('form#productUForm');
+        var actionUrl = '<%= cus_info_path %>';
+        var form = $('form#cusInfo');
 
         $.ajax({
             type: "PUT",
@@ -303,13 +481,17 @@
             url: actionUrl,
             data: form.serialize(), // serializes the form's elements.
             success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
+                if(data.statusx == true){
+                    toastr.success(data.message,'',{
+                        timeOut: 3000,
+                        progressBar: true,
+                        progressAnimation: 'increasing'
+                    });
 
-                findCustomerKW('',0);
+                  $('#demoName').html ($('#inpName').val());
+                  $('#demoPhone').html($('#inpPhone').val());
+                }
+
             }
         });
     });

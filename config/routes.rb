@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
       get 'cus_search', to: 'apix#cus_search'
       get 'ref_search', to: 'apix#ref_search'
+      put 'cus_info', to: 'apix#cus_info_update'
+      put 'cus_addr', to: 'apix#cus_addr_update'
 
     end
 

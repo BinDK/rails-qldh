@@ -167,6 +167,32 @@ class ApixController < ApplicationController
 
     end
   end
+  def find_oder_kw
+    choice = params[:choice].to_s.to_i
+    if(choice == 0)
+      @orders = Order.joins(:customer,:referrer).select('orders.*, customers.name,customers.phone,referrers.name as refname').order(created_at: :desc).all_except('hoàn tất đơn')
+      @orders += Order.joins(:customer).select('orders.*, customers.name,customers.phone').order(created_at: :desc).where(referrer_id: nil).all_except('hoàn tất đơn')
+      @a = @orders.sort_by &:created_at
+
+      render json: {orders: @a}, status: :ok
+    else
+
+    ks = params[:kw].to_s.downcase
+    @p = Order.joins(:customer).select('orders.*, customers.name,customers.phone').where('customers.name like ? or customers.phone like ?',"%User C%","%user%")
+
+    # @orders = Order.joins(:customer,:referrer).order(created_at: :desc)
+    #                .select('orders.*, customers.name,customers.phone,referrers.name as refname')
+    #                .where('lower(orders.customers.name) like :key or lower(orders.customers.phone) or lower(orders.referrers.name) like :key', key: ks)
+    # @orders += Order.joins(:customer).select('orders.*, customers.name,customers.phone')
+    #                 .order(created_at: :desc)
+    #                 .where('lower(orders.customers.name) like :key or lower(orders.customers.phone)', key: ks).where(referrer_id: nil)
+
+    # @p = @orders.sort_by &:created_at
+    render json: {orders: @p}, status: :ok
+    end
+  end
+
+
   #end for order
 
 

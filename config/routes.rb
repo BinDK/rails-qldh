@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       get 'prod_page', to: 'apix#prod_page'
 
       get 'find_order', to: 'apix#find_order'
+      get 'find_oder_kw', to: 'apix#find_oder_kw'
+
       put 'change_order_stat', to: 'apix#change_order_stat'
       get 'find_order_by_stat', to: 'apix#find_order_by_stat'
       get 'order_page', to: 'apix#order_page'

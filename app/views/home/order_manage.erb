@@ -290,14 +290,14 @@
     $('#prodSearch').keyup(debounce(function (event){
         var kw = $('#prodSearch').val();
         if(kw == '' && kw.length == 0){
-            findProductByKW(kw,0);
+            findOderByKW(kw,0);
         }else {
-            findProductByKW(kw,1);
+            findOderByKW(kw,1);
         }
 
-    },3000));
-    function findProductByKW(kw,choice) {
-        var actionUrl = '<%= find_prod_path %>';
+    },1000));
+    function findOderByKW(kw,choice) {
+        var actionUrl = '<%= find_oder_kw_path %>';
 
         $.ajax({
             type: "GET",
@@ -308,15 +308,27 @@
                 choice: choice
             }, // serializes the form's elements.
             success: function(data) {
+                var orders = data.orders.reverse();
+                var hold = '';
 
+                for(let i = 0;i < orders.length; i++  ){
+                    hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
+                    hold+= '<td>'+orders[i].total+'</td>'
+                    hold+= '<td>'+orders[i].status+'</td>'
+                    hold+= '<td>'+orders[i].name+' / '+orders[i].phone+'</td>'
+                    if(orders[i].refname){
+                        hold+= '<td>'+orders[i].refname+'</td>'
+                    }else{
+                        hold+= '<td>Không có ai giới thiệu</td>'
+                    }
+                    if(orders[i].address_info){
+                        hold+= '<td class="text-wrap">'+orders[i].address_info+'</td>'
 
-                var hold = ''
-                for(let i = 0;i < data.prod.length; i++  ){
-
-                    hold += '<tr><td>'+data.prod[i].name+'</td>';
-                    hold += '<td>'+data.prod[i].price+'</td>';
-                    hold += '<td>'+data.prod[i].volume+'</td>';
-                    hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                    }else{
+                        hold+= '<td>Cập Nhật Địa Chỉ</td>'
+                    }
+                    hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
+                    hold+= '</tr>';
                 }
                 $('#prodTable tbody').html(hold);
 
@@ -324,19 +336,11 @@
         });
     }
 
-    $('#prodTable').on('click','.btnUp',function (){
-        var id =  $(this).attr('id').split('-')[1];
-        findProduct(parseInt(id),3)
-    });
-
-
-
     var $btns = $('.statBtn').click(function() {
         $btns.not(this).removeClass('btn-outline-custom');
         var curBTN = $(this);
         var choice = curBTN.attr('title').split('-')[0];
         $.get("<%= find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
-            var hold = '';
             console.log(data)
                 var orders = data.orders.reverse();
 

@@ -343,7 +343,7 @@
         $.get("<%= find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
             console.log(data)
                 var orders = data.orders.reverse();
-
+            var hold = '';
             for(let i = 0;i < orders.length; i++  ){
                 hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
                 hold+= '<td>'+orders[i].total+'</td>'

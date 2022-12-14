@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="moving project last commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/apix_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/apix_controller.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +236,7 @@
       <workItem from="1670856612492" duration="8000" />
       <workItem from="1670856704509" duration="225000" />
       <workItem from="1670857272102" duration="6278000" />
-      <workItem from="1670893447221" duration="65524000" />
+      <workItem from="1670893447221" duration="69033000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

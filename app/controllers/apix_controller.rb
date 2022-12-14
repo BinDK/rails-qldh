@@ -4,6 +4,8 @@ class ApixController < ApplicationController
   before_action :set_order, only: %i[ find_order ]
   before_action :set_cus,  only: %i[ cus_info_update ]
   before_action :set_addr , only: %i[ cus_addr_update ]
+  before_action :set_ref , only: %i[ ref_info_update ]
+
   before_action :customer_params, only: %i[ customer_check ]
   before_action :address_params, only: %i[ customer_check ]
   before_action :ref_params, only: %i[ add_order ]
@@ -178,7 +180,6 @@ class ApixController < ApplicationController
       render json: {cus: @cuss }, status: :ok
     end
   end
-
   def cus_info_update
     if @cus.update(customer_params)
       render json: {statusx: true }, status: :ok
@@ -186,20 +187,37 @@ class ApixController < ApplicationController
       render json: {statusx: false }, status: :unprocessable_entity
     end
   end
-
   def cus_addr_update
     @addr.update(address_params)
       render json: {statusx: true }, status: :ok
   end
 
   def ref_search
-    kw = "%#{Referrer.sanitize_sql_like(params[:kw])}%"
     choice = params[:choice].to_s.to_i
-    @refs = Referrer.all if kw.empty? or choice == 0
-    @refs = Referrer.where("lower(name) like :keyx or lower(phone) like :keyx", keyx: kw.downcase)
-    render json: {ref: @refs }, status: :ok
-  end
 
+    if choice.eql? 0
+      @refs = Referrer.all
+      render json: {ref: @refs }, status: :ok
+
+    elsif choice.eql?3
+      @ref = Referrer.find(params[:id])
+      @orders= Order.order(created_at: :desc).where(referrer_id: @ref.id)
+      render json: {ref: @ref, orders: @orders}, status: :ok
+    else
+      kw = "%#{Referrer.sanitize_sql_like(params[:kw])}%"
+
+      @refs = Referrer.where("lower(name) like :keyx or lower(phone) like :keyx",
+                             keyx: kw.downcase)
+      render json: {ref: @refs }, status: :ok
+    end
+  end
+  def ref_info_update
+    if @ref.update(ref_params)
+      render json: {statusx: true }, status: :ok
+    else
+      render json: {statusx: false }, status: :unprocessable_entity
+    end
+  end
   private
   #Model param
   def customer_params
@@ -279,4 +297,8 @@ class ApixController < ApplicationController
   def set_addr
     @addr = Address.find(params[:addressID].to_s.to_i)
   end
+  def set_ref
+    @ref = Referrer.find(params[:idRef].to_s.to_i)
+  end
+
 end

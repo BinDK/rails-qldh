@@ -68,51 +68,11 @@
   </section>
 
 </div>
-
-<div class="modal fade" id="modal-md">
-
-  <div class="modal-dialog modal-dialog-centered modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Thêm Sản Phẩm </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="productForm">
-
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
-          </div>
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-          <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
-        </div>
-      </form>
-
-    </div>
-    <!-- /.modal-content -->
-
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-
 <div class="modal fade" id="modal-xl">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Extra Large Modal</h4>
+        <h4 class="modal-title">Chi Tiết Người Giớ Thiệu</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -125,28 +85,29 @@
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="../../dist/img/user4-128x128.jpg"
-                       alt="User profile picture">
+                       src=""
+                       alt="Ref pic" id="refpic">
                 </div>
 
-                <h3 class="profile-username text-center">Nina Mcintire</h3>
+                <h3 class="profile-username text-center" id="demoName"></h3>
 
-                <p class="text-muted text-center">Software Engineer</p>
+                <p class="text-muted text-center" id="demoPhone"></p>
 
                 <form id="refInfo" autocomplete="off">
                   <ul class="list-group list-group-unbordered mb-3">
 
                     <li class="list-group-item">
-                      <b>Tên</b> <input type="text" class="float-right text-right border-0" name="referer[name]">
+                      <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="referrer[name]">
                     </li>
                     <li class="list-group-item">
-                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" name="referer[phone]">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" name="referrer[phone]">
                     </li>
                     <li class="list-group-item">
-                      <small></small><b>Banking info</b></small> <textarea type="text" class="float-right border-0" rows="5" name="referer[phone]"></textarea>
+                      <small></small><b>Banking info</b></small> <textarea type="text" class="float-right border-0" rows="5" id="inpBank" name="referrer[banking_informations]"></textarea>
                     </li>
                   </ul>
-                  <button class="btn btn-primary btn-block"><b>Cập Nhật</b></button>
+                  <input type="hidden" name="idRef" id="idRef" value="0">
+                  <button class="btn btn-primary btn-block" id="refUpdate"><b>Cập Nhật</b></button>
                 </form>
 
               </div>
@@ -160,101 +121,23 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Lịch Sử Giới Thiệu</a></li>
                 </ul>
-              </div><!-- /.card-header -->
+              </div>
               <div class="card-body">
                 <div class="tab-content">
 
-                  <div class="active tab-pane" id="addressPane">
-
-
-                    <!-- Post -->
-                    <div class="post">
-                      <div class="user-block">
-                        <strong>Địa chỉ</strong>
-                      </div>
-
-                      <form class="addrForm" id="" >
-                        <div class="row">
-                          <div class="col col-md-4">
-                            <div class="form-group">
-                              <label for="province">Tỉnh - Thành Phố</label>
-                              <select name="address[province_city]" class="form-control fsel" id="province"></select>
-                            </div>
-                          </div>
-
-                          <div class="col col-md-4">
-                            <div class="form-group">
-                              <label for="district">Quận - Hyện</label>
-                              <select name="address[district]" class="form-control fsel" id="district">
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col col-md-4">
-                            <div class="form-group">
-                              <label for="ward">Phường - Xã</label>
-                              <select name="address[ward]" class="form-control fsel" id="ward">
-                              </select>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="input-group input-group-sm mb-0">
-                          <input class="form-control" type="text" id="street" name="address[street]"
-                                 placeholder="Địa chỉ và tên đường">
-
-                          <div class="input-group-append">
-                            <button type="submit" class="btn btn-danger">Cập Nhật</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <!-- /.post -->
-                  </div>
 
                   <!-- /.tab-pane -->
-                  <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
+                  <div class="tab-pane active" id="timeline">
                     <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
 
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </div>
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
                     </div>
                   </div>
-                  <!-- /.tab-pane -->
-
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
+              </div>
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
         </div>
       </div>
       <div class="modal-footer justify-content-between">
@@ -265,6 +148,12 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+
+
+
+
+
+
 
 <script type="text/javascript" charset="utf-8">
     window.onload = orderSyle();
@@ -297,7 +186,7 @@
 
     $('#prodTable').on('click','.btnUp',function (){
         var id =  $(this).attr('id').split('-')[1];
-        findProduct(parseInt(id),3)
+        findRefDetail(parseInt(id),3)
     });
 
     function findRefKW(kw,choice) {
@@ -330,8 +219,8 @@
     }
 
 
-    function findProduct(id,choice) {
-        var actionUrl = '<%= find_prod_path %>';
+    function findRefDetail(id,choice) {
+        var actionUrl = '<%= ref_search_path %>';
 
         $.ajax({
             type: "GET",
@@ -342,75 +231,76 @@
                 choice: choice
             },
             success: function(data) {
+                console.log(data)
+                //    Ref
+                $('#refpic').attr('src','https://avatars.dicebear.com/api/adventurer/'+data.ref.phone+'.svg')
+                $('#demoName').html (data.ref.name);
+                $('#demoPhone').html(data.ref.phone);
+                $('#inpName').val (data.ref.name);
+                $('#inpPhone').val(data.ref.phone);
+                $('#inpBank').val(data.ref.banking_informations);
 
-                $('form#productUForm #pname').val(data.prod.name);
-                $('form#productUForm #pprice').val(data.prod.price);
-                $('form#productUForm #pvol').val(data.prod.volume);
-                $('form#productUForm #prodID').val(data.prod.id)
-
+                $('#idRef').val(data.ref.id);
+                //  Order
+                printOrder(data.orders);
             }
         });
     }
 
+    function formatDate(date) {
+        var d = new Date(date),
+            day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+            month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+            year = d.getFullYear(),
+            hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+            min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+            sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
 
-    $("#createProd").click(function(e) {
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
+
+    function printOrder(orders){
+        var hold = '';
+        if(orders.length == 0){
+            $('.timeline-inverse').html('');
+            $('.timeline-inverse').html('Chưa Có Đơn Giới Thiệu Nào');
+
+        }else{
+
+        for (let i = 0;i < orders.length;i++) {
+
+            hold += '<div class="time-label"><span class="bg-danger">' +
+              formatDate(orders[i].created_at) +
+              '</span></div>' +
+              '<div><div class="timeline-item">' +
+              '<h3 class="timeline-header border-0">' +
+              '<span class="text-bold text-blue"> Tổng Giá: ' + orders[i].total + '</span> <ul>' +
+              '<li>Giảm Giá: <b>' + orders[i].discount + '</b></li>' +
+              '<li>Phí ship: <b>' + orders[i].shipping_cost + '</b></li>' +
+              '<li>Cập Nhật Lần Cuối: ' + formatDate(orders[i].updated_at) + '</li></ul>' +
+              '</h3></div></div>';
+        }
+
+            $('.timeline-inverse').html('');
+            $('.timeline-inverse').html(hold);
+            $('.timeline-inverse').append('<div><i class="far fa-clock bg-gray"></i></div>');
+        }
+
+
+
+    }
+
+
+
+    $("#modal-xl").on('click','#refUpdate',function(e) {
         e.preventDefault();
-        var actionUrl = '<%= add_prod_path %>';
-        var form = $('form#productForm');
-
-        $.ajax({
-            type: "POST",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.prod.name,data.message,{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                var hold = ''
-                hold += '<tr><td>'+data.prod.name+'</td>';
-                hold += '<td>'+data.prod.price+'</td>';
-                hold += '<td>'+data.prod.volume+'</td>';
-                hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
-                $('#prodTable tbody').append(hold);
-
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
-            }
-        });
-    });
-
-    $(".delProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= delete_prod_path %>';
-        var id = $('#prodID').val();
-        $.ajax({
-            type: "DELETE",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: {
-                id:id
-            }, // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                findRefKW('',0);
-            }
-        });
-    });
-
-    $(".uProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= update_prod_path %>';
-        var form = $('form#productUForm');
+        var actionUrl = '<%= ref_info_path %>';
+        var form = $('form#refInfo');
 
         $.ajax({
             type: "PUT",
@@ -418,17 +308,21 @@
             url: actionUrl,
             data: form.serialize(), // serializes the form's elements.
             success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
+                if(data.statusx == true){
+                    toastr.success(data.message,'',{
+                        timeOut: 3000,
+                        progressBar: true,
+                        progressAnimation: 'increasing'
+                    });
 
-                findRefKW('',0);
+                    $('#demoName').html ($('#inpName').val());
+                    $('#demoPhone').html($('#inpPhone').val());
+
+                }
+
             }
         });
     });
-
 
 
 </script>

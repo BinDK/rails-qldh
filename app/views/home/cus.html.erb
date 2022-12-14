@@ -422,62 +422,6 @@
         });
     });
 
-
-
-    $("#createProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= add_prod_path %>';
-        var form = $('form#productForm');
-
-        $.ajax({
-            type: "POST",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.prod.name,data.message,{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                var hold = ''
-                hold += '<tr><td>'+data.prod.name+'</td>';
-                hold += '<td>'+data.prod.price+'</td>';
-                hold += '<td>'+data.prod.volume+'</td>';
-                hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
-                $('#prodTable tbody').append(hold);
-
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
-            }
-        });
-    });
-
-    $(".delProd").click(function(e) {
-        e.preventDefault();
-        var actionUrl = '<%= delete_prod_path %>';
-        var id = $('#prodID').val();
-        $.ajax({
-            type: "DELETE",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: {
-                id:id
-            }, // serializes the form's elements.
-            success: function(data) {
-                toastr.success(data.message,'',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-
-                findCustomerKW('',0);
-            }
-        });
-    });
-
     $("#cusUpdate").click(function(e) {
         e.preventDefault();
         var actionUrl = '<%= cus_info_path %>';

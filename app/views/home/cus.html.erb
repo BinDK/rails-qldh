@@ -146,13 +146,9 @@
                   <input type="hidden" name="idCus" id="idCus" value="0">
                   <button class="btn btn-primary btn-block" id="cusUpdate"><b>Cập Nhật</b></button>
                 </form>
-
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
 
           <div class="col-md-8">
             <div class="card">
@@ -161,55 +157,24 @@
                   <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
                   <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
                 </ul>
-              </div><!-- /.card-header -->
+              </div>
               <div class="card-body">
+
                 <div class="tab-content">
 
                   <div class="active tab-pane" id="addressPane">
 
-
-                    <!-- Post -->
-
-                    <!-- /.post -->
                   </div>
 
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="timeline">
-                    <!-- The timeline -->
                     <div class="timeline timeline-inverse">
-                      <!-- timeline time label -->
-                      <div class="time-label">
-                        <span class="bg-danger">
-                          10 Feb. 2014
-                        </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
 
-                      <!-- END timeline item -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-user bg-info"></i>
-
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                          <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                          </h3>
-                        </div>
-                      </div>
-                      <div>
-                        <i class="far fa-clock bg-gray"></i>
-                      </div>
                     </div>
                   </div>
-                  <!-- /.tab-pane -->
-
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
+              </div>
             </div>
-            <!-- /.card -->
           </div>
           <!-- /.col -->
         </div>
@@ -310,37 +275,80 @@
                 $('#idCus').val(data.cus.id);
             //  Address
                 printAddress(data.address);
+            //  Order
+                printOrder(data.orders);
             }
         });
     }
+    function formatDate(date) {
+        var d = new Date(date),
+          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+          year = d.getFullYear(),
+          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
+
+    function printOrder(orders){
+        var hold = '';
+        for (let i = 0;i < orders.length;i++) {
+
+            hold += '<div class="time-label"><span class="bg-danger">' +
+              formatDate(orders[i].created_at) +
+              '</span></div>' +
+              '<div><div class="timeline-item">' +
+              '<h3 class="timeline-header border-0">' +
+              '<span class="text-bold text-blue"> Tổng Giá: '+orders[i].total+'</span> <ul>'+
+              '<li>Giảm Giá: <b>'+orders[i].discount+'</b></li>'+
+              '<li>Phí ship: <b>'+orders[i].shipping_cost+'</b></li>'+
+              '<li>Cập Nhật Lần Cuối: '+formatDate(orders[i].updated_at)+'</li></ul>' +
+              '</h3></div></div>';
+        }
+        $('.timeline-inverse').html('');
+        $('.timeline-inverse').html(hold);
+        $('.timeline-inverse').append('<div><i class="far fa-clock bg-gray"></i></div>');
+
+
+    }
     function printAddress(adress){
         hold = '';
+
         if (adress == null){
             $('addressPane').html('<h3>Không Tìm Thấy</h3>');
         }else {
               var no = 1;
             for (let i = 0;i < adress.length;i++){
+
+
                 hold += '<div class="post"><div class="user-block">'+
                     '<strong >Địa chỉ '+ no++ +'</strong></div>'+
-                '<form class="addrForm" id="add-'+adress[i].id+'" >'+
+                '<form class="addrForm" id="add-'+adress[i].id+'" autocomplete="off" >'+
                     '<div class="row"><div class="col col-md-4"><div class="form-group">'+
                     '<label for="province">Tỉnh - Thành Phố</label>'+
                     '<select  class="form-control fpro fsel" id="province-'+adress[i].id+'">' +
-                    '<option>'+adress[i].province_city+'</option></select></div></div>'+
+                    '<option value="'+adress[i].province_city+'" selected>'+adress[i].province_city+'</option></select></div></div>'+
                         '<div class="col col-md-4"><div class="form-group">'+
                                 '<label for="district">Quận - Hyện</label>'+
                                 '<select  class="form-control fdis" id="district-'+adress[i].id+'">' +
-                                              '<option>'+adress[i].district+'</option></select></div></div>'+
+                                              '<option selected value="'+adress[i].district+'">'+adress[i].district+'</option></select></div></div>'+
                         '<div class="col col-md-4"><div class="form-group">'+
                                 '<label for="ward">Phường - Xã</label>'+
                                 '<select  class="form-control fsel fward" id="ward-'+adress[i].id+'">' +
-                    '<option>'+adress[i].ward+'</option></select></div></div></div>'+
+                    '<option value="'+adress[i].ward+'" selected>'+adress[i].ward+'</option></select></div></div></div>'+
                     '<div class="input-group input-group-sm mb-0">'+
 '                        <input class="form-control" type="text" id="street-'+adress[i].id+'" value="'+adress[i].street+'" placeholder="Địa chỉ và tên đường">'+
                             '<div class="input-group-append"><input type="hidden" name="addressID" value="'+adress[i].id+'"/>'+
                                 '<button class="btn btn-danger addrUP" id="'+adress[i].id+'">Cập Nhật</button></div></div></form></div>';
-
             }
+            $('#addressPane').html('');
             $('#addressPane').append(hold);
         }
     }

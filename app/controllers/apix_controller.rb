@@ -149,12 +149,23 @@ class ApixController < ApplicationController
     choice = params[:choice].to_s.to_i
     @orders
     if(choice == 0)
-      @orders = Order.joins(:customer).select('orders.*, customers.name').all
+      @orders = Order.joins(:customer,:referrer).select('orders.*, customers.name,customers.phone,referrers.name as refname').order(created_at: :desc).all_except('hoàn tất đơn')
+      @orders += Order.joins(:customer).select('orders.*, customers.name,customers.phone').order(created_at: :desc).where(referrer_id: nil).all_except('hoàn tất đơn')
+      @a = @orders.sort_by &:created_at
+
+      render json: {orders: @a}, status: :ok
+
     else
-      @orders = Order.joins(:customer).select('orders.*, customers.name')
-                     .where(status: stat[choice - 1].to_s)
+      ks = stat[choice - 1].to_s.downcase
+      @orders = Order.joins(:customer,:referrer).order(created_at: :desc)
+                     .select('orders.*, customers.name,customers.phone,referrers.name as refname')
+                     .where('lower(status) = :key', key: ks)
+      @orders += Order.joins(:customer).select('orders.*, customers.name,customers.phone').order(created_at: :desc).where('lower(status) = :key', key: ks).where(referrer_id: nil)
+
+      @p = @orders.sort_by &:created_at
+      render json: {orders: @p}, status: :ok
+
     end
-    render json: {orders: @orders}, status: :ok
   end
   #end for order
 

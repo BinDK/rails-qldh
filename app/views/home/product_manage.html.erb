@@ -270,6 +270,7 @@
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
                 $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+                $('form#productForm input').val('');
             }
         });
     });

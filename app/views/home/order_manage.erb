@@ -44,8 +44,17 @@
                   <small class="text-center text-bold">Đơn Đã<br>Thanh Toán</small>
 
                 </button>
-              </div>
 
+              </div>
+              <div class="card-tools">
+                <div class="input-group input-group-lg" style="width: 350px;">
+                  <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Tên KH/ SĐT KH, Tên NGT">
+
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
 
             </div>
             <!-- /.card-header -->
@@ -57,13 +66,14 @@
                   <th>Ngày tạo</th>
                   <th>Tổng Tiền</th>
                   <th>Trạng Thái</th>
-                  <th>Của Khách</th>
+                  <th>Của Khách/ SĐT</th>
+                  <th>Người Giới Thiệu</th>
                   <th>Tại</th>
                   <th style="width: 20px;">Thao Tác</th>
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="text-center">
                 <% @orders.each do |order|  %>
                 <%= render :partial =>  'home/part/order', :locals => {:order => order} %>
                 <% end %>
@@ -265,19 +275,87 @@
     }
 
 
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+
+    $('#prodSearch').keyup(debounce(function (event){
+        var kw = $('#prodSearch').val();
+        if(kw == '' && kw.length == 0){
+            findProductByKW(kw,0);
+        }else {
+            findProductByKW(kw,1);
+        }
+
+    },3000));
+    function findProductByKW(kw,choice) {
+        var actionUrl = '<%= find_prod_path %>';
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                kw: kw,
+                choice: choice
+            }, // serializes the form's elements.
+            success: function(data) {
+
+
+                var hold = ''
+                for(let i = 0;i < data.prod.length; i++  ){
+
+                    hold += '<tr><td>'+data.prod[i].name+'</td>';
+                    hold += '<td>'+data.prod[i].price+'</td>';
+                    hold += '<td>'+data.prod[i].volume+'</td>';
+                    hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                }
+                $('#prodTable tbody').html(hold);
+
+            }
+        });
+    }
+
+    $('#prodTable').on('click','.btnUp',function (){
+        var id =  $(this).attr('id').split('-')[1];
+        findProduct(parseInt(id),3)
+    });
+
+
+
     var $btns = $('.statBtn').click(function() {
         $btns.not(this).removeClass('btn-outline-custom');
         var curBTN = $(this);
         var choice = curBTN.attr('title').split('-')[0];
         $.get("<%= find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
             var hold = '';
-            var orders = data.orders;
+            console.log(data)
+                var orders = data.orders.reverse();
+
             for(let i = 0;i < orders.length; i++  ){
                 hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
                 hold+= '<td>'+orders[i].total+'</td>'
                 hold+= '<td>'+orders[i].status+'</td>'
-                hold+= '<td>'+orders[i].name+'</td>'
-                hold+= '<td>'+orders[i].address_info+'</td>'
+                hold+= '<td>'+orders[i].name+' / '+orders[i].phone+'</td>'
+                if(orders[i].refname){
+                    hold+= '<td>'+orders[i].refname+'</td>'
+                }else{
+                    hold+= '<td>Không có ai giới thiệu</td>'
+                }
+                if(orders[i].address_info){
+                    hold+= '<td class="text-wrap">'+orders[i].address_info+'</td>'
+
+                }else{
+                    hold+= '<td>Cập Nhật Địa Chỉ</td>'
+                }
                 hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
                 hold+= '</tr>';
             }

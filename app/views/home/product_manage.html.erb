@@ -1,10 +1,18 @@
 <div class="content-wrapper">
   <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-1">
 
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn rounded-5 float-right plx" id="addProduct" data-toggle="modal" data-target="#modal-md"  style="background-color: rgb(20, 98, 255); color: rgb(245, 235, 216); border-radius: 12px; --darkreader-inline-bgcolor: #0043ca; --darkreader-inline-color: #fae7c4;" data-darkreader-inline-bgcolor="" data-darkreader-inline-color="">Tạo Sản Phẩm&nbsp;&nbsp;&nbsp;
+            <i class="fa-solid fa-solid fa-angle-right"></i>
+          </button>
+        </div>
       </div>
     </div>
+
   </div>
 
   <section class="content">
@@ -19,7 +27,7 @@
 
                     <div class="card-tools">
                       <%= search_form_for@q, url: product_manage_path  do |f| %>
-                        <div class="input-group input-group-lg" style="width: 350px;">
+                        <div class="input-group input-group-sm" style="width: 250px;">
                           <!--                  <input type="text" id="prodSearch" name="table_search" class="" placeholder="Tên KH/ SĐT KH, Tên NGT">-->
                           <%= f.search_field :name_or_volume_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / dung tích'  %>
                           <div class="input-group-append">

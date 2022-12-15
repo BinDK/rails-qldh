@@ -13,6 +13,9 @@ class ApixController < ApplicationController
   before_action :product_params, only: %i[ add_prod update_prod ]
   def add_order
     @number = params[:item_length].to_s.to_i
+    if @number.eql? 0
+      render json: {status: "MISSING", message: "Chưa Chọn Sản Phẩm"}, status: :ok
+    else
     @bb = add_ref(ref_params,params[:orderrefID].to_s.to_i)
     @hold = @bb.nil? ? nil : @bb.id
     @ord = Order.new(order_params)
@@ -21,8 +24,9 @@ class ApixController < ApplicationController
     @ord.referrer_id = @hold
     @ord.save
     add_items(@ord.id,@number)
-
     render json: {status: "SUCCESS", message: "Tạo Đơn Hàng THành Công"}, status: :ok
+
+    end
   end
 
   def product_info

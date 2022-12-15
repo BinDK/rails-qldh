@@ -48,7 +48,7 @@
               </div>
               <div class="card-tools">
                   <%= search_form_for@q, url: order_manage_path  do |f| %>
-                <div class="input-group input-group-lg" style="width: 350px;">
+                <div class="input-group input-group-md" style="width: 250px;">
                     <%= f.search_field :customer_name_or_customer_phone_or_referrer_name_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên KH/ SĐT KH, Tên NGT'  %>
                     <div class="input-group-append">
                       <button class="btn btn-outline-info float-right">

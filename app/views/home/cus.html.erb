@@ -20,7 +20,7 @@
 
               <div class="card-tools">
                 <%= search_form_for@q, url: cus_path  do |f| %>
-                  <div class="input-group input-group-lg" style="width: 350px;">
+                  <div class="input-group input-group-sm" style="width: 250px;">
                     <%= f.search_field :name_or_phone_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / SĐT'  %>
                     <div class="input-group-append">
                       <button class="btn btn-outline-info float-right">
@@ -74,45 +74,6 @@
 
 </div>
 
-<div class="modal fade" id="modal-md">
-
-  <div class="modal-dialog modal-dialog-centered modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Thêm Sản Phẩm </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="productForm">
-
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="pname">Tên Sản Phẩm</label>
-            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
-          </div>
-          <div class="form-group">
-            <label for="pprice">Giá Sản Pẩm</label>
-            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Dung Tích</label>
-            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-          <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
-        </div>
-      </form>
-
-    </div>
-    <!-- /.modal-content -->
-
-  </div>
-  <!-- /.modal-dialog -->
-</div>
-
 <div class="modal fade" id="modal-xl">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -145,7 +106,7 @@
                       <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="customer[name]">
                     </li>
                     <li class="list-group-item">
-                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" name="customer[phone]">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" maxlength="10" name="customer[phone]">
                     </li>
                   </ul>
                   <input type="hidden" name="idCus" id="idCus" value="0">
@@ -195,6 +156,7 @@
 
 <script type="text/javascript" charset="utf-8">
     window.onload = orderSyle();
+    var flagPhone = 0;
 
     function orderSyle() {
         $('#side-cus').addClass('active').css('background-color', '#5403758f');
@@ -256,7 +218,46 @@
         });
     }
 
+    $('.modal-xl').on('input propertychange','#inpPhone',function () {
+        $(this).val($(this).val().replace(/[^0-9+]/g, ''));
+        var hold = $(this).val().length;
+        var checkPhoneURL = "<%= phone_check_path %>";
+        console.log(flagPhone)
+        if (hold == 10 && $(this).val() !=flagPhone){
+            $.ajax({
+                type: "GET",
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                url: checkPhoneURL,
+                data: {
+                    phone:  $(this).val()
+                },
+                success: function(data) {
+                    if(data.status == true) {
+                        toastr.info(data.message, '', {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#cusUpdate').removeAttr('disabled')
 
+                    } else {
+                        toastr.warning(data.customer.name, "Khách Hàng Tên:", {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#inpPhone').addClass("border-warning").css('border-width','thick');
+                        setTimeout(function(){
+                            $('#inpPhone').removeClass("border-warning").css('border-width','1px');
+                        },2000);
+
+                        $('#cusUpdate').attr('disabled','disabled')
+                    }
+                }
+            });
+        }
+
+    });
     function findCusDetail(id,choice) {
         var actionUrl = '<%= cus_search_path %>';
 
@@ -276,7 +277,7 @@
                 $('#demoPhone').html(data.cus.phone);
                 $('#inpName').val (data.cus.name);
                 $('#inpPhone').val(data.cus.phone);
-
+                flagPhone = data.cus.phone;
                 $('#idCus').val(data.cus.id);
             //  Address
                 printAddress(data.address);
@@ -439,12 +440,12 @@
             data: form.serialize(), // serializes the form's elements.
             success: function(data) {
                 if(data.statusx == true){
-                    toastr.success(data.message,'',{
+                    toastr.success('Cập Nhật Thông Tin Thành Công','',{
                         timeOut: 3000,
                         progressBar: true,
                         progressAnimation: 'increasing'
                     });
-
+                    flagPhone = $('#inpPhone').val();
                   $('#demoName').html ($('#inpName').val());
                   $('#demoPhone').html($('#inpPhone').val());
                 }

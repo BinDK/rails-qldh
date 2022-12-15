@@ -22,7 +22,7 @@
 
               <div class="card-tools">
                 <%= search_form_for@q, url: ref_path  do |f| %>
-                  <div class="input-group input-group-lg" style="width: 350px;">
+                  <div class="input-group input-group-sm" style="width: 250px;">
                     <%= f.search_field :name_or_phone_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / SĐT'  %>
                     <div class="input-group-append">
                       <button class="btn btn-outline-info float-right">
@@ -105,7 +105,7 @@
                       <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="referrer[name]">
                     </li>
                     <li class="list-group-item">
-                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" name="referrer[phone]">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" maxlength="10" name="referrer[phone]">
                     </li>
                     <li class="list-group-item">
                       <small></small><b>Banking info</b></small> <textarea type="text" class="float-right border-0" rows="5" id="inpBank" name="referrer[banking_informations]"></textarea>
@@ -162,7 +162,7 @@
 
 <script type="text/javascript" charset="utf-8">
     window.onload = orderSyle();
-
+  var flagPhone = 0;
     function orderSyle() {
         $('#side-ref').addClass('active').css('background-color', '#3A76ABC9');
     }
@@ -223,6 +223,46 @@
         });
     }
 
+    $('.modal-xl').on('input propertychange','#inpPhone',function () {
+        $(this).val($(this).val().replace(/[^0-9+]/g, ''));
+        var hold = $(this).val().length;
+        var checkPhoneURL = "<%= ref_phone_check_path %>";
+        console.log(flagPhone)
+        if (hold == 10 && $(this).val() !=flagPhone){
+            $.ajax({
+                type: "GET",
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                url: checkPhoneURL,
+                data: {
+                    phone:  $(this).val()
+                },
+                success: function(data) {
+                    if(data.status == true) {
+                        toastr.info('Được sử dụng số này', '', {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#refUpdate').removeAttr('disabled')
+
+                    } else {
+                        toastr.warning(data.ref.name, "NGT Tên:", {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#inpPhone').addClass("border-warning").css('border-width','thick');
+                        setTimeout(function(){
+                            $('#inpPhone').removeClass("border-warning").css('border-width','1px');
+                        },2000);
+
+                        $('#refUpdate').attr('disabled','disabled')
+                    }
+                }
+            });
+        }
+
+    });
 
     function findRefDetail(id,choice) {
         var actionUrl = '<%= ref_search_path %>';
@@ -244,7 +284,7 @@
                 $('#inpName').val (data.ref.name);
                 $('#inpPhone').val(data.ref.phone);
                 $('#inpBank').val(data.ref.banking_informations);
-
+                flagPhone = data.ref.phone;
                 $('#idRef').val(data.ref.id);
                 //  Order
                 printOrder(data.orders);
@@ -314,12 +354,12 @@
             data: form.serialize(), // serializes the form's elements.
             success: function(data) {
                 if(data.statusx == true){
-                    toastr.success(data.message,'',{
+                    toastr.success('Cập Nhật Thông Tin Thành Công','',{
                         timeOut: 3000,
                         progressBar: true,
                         progressAnimation: 'increasing'
                     });
-
+                    flagPhone = $('#inpPhone').val();
                     $('#demoName').html ($('#inpName').val());
                     $('#demoPhone').html($('#inpPhone').val());
 

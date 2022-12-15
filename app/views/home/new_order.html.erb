@@ -543,7 +543,20 @@
              url: actionUrl,
              data: form + '&'+ $.param(items),
              success: function (data) {
-                console.log(data + "xxx");
+              if(data.status == "SUCCESS"){
+
+                 toastr.success(data.message,'',{
+                     timeOut: 3000,
+                     progressBar: true,
+                     progressAnimation: 'increasing'
+                 });
+              } else{
+                  toastr.warning(data.message,'',{
+                      timeOut: 3000,
+                      progressBar: true,
+                      progressAnimation: 'increasing'
+                  });
+              }
 
              }
          });

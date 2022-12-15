@@ -47,13 +47,17 @@
 
               </div>
               <div class="card-tools">
+                  <%= search_form_for@q, url: order_manage_path  do |f| %>
                 <div class="input-group input-group-lg" style="width: 350px;">
-                  <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Tên KH/ SĐT KH, Tên NGT">
-
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
-                  </div>
+<!--                  <input type="text" id="prodSearch" name="table_search" class="" placeholder="Tên KH/ SĐT KH, Tên NGT">-->
+                    <%= f.search_field :customer_name_or_customer_phone_or_referrer_name_cont, class:'form-control float-right',autocomplete:'off'  %>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info float-right">
+                        <%= f.submit '',class:'fas fa-glasses' %>
+                      </button>
+                    </div>
                 </div>
+                  <% end %>
               </div>
 
             </div>
@@ -75,8 +79,17 @@
 
                 <tbody class="text-center">
                 <% @orders.each do |order|  %>
-                <%= render :partial =>  'home/part/order', :locals => {:order => order} %>
+                  <tr>
+                    <td><%= l(order.created_at,format: :custom) %></td>
+                    <td><%= order.total %></td>
+                    <td><%= order.status %></td>
+                    <td ><%= order.customer.name %> / <%= order.customer.phone %></td>
+                    <td><%= order.referrer.nil? ? 'Không có ai giới thiệu' : order.referrer.name %></td>
+                    <td class="text-wrap"><%= order.address_info %></td>
+                    <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
+                  </tr>
                 <% end %>
+
                 </tbody>
 
 
@@ -167,7 +180,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
               </table>
             </div>
@@ -228,12 +240,6 @@
     <!-- /.modal-content -->
 
   </div>
-  <!-- /.modal-dialog -->
-</div>
-
-<div class="modal fade" id="modal-md2">
-
-
   <!-- /.modal-dialog -->
 </div>
 

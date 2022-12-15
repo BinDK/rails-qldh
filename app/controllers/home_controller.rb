@@ -30,8 +30,10 @@ class HomeController < ApplicationController
   end
 
   def order_manage
-    @entries = 3
-    @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
+
+    @q = Order.ransack(params[:q])
+    @pagy,@orders = pagy(@q.result.includes(:customer,:referrer).order(created_at: :desc).all_except('hoàn tất đơn'))
+    # @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
   end
 
   private

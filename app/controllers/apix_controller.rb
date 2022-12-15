@@ -94,6 +94,7 @@ class ApixController < ApplicationController
   #For Product
   def add_prod
     @product = Product.new(product_params)
+    puts @product.price
     @product.save
     render json: {prod: @product ,
                   message: "Thêm Sản Phẩm Thành Công"}, status: :ok

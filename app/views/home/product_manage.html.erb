@@ -176,6 +176,7 @@
         $('#side-order3').css('color', '#000');
     }
 
+
     function debounce(fn, delay) {
         var timer = null;
         return function () {
@@ -246,7 +247,7 @@
             success: function(data) {
 
               $('form#productUForm #pname').val(data.prod.name);
-              $('form#productUForm #pprice').val(data.prod.price);
+              $('form#productUForm #pprice').val(data.prod.price.replace('.',','));
               $('form#productUForm #pvol').val(data.prod.volume);
               $('form#productUForm #prodID').val(data.prod.id)
 
@@ -254,17 +255,34 @@
         });
     }
 
+    // document.getElementById("pprice").addEventListener("input", function() {
+    //     var stringMoney = this.value;
+    //     var convert = stringMoney.replace(/\,/g, '');
+    //     this.value = convert.toLocaleString()
+    // });
+    $("#productForm #pprice, #productUForm #pprice ").keyup(function(){
+        var str = $(this).val();
+        str = str.replace(/\D+/g, '');
+        $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&,'));
+    });
 
     $("#createProd").click(function(e) {
         e.preventDefault();
         var actionUrl = '<%= add_prod_path %>';
-        var form = $('form#productForm');
+        var fixx = parseFloat($('#productForm #pprice').val().split(',').join("")/1000).toFixed(3);
+        var prod= {
+            product:{
+                name: $('#productForm #pname').val(),
+                price: fixx,
+                volume:  $('#productForm #pvol').val()
+            }
+        };
 
         $.ajax({
             type: "POST",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
+            data: $.param(prod), // serializes the form's elements.
             success: function(data) {
                 toastr.success(data.prod.name,data.message,{
                     timeOut: 3000,
@@ -316,13 +334,20 @@
         $(".uProd").click(function(e) {
         e.preventDefault();
         var actionUrl = '<%= update_prod_path %>';
-        var form = $('form#productUForm');
-
+            var fixx = parseFloat($('#productUForm #pprice').val().split(',').join("")/1000).toFixed(3);
+            var prod= {
+                id: parseInt($('#productUForm #prodID').val()),
+                product:{
+                    name: $('#productUForm #pname').val(),
+                    price: fixx,
+                    volume:  $('#productUForm #pvol').val()
+                }
+            };
         $.ajax({
             type: "PUT",
             beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
             url: actionUrl,
-            data: form.serialize(), // serializes the form's elements.
+            data: $.param(prod), // serializes the form's elements.
             success: function(data) {
                 toastr.success(data.message,'',{
                     timeOut: 3000,

@@ -12,11 +12,13 @@ class HomeController < ApplicationController
 
   end
   def cus
-    @pagy,@customers = pagy(Customer.all)
+    @q = Customer.all.ransack(params[:q])
+    @pagy,@customers = pagy(@q.result.order(created_at: :desc))
 
   end
   def ref
-    @pagy,@refs = pagy(Referrer.all)
+    @q = Referrer.all.ransack(params[:q])
+    @pagy,@refs = pagy(@q.result.order(created_at: :desc))
 
   end
   def new_order
@@ -25,7 +27,9 @@ class HomeController < ApplicationController
   end
 
   def product_manage
-    @pagy,@products = pagy(Product.all)
+    @q = Product.all.ransack(params[:q])
+    @pagy,@products = pagy(@q.result.order(created_at: :desc))
+
 
   end
 

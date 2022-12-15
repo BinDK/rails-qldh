@@ -19,11 +19,16 @@
               <h3 class="card-title">Tất cả KH</h3>
 
               <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Tên / SĐT">
-
-
-                </div>
+                <%= search_form_for@q, url: cus_path  do |f| %>
+                  <div class="input-group input-group-lg" style="width: 350px;">
+                    <%= f.search_field :name_or_phone_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / SĐT'  %>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info float-right">
+                        <%= f.submit '',class:'fas fa-glasses' %>
+                      </button>
+                    </div>
+                  </div>
+                <% end %>
               </div>
             </div>
             <!-- /.card-header -->

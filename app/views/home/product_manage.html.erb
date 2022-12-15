@@ -18,13 +18,17 @@
                     <h3 class="card-title">Tất cả sản phẩm</h3>
 
                     <div class="card-tools">
-                      <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" id="prodSearch" name="table_search" class="form-control float-right" placeholder="Tên / dung tích">
-
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-success float-right" id="addProduct" data-toggle="modal" data-target="#modal-md"><i class="fas fa-plus"></i></button>
+                      <%= search_form_for@q, url: product_manage_path  do |f| %>
+                        <div class="input-group input-group-lg" style="width: 350px;">
+                          <!--                  <input type="text" id="prodSearch" name="table_search" class="" placeholder="Tên KH/ SĐT KH, Tên NGT">-->
+                          <%= f.search_field :name_or_volume_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / dung tích'  %>
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-info float-right">
+                              <%= f.submit '',class:'fas fa-glasses' %>
+                            </button>
+                          </div>
                         </div>
-                      </div>
+                      <% end %>
                     </div>
                   </div>
                   <!-- /.card-header -->

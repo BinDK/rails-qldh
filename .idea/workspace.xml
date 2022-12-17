@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="moving project last commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/controllers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/controllers/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/home/cus.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/cus.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/ref.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/ref.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +240,7 @@
       <workItem from="1670857272102" duration="6278000" />
       <workItem from="1670893447221" duration="95495000" />
       <workItem from="1671262449429" duration="1135000" />
-      <workItem from="1671276365991" duration="5556000" />
+      <workItem from="1671276365991" duration="9653000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

@@ -19,10 +19,16 @@
               <h3 class="card-title">Tất cả KH</h3>
 
               <div class="card-tools">
-                <%= search_form_for@q,data:{turbo_frame: :results, turbo_action: 'advance'}, url: cus_path  do |f| %>
+                <%= search_form_for @q, data:{ turbo_frame: :results, turbo_action: 'advance'}, url: cus_path  do |f| %>
+                  <%#= search_form_for @q, data:{controller: 'debounce-form', debounce_form_target: 'form', turbo_frame: :results, turbo_action: 'advance'}, url: cus_path  do |f| %>
+
                   <div class="input-group input-group-sm" style="width: 250px;">
                     <%= f.search_field :name_or_phone_cont,
-                                       oninput: 'this.form.requestSubmit()',class:'form-control float-right',autofocus:true,autocomplete:'off',placeholder:'Tên / SĐT'  %>
+                                       class:'form-control float-right',
+                                       autofocus:true,autocomplete:'off',
+                                       placeholder:'Tên / SĐT',
+                                       oninput: 'this.form.requestSubmit()'%>
+<!--                                       data: { action: 'input->debounce-form#search' }-->
                   </div>
                 <% end %>
               </div>

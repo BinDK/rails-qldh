@@ -1,0 +1,26 @@
+<div class="card-body table-responsive p-0" style="height: 400px;">
+  <table id="prodTable"  class="table table-head-fixed table-striped text-nowrap">
+
+    <thead>
+    <tr>
+      <th>Tên</th>
+      <th>SĐT</th>
+      <th style="width: 20px;">Thao Tác</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @refs.each do |ref|  %>
+      <%= render :partial =>  'home/part/referrer', :locals => {:ref => ref} %>
+    <% end %>
+    </tbody>
+
+
+  </table>
+</div>
+<!-- /.card-body -->
+<div class="card-footer clearfix">
+  <ul class="pagination pagination-sm m-0 float-right">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </ul>
+</div>

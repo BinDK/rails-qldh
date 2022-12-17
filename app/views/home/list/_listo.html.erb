@@ -1,0 +1,33 @@
+<div class="card-body table-responsive p-0" style="height: 400px;">
+  <table id="prodTable"  class="table table-head-fixed table-striped text-nowrap">
+
+    <thead>
+    <tr>
+      <th>Ngày tạo</th>
+      <th>Tổng Tiền</th>
+      <th>Trạng Thái</th>
+      <th>Của Khách/ SĐT</th>
+      <th>Người Giới Thiệu</th>
+      <th>Tại</th>
+      <th style="width: 20px;">Thao Tác</th>
+    </tr>
+    </thead>
+
+    <tbody class="text-center">
+    <% @orders.each do |order|  %>
+      <%= render :partial =>  'home/part/order', :locals => {:order => order} %>
+
+    <% end %>
+
+    </tbody>
+
+
+  </table>
+</div>
+
+<!-- card footer-->
+<div class="card-footer clearfix">
+  <ul class="pagination pagination-sm m-0 float-right">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </ul>
+</div>

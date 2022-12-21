@@ -470,7 +470,7 @@
         }
         else{
             var sum = total - ((total * amount) / 100) + ship;
-            $('input#totalCost').val( parseFloat(sum.toFixed(3)) );
+            $('input#totalCost').val( parseFloat(sum).toFixed(3) );
         }
 
 
@@ -492,7 +492,7 @@
          }
          else{
              var sum = total - ((total * dis) / 100) + amount;
-             $('input#totalCost').val( parseFloat(sum.toFixed(3)));
+             $('input#totalCost').val(parseFloat(sum).toFixed(3));
          }
 
 

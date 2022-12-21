@@ -3,8 +3,36 @@
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
-      <div class="row mb-1">
+      <div class="row mb-2">
+        <div class="col-sm-8">
+          <button class="btn btn-outline-secondary btn-outline-custom mr-2 statBtn" id="stat1" title="0-Tất Cả Đơn">
+            <!--                  <i class="fas fa-boxes"></i>-->
+            <small class="text-center text-bold">Tất cả<br>Đơn</small>
+          </button>
+          <button class="btn btn-outline-secondary mr-2 statBtn" id="stat2" title="1-Mới Tạo">
+            <!--                  <i class="fas fa-box-open"></i>-->
+            <small class="text-center text-bold">Đơn <br>Mới Tạo</small>
+          </button>
 
+          <button class="btn btn-outline-secondary mr-2 statBtn" id="stat3" title="2-Sẵn Sàng Giao">
+            <!--                  <i class="fas fa-box"></i>-->
+            <small class="text-center text-bold">Đơn<br>Giao</small>
+
+          </button>
+
+          <button class="btn btn-outline-secondary mr-2 statBtn" id="stat4" title="3-Giao thành công" >
+            <!--                  <i class="fas fa-dolly-flatbed"></i>-->
+            <small class="text-center text-bold">Đơn Đã<br>Hoàn Tất</small>
+          </button>
+
+          <button class="btn btn-outline-secondary mr-2 statBtn" id="stat5" title="4-Hoàn Tất Đơn">
+            <!--                  <i class="fas fa-check"></i>-->
+            <small class="text-center text-bold">Đơn Đã<br>Thanh Toán</small>
+
+          </button>
+        </div>
+        <div class="col-sm-4">
+        </div>
       </div>
     </div>
   </div>
@@ -19,38 +47,15 @@
             <div class="card-header">
               <div class="card-title">
 
-                <button class="btn btn-outline-secondary btn-outline-custom mr-2 statBtn" id="stat1" title="0-Tất Cả Đơn">
-<!--                  <i class="fas fa-boxes"></i>-->
-                  <small class="text-center text-bold">Tất cả<br>Đơn</small>
-                </button>
-                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat2" title="1-Mới Tạo">
-<!--                  <i class="fas fa-box-open"></i>-->
-                  <small class="text-center text-bold">Đơn <br>Mới Tạo</small>
-                </button>
-
-                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat3" title="2-Sẵn Sàng Giao">
-<!--                  <i class="fas fa-box"></i>-->
-                  <small class="text-center text-bold">Đơn<br>Giao</small>
-
-                </button>
-
-                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat4" title="3-Giao thành công" >
-<!--                  <i class="fas fa-dolly-flatbed"></i>-->
-                  <small class="text-center text-bold">Đơn Đã<br>Hoàn Tất</small>
-                </button>
-
-                <button class="btn btn-outline-secondary mr-2 statBtn" id="stat5" title="4-Hoàn Tất Đơn">
-<!--                  <i class="fas fa-check"></i>-->
-                  <small class="text-center text-bold">Đơn Đã<br>Thanh Toán</small>
-
-                </button>
 
               </div>
               <div class="card-tools">
-                  <%= search_form_for @q,data:{turbo_frame: :results, turbo_action: 'advance'}, url: order_manage_path  do |f| %>
+                  <%= search_form_for @q,data:{controller: 'search-form', search_form_target: 'form', turbo_frame: :results}, url: order_manage_path  do |f| %>
                 <div class="input-group input-group-md" style="width: 250px;">
                     <%= f.search_field :customer_name_or_customer_phone_or_referrer_name_cont, class:'form-control float-right',
-                                       autofocus:true,autocomplete:'off',placeholder:'Tên KH/ SĐT KH, Tên NGT',oninput: 'this.form.requestSubmit()'  %>
+                                       autofocus:true,autocomplete:'off',
+                                       placeholder:'Tên KH/ SĐT KH, Tên NGT',
+                                       data: { action: 'input->search-form#search' }  %>
                 </div>
                   <% end %>
               </div>
@@ -415,9 +420,9 @@
                 $('#lineItems tbody').html(hold);
 
                 $('.orderStat').attr('id',data.order.id);
-                $('#orderSub').html(subtotal);
+                $('#orderSub').html(subtotal.toFixed(3));
                 $('#orderDis').html('Giảm ('+data.order.discount+'%):')
-                $('#orderDisMoney').html(parseFloat((data.order.total * data.order.discount) / 100).toFixed(3))
+                $('#orderDisMoney').html(parseFloat((subtotal.toFixed(3) * data.order.discount) / 100).toFixed(3))
                 $('#orderTotal').html(data.order.total);
                 $('#orderStatus').html(data.order.status);
                 $('#orderShip').html(data.order.shipping_cost);

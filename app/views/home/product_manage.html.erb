@@ -27,10 +27,11 @@
                     <h3 class="card-title">Tất cả sản phẩm</h3>
 
                     <div class="card-tools">
-                      <%= search_form_for@q, data:{turbo_frame: :results, turbo_action: 'advance'},url: product_manage_path  do |f| %>
+                      <%= search_form_for@q, data:{controller: 'search-form', search_form_target: 'form',turbo_frame: :results},url: product_manage_path  do |f| %>
                         <div class="input-group input-group-sm" style="width: 250px;">
-                          <%= f.search_field :name_or_volume_cont, class:'form-control float-right',autofocus:true,autocomplete:'off',
-                                             placeholder:'Tên / dung tích', oninput: 'this.form.requestSubmit()'  %>
+                          <%= f.search_field :name_or_volume_cont, class:'form-control float-right',
+                                             autofocus:true,autocomplete:'off', placeholder:'Tên / dung tích',
+                                             data: { action: 'input->search-form#search' }  %>
 
                         </div>
                       <% end %>
@@ -38,7 +39,7 @@
                   </div>
                   <%= turbo_frame_tag :results do %>
                     <%= render partial: "home/list/listp", locals: { products: @products } %>
-                  <% end%>
+                  <% end %>
 
           </div>
           <!-- /.card -->
@@ -100,7 +101,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="productUForm">
+      <form id="productUForm" autocomplete="off">
 
         <div class="modal-body">
           <div class="form-group">
@@ -171,7 +172,7 @@
 
     },3000));
 
-    $('#prodTable').on('click','.btnUp',function (){
+    $('#prodTable, #results').on('click','.btnUp',function (){
       var id =  $(this).attr('id').split('-')[1];
         findProduct(parseInt(id),3)
     });

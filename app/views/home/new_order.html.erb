@@ -1,4 +1,5 @@
- <div class="content-wrapper">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<div class="content-wrapper">
      <!-- Content Header (Page header) -->
      <div class="content-header">
 
@@ -15,47 +16,6 @@
      <!-- Main content -->
      <section class="content">
          <div class="container-fluid">
-             <!-- Old Customer -->
-             <div class="row">
-                 <div class="col">
-
-                     <div class="card card-outline card-pink">
-                         <div class="card-header">
-                             <h3 class="card-title">Khách Hàng Cũ</h3>
-                         </div>
-                         <div class="card-body">
-                             <div class="row">
-                                 <div class="col col-lg-4 col-md-4">
-                                     <div class="form-group">
-                                         <label for="oldCusSelect">Tên - Số điện thoại</label>
-                                         <select class="form-control" id="oldCusSelect" autocomplete="off">
-                                           <option disabled selected="selected">Chọn Khách Hàng Cũ</option>
-                                           <% @customers.each do |customer|  %>
-                                             <option value="<%= customer.id %>"><%= customer.name %> - <%= customer.phone %></option>
-                                           <% end %>
-                                         </select>
-                                     </div>
-                                 </div>
-                                 <div class="col col-lg-8 col-md-8">
-                                    <div class="form-group">
-                                        <label for="oldAddressSelect">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
-                                        <div class="input-group">
-                                            <select class="custom-select" id="oldAddressSelect">
-                                            </select>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-danger" id="chooseCusAddr">Chọn</button>
-                                            </div>
-                                        </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-
-                     </div>
-                 </div>
-             </div>
-             <!-- /.Old Customer -->
-
 
              <div class="row">
 
@@ -70,22 +30,37 @@
                                      <div class="col">
                                          <div class="form-group">
                                              <label for="cusName">Họ Tên</label>
-                                             <input type="text" class="form-control" id="cusName" name="customer[name]" placeholder="Tên Khách Hàng">
+                                             <input type="text" class="form-control" id="cusName" name="customer[name]" placeholder="Tên Khách Hàng" required>
                                          </div>
                                      </div>
 
                                      <div class="col">
                                          <div class="form-group">
                                              <label for="cusPhone">Số Điện Thoại</label>
-                                             <input type="text" minlength="10" maxlength="10" class="form-control" id="cusPhone" placeholder="Phone" name="customer[phone]">
+                                             <input type="text" minlength="10" maxlength="10" class="form-control" id="cusPhone" placeholder="Phone" name="customer[phone]" required>
                                          </div>
                                      </div>
                                  </div>
+                               <div class="row">
+                                 <div class="col">
+                                   <div class="form-group">
+                                     <label for="oldAddressSelect">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
+                                     <div class="input-group">
+                                       <select class="custom-select" id="oldAddressSelect">
+                                       </select>
+                                       <div class="input-group-append">
+                                         <button class="btn btn-outline-danger" id="chooseCusAddr">Chọn</button>
+                                       </div>
+                                     </div>
+                                   </div>
+
+                                 </div>
+                               </div>
                                  <div class="row">
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="province">Tỉnh - Thành Phố</label>
-                                             <select name="address[province_city]" class="form-control fsel" id="province">
+                                             <select name="address[province_city]" class="form-control fsel" id="province" required>
                                              </select>
                                          </div>
                                      </div>
@@ -93,7 +68,7 @@
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="district">Quận - Hyện</label>
-                                             <select name="address[district]" class="form-control fsel" id="district">
+                                             <select name="address[district]" class="form-control fsel" id="district" required>
                                              </select>
                                          </div>
                                      </div>
@@ -101,14 +76,14 @@
                                      <div class="col col-md-4">
                                          <div class="form-group">
                                              <label for="ward">Phường - Xã</label>
-                                             <select name="address[ward]" class="form-control fsel" id="ward">
+                                             <select name="address[ward]" class="form-control fsel" id="ward" required>
                                              </select>
                                          </div>
                                      </div>
 
                                  </div>
 
-                                 <input class="form-control" type="text" id="street" name="address[street]" placeholder="Địa chỉ và tên đường">
+                                 <input class="form-control" type="text" id="street" name="address[street]" placeholder="Địa chỉ và tên đường" required>
 
                              </div>
 
@@ -166,17 +141,13 @@
                          <div class="col">
                            <div class="form-group">
                              <label for="prods">Các Sản Phẩm</label>
-                             <div class="input-group">
-                               <select class="custom-select" id="prods">
+                               <select  id="prods" data-controller="slim-search">
                                  <option selected>Chọn sản phẩm</option>
                                  <% @products.each do |product|  %>
                                    <option value="<%= product.id %>"><%= product.name %> - <%= product.volume %> - <%= product.price %></option>
                                  <% end %>
                                </select>
-                               <div class="input-group-append">
-                                 <button class="btn btn-outline-danger" id="prodChoose" onclick="event.preventDefault();">Chọn</button>
-                               </div>
-                             </div>
+
                            </div>
                          </div>
                        </div>
@@ -281,7 +252,47 @@
    }
  </style>
  <script>
+     $('#refName').autocomplete({
+         source: function (request, response) {
+             $.getJSON("<%= ref_name_search_path %>", {term: request.term}, function (data) {
+                 response($.map(data.ref, function (value, key) {
+                     return {
+                         label: value.name +' - ' + value.phone ,
+                         bank: value.banking_informations,
+                         objID: value.id,
+                         value: value.name
+                     };
+                 }));
+             });
+         },
+         minLength: 2,
+         select: function( event, ui ) {
+             $('#refPhone').val(ui.item.label.split(' - ')[1]);
+             $('#orderrefID').val(ui.item.objID);
+             $('#refBank').val(ui.item.bank);
+         }
+     })
 
+     $('#cusName').autocomplete({
+         source: function (request, response) {
+             $.getJSON("<%= cus_name_search_path %>", {term: request.term}, function (data) {
+                 response($.map(data.cus, function (value, key) {
+                     return {
+                         label: value.name +' - ' + value.phone ,
+                         objID: value.id,
+                         value: value.name
+                     };
+                 }));
+             });
+                 },
+         minLength: 2,
+         select: function( event, ui ) {
+             $('#cusPhone').val(ui.item.label.split(' - ')[1]);
+             $('#oldCusID').val(ui.item.objID);
+             $('#orderCusID').val(ui.item.objID);
+             oldCus(ui.item.objID);
+         }
+     })
      window.onload = orderSyle();
      window.onload = callPro(undefined);
 
@@ -321,17 +332,30 @@
              url: actionUrl,
              data: form.serialize() +'&'+ $.param(adress), // serializes the form's elements.
              success: function(data) {
-                 toastr.success(data.customer.name,data.message,{
+
+                     toastr.success(data.customer.name, data.message, {
+                         timeOut: 3000,
+                         progressBar: true,
+                         progressAnimation: 'increasing'
+                     });
+                     $('#orderCusID').val(data.customer.id);
+                     $('#oldCusID').val(data.customer.id);
+                     if (data.address) {
+                         $("#oldAdress").val(data.address.id);
+                         $('#address_info').val(data.address.street + ', ' + data.address.ward + ', ' + data.address.district + ', ' + data.address.province_city)
+                     }
+                 $('#createOrder').removeClass('disabled')
+
+             },
+             error: function (xhr, ajaxOptions, thrownError) {
+
+
+                 toastr.error(xhr.responseJSON.missing_msg, '', {
                      timeOut: 3000,
                      progressBar: true,
                      progressAnimation: 'increasing'
                  });
-                 $('#orderCusID').val(data.customer.id);
-                 $('#oldCusID').val(data.customer.id);
-                 if(data.address ){
-                 $("#oldAdress").val(data.address.id);
-                 $('#address_info').val(data.address.street+', '+data.address.ward+', '+data.address.district+', '+data.address.province_city)
-              }
+                 $('#createOrder').addClass('disabled')
              }
          });
 
@@ -340,7 +364,7 @@
      //Print line items
      var stt =1;
      var total=0;
-     $('#prodChoose').click(function(){
+     $('#prods').on('click change',function(){
          var id= $("#prods").find(":selected").val();
          var dis = parseInt($('#discount').val());
          var ship = parseFloat($('#shipping').val());
@@ -519,6 +543,18 @@
          }
      }
 
+     //2 function dưới dùng khi mà thay đổi thông tin cus / ref cũ
+     // đã chọn theo autocomplêt
+     $('#refForm input').on('input',function (){
+        $('#orderrefID').val(0)
+     });
+     $('#cusName, #cusPhone').bind('input',function (){
+         $('#orderCusID').val(0)
+         $('#oldCusID').val(0)
+         $('#address_info').val('')
+         $('#oldAddressSelect').html('')
+     });
+
      $("#createOrder").click(function(e) {
          e.preventDefault();
          var rowCount = $('#line_items tbody tr').length;
@@ -595,9 +631,7 @@
      }
 
 
-     $('#oldCusSelect').bind('change',function () {
-         var id = $(this).find(":selected").val();
-
+     function oldCus (id) {
          $.get("<%= customer_address_path  %>",{id:id}, function(data) {
              var hold = ""
              data.addrs.forEach(x => {
@@ -605,23 +639,18 @@
              });
              $("#oldAddressSelect").html(hold);
          });
-     });
+     };
 
-     $('#chooseCusAddr').bind('click',function () {
-         var idOldCus = $('#oldCusSelect').find(":selected");
+     $('#chooseCusAddr').bind('click',function (e) {
+         e.preventDefault();
          var choosen_addr = $('#oldAddressSelect').find(":selected");
-         var h1 = idOldCus.html().split(' - ');
          var h3 = choosen_addr.html();
          var h2 = choosen_addr.html().split(', ');
 
-         $('#oldCusID').val(idOldCus.val());
-         $('#orderCusID').val(idOldCus.val());
          $('#oldAdress').val(choosen_addr.val());
          $('#address_info').val(h3);
 
 
-         $('#cusName').val(h1[0]);
-         $('#cusPhone').val(h1[1]);
 
          $('#province option').each(function () {
              if($(this).html() == h2[3]){
@@ -678,6 +707,7 @@
                                progressBar: true,
                                progressAnimation: 'increasing'
                            });
+                           $('#createCus').removeClass('disabled').removeAttr('disabled');
                            $('#oldCusID').val(0);
                        } else {
                            toastr.warning(data.customer.name, "Khách Hàng Tên:", {
@@ -689,9 +719,7 @@
                            setTimeout(function(){
                                $('#cusPhone').removeClass("border-warning").css('border-width','1px');
                            },2000);
-                           $('#oldCusID').val(data.customer.id);
-                           $('#orderCusID').val(data.customer.id);
-
+                          $('#createCus').addClass('disabled').attr('disabled');
                        }
                     }
                 });

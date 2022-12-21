@@ -68,12 +68,18 @@ class ApixController < ApplicationController
     msg = ["Đã tạo địa chỉ thành công cho KH","Địa chỉ cũ Cho KH"]
     if @cus_id.eql? 0
       @new_customer = Customer.new(customer_params)
-      @new_customer.save
-
-      create_address(address_params,@new_customer.id)
+      if @new_customer.save
+        if create_address(address_params,@new_customer.id) == true
       render json: {customer: @new_customer,
                     address: @customer_address ,
                     message: msg[0]}, status: :ok
+        else
+          render json: {missing_msg: 'Thiếu Địa Chỉ Cho KH '}, status: :expectation_failed
+          end
+      else
+        render json: {missing_msg: 'Thiếu Một Vài Thông Tin KH'}, status: :unprocessable_entity
+      end
+
     else
       @old_cus = Customer.find(@cus_id)
       if @old_address.eql? 0
@@ -222,6 +228,13 @@ class ApixController < ApplicationController
       render json: {cus: @cuss }, status: :ok
     end
   end
+
+  def cus_name_search
+    kw = "%#{Customer.sanitize_sql_like(params[:term])}%"
+    @c = Customer.where("lower(name) like :keyx or lower(phone) like :keyx", keyx: kw.downcase).select(:id,:name,:phone)
+    render json: {cus: @c }, status: :ok
+
+  end
   def cus_info_update
     if @cus.update(customer_params)
       render json: {statusx: true }, status: :ok
@@ -252,6 +265,13 @@ class ApixController < ApplicationController
                              keyx: kw.downcase)
       render json: {ref: @refs }, status: :ok
     end
+  end
+
+  def ref_name_search
+    kw = "%#{Referrer.sanitize_sql_like(params[:term])}%"
+    @r = Referrer.where("lower(name) like :keyx or lower(phone) like :keyx", keyx: kw.downcase).select(:id,:name,:phone,:banking_informations)
+    render json: {ref: @r }, status: :ok
+
   end
   def ref_info_update
     if @ref.update(ref_params)
@@ -330,7 +350,11 @@ class ApixController < ApplicationController
   def create_address(paramx,cust_id)
     @customer_address = Address.new(paramx)
     @customer_address.customer_id = cust_id
-    @customer_address.save
+    if @customer_address.save
+      return true
+    else
+      return false
+    end
   end
 
   def set_cus

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       get 'product_info', to: 'apix#product_info'
       post 'customer_check', to: 'apix#customer_check'
       get 'customer_address', to: 'apix#customer_address'
+      get 'cus_name_search', to: 'apix#cus_name_search'
+      get 'ref_name_search', to: 'apix#ref_name_search'
 
 
       post 'add_prod', to: 'apix#add_prod'

@@ -421,8 +421,18 @@
 
                 $('.orderStat').attr('id',data.order.id);
                 $('#orderSub').html(subtotal.toFixed(3));
-                $('#orderDis').html('Giảm ('+data.order.discount+'%):')
-                $('#orderDisMoney').html(parseFloat((subtotal.toFixed(3) * data.order.discount) / 100).toFixed(3))
+
+                if(data.order.discount_unit == 'percentage'){
+                    $('#orderDis').html('Giảm ('+data.order.discount_value+'%):')
+                    $('#orderDisMoney').html(parseFloat((subtotal.toFixed(3) * data.order.discount_value) / 100).toFixed(3))
+                } else if(data.order.discount_unit == 'by_price'){
+                    $('#orderDis').html('Giảm ('+data.order.discount_value+'VNĐ):')
+                    $('#orderDisMoney').html(parseFloat(subtotal.toFixed(3) - data.order.discount_value).toFixed(3))
+                }else{
+                    $('#orderDis').html('Không Giảm')
+                    $('#orderDisMoney').html(0)
+                }
+
                 $('#orderTotal').html(data.order.total);
                 $('#orderStatus').html(data.order.status);
                 $('#orderShip').html(data.order.shipping_cost);

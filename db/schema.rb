@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_06_073208) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_22_122649) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_073208) do
   create_table "orders", force: :cascade do |t|
     t.string "payment_method"
     t.decimal "shipping_cost"
-    t.decimal "discount"
+    t.decimal "discount_value"
     t.string "status"
     t.datetime "completed_at"
     t.text "note"
@@ -57,6 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_073208) do
     t.bigint "referrer_id"
     t.decimal "total"
     t.text "address_info"
+    t.integer "discount_unit", default: 0
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["referrer_id"], name: "index_orders_on_referrer_id"
   end

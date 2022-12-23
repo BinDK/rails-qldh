@@ -22,6 +22,7 @@ class ApixController < ApplicationController
     @ord.status = "Mới Tạo"
     @ord.completed_at = nil
     @ord.referrer_id = @hold
+    @ord.discount_unit = params[:unit].to_s.to_i
     @ord.save
     add_items(@ord.id,@number)
     render json: {status: "SUCCESS", message: "Tạo Đơn Hàng THành Công"}, status: :ok
@@ -292,7 +293,7 @@ class ApixController < ApplicationController
   end
   def order_params
     params.fetch(:order,{}).permit(
-      :payment_method, :total, :discount, :shipping_cost,
+      :payment_method, :total, :discount_value, :shipping_cost,
       :note, :customer_id, :address_info)
   end
   def ref_params

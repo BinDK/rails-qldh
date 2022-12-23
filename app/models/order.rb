@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  enum :discount_unit , {no_discount: 0,percentage: 1, by_price: 2 }
   belongs_to :referrer,:optional => true
   belongs_to :customer
   has_many :line_items

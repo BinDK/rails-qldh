@@ -16,119 +16,128 @@
      <!-- Main content -->
      <section class="content">
          <div class="container-fluid">
+      <div class="row">
+        <div class="col col-lg-8 col-md-8">
+          <div class="card card-outline card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Khách Hàng Mới</h3>
+            </div>
+            <form id="cusForm" autocomplete="off">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="cusName">Họ Tên</label>
+                      <input type="text" class="form-control" id="cusName" name="customer[name]" placeholder="Tên Khách Hàng" required>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="cusPhone">Số Điện Thoại</label>
+                      <input type="text" minlength="10" maxlength="10" class="form-control" id="cusPhone" placeholder="Phone" name="customer[phone]" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="oldAddressSelect">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
+                      <div class="input-group">
+                        <select class="custom-select" id="oldAddressSelect">
+                        </select>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-danger" id="chooseCusAddr">Chọn</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col col-md-4">
+                    <div class="form-group">
+                      <label for="province">Tỉnh - Thành Phố</label>
+                      <select name="address[province_city]" class="form-control fsel" id="province" required>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col col-md-4">
+                    <div class="form-group">
+                      <label for="district">Quận - Hyện</label>
+                      <select name="address[district]" class="form-control fsel" id="district" required>
+                        <option disabled selected>Chọn Tỉnh Trước</option>
+
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col col-md-4">
+                    <div class="form-group">
+                      <label for="ward">Phường - Xã</label>
+                      <select name="address[ward]" class="form-control fsel" id="ward" required>
+                        <option disabled selected>Chọn Tỉnh Trước</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
+                <input class="form-control" type="text" id="street" name="address[street]" placeholder="Địa chỉ và tên đường" required>
+
+              </div>
+
+              <div class="card-footer">
+                <input type="hidden" name="oldCusID" id="oldCusID" value="0">
+                <input type="hidden" name="oldAdress" id="oldAdress" value="0">
+                <button id="createCus" type="button" class="btn btn-primary">Tạo Khách</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col col-lg-4 col-md-4">
+          <div class="card card-outline card-danger">
+            <div class="card-header">
+              <h3 class="card-title">Người Giới Thiệu</h3>
+            </div>
+            <form id="refForm" autocomplete="off">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="refName">Tên</label>
+                      <input type="text" class="form-control" id="refName" name="referrer[name]" placeholder="Tên Người Giới Thiệu" required="">
+                    </div>
+
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="refPhone">Số Điện Thoại</label>
+                      <input type="text" minlength="10" maxlength="10" class="form-control" id="refPhone" placeholder="Phone" name="referrer[phone]" required="" style="border-width: 1px;">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="refBank">Thông Tin Chuyển Khoản</label>
+                      <textarea type="text" rows="9" class="form-control" id="refBank" placeholder="Thông Tin Chuyển Khoản Của người giới thiệu" name="referrer[banking_informations]" required="" style="border-width: 1px;"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+<!--        END Cus + ref row-->
+      </div>
 
              <div class="row">
-
-                 <div class="col col-lg-5 col-md-5">
-                     <div class="card card-outline card-primary">
-                         <div class="card-header">
-                             <h3 class="card-title">Khách Hàng Mới</h3>
-                         </div>
-                         <form id="cusForm" autocomplete="off">
-                             <div class="card-body">
-                                 <div class="row">
-                                     <div class="col">
-                                         <div class="form-group">
-                                             <label for="cusName">Họ Tên</label>
-                                             <input type="text" class="form-control" id="cusName" name="customer[name]" placeholder="Tên Khách Hàng" required>
-                                         </div>
-                                     </div>
-
-                                     <div class="col">
-                                         <div class="form-group">
-                                             <label for="cusPhone">Số Điện Thoại</label>
-                                             <input type="text" minlength="10" maxlength="10" class="form-control" id="cusPhone" placeholder="Phone" name="customer[phone]" required>
-                                         </div>
-                                     </div>
-                                 </div>
-                               <div class="row">
-                                 <div class="col">
-                                   <div class="form-group">
-                                     <label for="oldAddressSelect">Đường, Phường, Quận, Tỉnh-Thành Phố</label>
-                                     <div class="input-group">
-                                       <select class="custom-select" id="oldAddressSelect">
-                                       </select>
-                                       <div class="input-group-append">
-                                         <button class="btn btn-outline-danger" id="chooseCusAddr">Chọn</button>
-                                       </div>
-                                     </div>
-                                   </div>
-
-                                 </div>
-                               </div>
-                                 <div class="row">
-                                     <div class="col col-md-4">
-                                         <div class="form-group">
-                                             <label for="province">Tỉnh - Thành Phố</label>
-                                             <select name="address[province_city]" class="form-control fsel" id="province" required>
-                                             </select>
-                                         </div>
-                                     </div>
-
-                                     <div class="col col-md-4">
-                                         <div class="form-group">
-                                             <label for="district">Quận - Hyện</label>
-                                             <select name="address[district]" class="form-control fsel" id="district" required>
-                                             </select>
-                                         </div>
-                                     </div>
-
-                                     <div class="col col-md-4">
-                                         <div class="form-group">
-                                             <label for="ward">Phường - Xã</label>
-                                             <select name="address[ward]" class="form-control fsel" id="ward" required>
-                                             </select>
-                                         </div>
-                                     </div>
-
-                                 </div>
-
-                                 <input class="form-control" type="text" id="street" name="address[street]" placeholder="Địa chỉ và tên đường" required>
-
-                             </div>
-
-                             <div class="card-footer">
-                               <input type="hidden" name="oldCusID" id="oldCusID" value="0">
-                               <input type="hidden" name="oldAdress" id="oldAdress" value="0">
-                               <button id="createCus" type="button" class="btn btn-primary">Tạo Khách</button>
-                             </div>
-                         </form>
-                     </div>
-
-                   <!-- Ref form-->
-                   <div class="card card-outline card-danger">
-                     <div class="card-header">
-                       <h3 class="card-title">Người Giới Thiệu</h3>
-                     </div>
-                     <form id="refForm" autocomplete="off">
-                       <div class="card-body">
-                         <div class="row">
-                           <div class="col">
-                             <div class="form-group">
-                               <label for="refName">Tên</label>
-                               <input type="text" class="form-control" id="refName" name="referrer[name]" placeholder="Tên Người Giới Thiệu" required="">
-                             </div>
-                             <div class="form-group">
-                               <label for="refPhone">Số Điện Thoại</label>
-                               <input type="text" minlength="10" maxlength="10" class="form-control" id="refPhone" placeholder="Phone" name="referrer[phone]" required="" style="border-width: 1px;">
-                             </div>
-                           </div>
-                           <div class="col">
-                             <div class="form-group">
-                               <label for="refBank">Thông Tin Chuyển Khoản</label>
-                               <textarea type="text" rows="4" class="form-control" id="refBank" placeholder="Thông Tin Chuyển Khoản Của người giới thiệu" name="referrer[banking_informations]" required="" style="border-width: 1px;"></textarea>
-                             </div>
-                           </div>
-                         </div>
-                       </div>
-
-                     </form>
-                   </div>
-                 </div>
-
-                 <!--/end left col  -->
-
-               <div class="col col-lg-7 col-md-7">
+               <!-- Line items-->
+               <div class="col">
                  <div class="card card-outline card-warning">
                    <div class="card-header">
                      <h3 class="card-title">Đơn Hàng</h3>
@@ -142,7 +151,7 @@
                            <div class="form-group">
                              <label for="prods">Các Sản Phẩm</label>
                                <select  id="prods" data-controller="slim-search">
-                                 <option selected>Chọn sản phẩm</option>
+                                 <option disabled selected>Chọn sản phẩm</option>
                                  <% @products.each do |product|  %>
                                    <option value="<%= product.id %>"><%= product.name %> - <%= product.volume %> - <%= product.price %></option>
                                  <% end %>
@@ -153,10 +162,10 @@
                        </div>
 
                        <div class="row">
-                         <div class="col">
+                         <div class="col col-lg-8 col-md-8">
                            <div class="card">
 
-                             <div class="card-body table-responsive p-0" style="height:300px;">
+                             <div class="card-body table-responsive p-0" style="height:400px;">
                                <table class="table" id="line_items">
                                  <thead>
                                  <tr>
@@ -175,27 +184,48 @@
                              </div>
 
                            </div>
+                         </div>
+                         <div class="col col-lg-4 col-md-4">
+                           <div class="form-group row">
+                             <label for="staticEmail" class="col-sm-2 col-form-label">Tổng tiền sản phẩm</label>
+                             <div class="col-sm-10">
+                               <input type="text" readonly="readonly" class="form-control-plaintext float-right text-success" id="preMoney" value="0">
+                             </div>
+                           </div>
+                           <div class="form-group row">
+                             <label for="discountv1" class="col-sm-2 col-form-label">Giảm Theo Phần Trăm</label>
+                             <div class="col-sm-10">
+                               <input type="text" value="0" min="0" max="100" minlength="1" size="2" maxlength="2"  class="form-control text-right diss" id="discountv1">
+                               <small class="float-right">Đã giảm: <span id="preDis" class="text-bold"></span></small>
+                             </div>
+                           </div>
+                           <div class="form-group row">
+                             <label for="discountv2" class="col-sm-2 col-form-label">Giảm Tùy Chỉnh</label>
+                             <div class="col-sm-10">
+                               <input type="text" value="0"  class="form-control text-right diss" id="discountv2">
+                             </div>
+                           </div>
+                           <div class="form-group row">
+                             <label for="shipping" class="col-sm-2 col-form-label">Phí Vận Chuyển</label>
+                             <div class="col-sm-10">
+                               <input type="text" min="0" value="0"  class="form-control text-right" id="shipping">
+
+                             </div>
+                           </div>
+
+                           <div class="form-group row">
+                             <label for="totalCost" class="col-sm-2 col-form-label">Thành Tiền</label>
+                             <div class="col-sm-10">
+                               <input type="text" readonly="readonly"  id="totalCost" class="float-right" >
+                             </div>
+                           </div>
 
                          </div>
 
                        </div>
 
                        <div class="row">
-                         <div class="col col-md-3">
-                           <div class="form-group">
-                             <label for="discount">Giảm Giá</label>
-                             <input type="number" value="0" min="0" max="100" step="1" minlength="1" name="order[discount]" maxlength="2" class="form-control" id="discount">
 
-                           </div>
-                         </div>
-
-                         <div class="col col-md-3">
-                           <div class="form-group">
-                             <label for="shipping">Phí Vận Chuyển</label>
-                             <input type="number" min="0" value="0" name="order[shipping_cost]" class="form-control" id="shipping">
-
-                           </div>
-                         </div>
 
                          <div class="col col-md-4">
                            <div class="form-group">
@@ -222,23 +252,35 @@
                        <input type="hidden" name="order[customer_id]" id="orderCusID" value="0" required="">
                        <input type="hidden" name="orderrefID" id="orderrefID" value="0" required="">
                        <input type="hidden" name="order[address_info]" id="address_info" value="" required="">
+                       <input type="hidden" name="unit" id="discount_unit" value="0" required="">
+
                        <button type="button" class="btn btn-primary" id="createOrder">Tạo Đơn</button>
-                       <input type="text" name="order[total]" id="totalCost" class="float-right" >
+<!--                       <input type="text" name="order[total]" id="totalCost" class="float-right" >-->
                      </div>
                    </form>
                  </div>
 
                </div>
+               <!-- End Line items-->
 
              </div>
-
-
          </div>
      </section>
      <!-- /.content -->
  </div>
  <style>
-   #totalCost{
+     .btnx::-webkit-outer-spin-button,
+     .btnx::-webkit-inner-spin-button {
+         -webkit-appearance: none;
+         margin: 0;
+     }
+
+     /* Firefox */
+     .btnx {
+         -moz-appearance: textfield;
+         width: 60px;
+     }
+   #totalCost, #preMoney{
        background-color: transparent;
        color:red;
        font-size: 24px;
@@ -310,6 +352,11 @@
          $('#side_order1').css('color', '#000');
           stuff = [];
      }
+     function numberWithCommas(x) {
+         var parts = x.replace('.','').toString().split(".");
+         parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
+         return parts.join(",");
+     }
 
      $("#cusForm").prop('required',true);
      $("#createCus").click(function(e) {
@@ -344,7 +391,7 @@
                          $("#oldAdress").val(data.address.id);
                          $('#address_info').val(data.address.street + ', ' + data.address.ward + ', ' + data.address.district + ', ' + data.address.province_city)
                      }
-                 $('#createOrder').removeClass('disabled')
+                 $('#createOrder').removeClass('disabled').removeAttr('disabled')
 
              },
              error: function (xhr, ajaxOptions, thrownError) {
@@ -355,36 +402,45 @@
                      progressBar: true,
                      progressAnimation: 'increasing'
                  });
-                 $('#createOrder').addClass('disabled')
+                 $('#createOrder').addClass('disabled').attr('disabled','disabled')
              }
          });
 
      });
 
      //Print line items
-     var stt =1;
+     let stt =1;
      var total=0;
      $('#prods').on('click change',function(){
          var id= $("#prods").find(":selected").val();
-         var dis = parseInt($('#discount').val());
+         var dis = parseInt($('#discountv1').val());
+         var dis2 = parseFloat($('#discountv2').val());
+
          var ship = parseFloat($('#shipping').val());
          const existingItem = stuff.find((item) => {
              return parseInt(id) === item.id;
          });
          if(existingItem){
+             var oldprice = existingItem.qty * existingItem.price;
              existingItem.qty++;
-             $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
-             total = total + existingItem.price;
-             if(dis != 0) $('input#totalCost').val( (total - ((total * dis) / 100) + ship).toFixed(3) );
-             else $('input#totalCost').val( (total + ship).toFixed(3) );
-
+             total = total - oldprice +  (existingItem.qty * existingItem.price) ;
+             $("#"+existingItem.row).closest('tr').find('td #prodQty').val(existingItem.qty);
+             // total = total + existingItem.price;
+             if(dis != 0){
+                 $('input#totalCost').val( numberWithCommas((total - ((total * dis) / 100) + ship).toFixed(3)) );
+             } else if(dis2 != 0){
+                 $('input#totalCost').val( numberWithCommas((total - dis2 + ship).toFixed(3)) );
+             }
+             else {
+                 $('input#totalCost').val( numberWithCommas((total + ship).toFixed(3)) );
+             }
 
          }else{
            $.get("<%= product_info_path %>", {id:id},function(data) {
              var hold = '<tr id="row-'+stt+'">';
                  hold += '<td id="'+data.prod.id+'" >'+ stt +'</td> <td>'+data.prod.name+' - '+data.prod.volume+'</td>';
-                 hold += '<td><i type="button" class="fas fa-angle-down qtybtn" id="down-'+data.prod.id+'"></i>' +
-                     '&nbsp;&nbsp;<span id="prodQty">1</span>&nbsp;&nbsp;' +
+                 hold += '<td class="text-center"><i type="button" class="fas fa-angle-down qtybtn" id="down-'+data.prod.id+'"></i>' +
+                     '&nbsp;&nbsp;<input type="number" min="1" class="border-0 border-bottom-1 bg-transparent btnx text-center" id="prodQty" value="1">&nbsp;&nbsp;' +
                      '<i type="button" class="fas fa-angle-up qtybtn" id="up-'+data.prod.id+'"></i></td>';
                  hold += '<td><span id="prodPrice">'+data.prod.price+'</span></td>';
                  hold += '<td><button type="button" class="btn btn-sm btn-outline-warning btndel">Xóa</button></td>';
@@ -392,16 +448,54 @@
              $("#line_items tbody").append(hold);
              stuff.push({id: parseInt(data.prod.id), price: parseFloat(data.prod.price), qty: 1,row: 'row-'+stt+''});
              total = parseFloat(data.prod.price) + total;
-               if(dis != 0) $('input#totalCost').val( (total - ((total * dis) / 100) + ship).toFixed(3) );
-               else $('input#totalCost').val( (total + ship).toFixed(3) );
+               if(dis != 0){
+                   $('input#totalCost').val( numberWithCommas((total - ((total * dis) / 100) + ship).toFixed(3)) );
+               } else if(dis2 != 0){
+                   $('input#totalCost').val( numberWithCommas((total - dis2 + ship).toFixed(3)) );
+               }
+               else {
+                   $('input#totalCost').val( numberWithCommas((total + ship).toFixed(3)) );
+               }
+               $('#preMoney').val(  numberWithCommas(total.toFixed(3)))
+               $('#preDis').html(  numberWithCommas(((total * dis)/100).toFixed(3)))
+
              stt++
            });
          }
 
      });
 
+     $('#line_items').on('keyup','.btnx',function () {
+         $(this).val($(this).val().replace(/[a-zA-Z]/g, "1"));
+         if($(this).val() == '') $(this).val(1)
+         var qtyNum = parseInt($(this).val());
+         var id = $(this).closest('tr').find('td:first-child').attr('id');
+         var dis = parseInt($('#discountv1').val());
+         var ship = parseFloat($('#shipping').val());
+         var dis2 = parseFloat($('#discountv2').val());
+         var sum = 0;
+
+         const existingItem = stuff.find((item) => {
+             return parseInt(id) === item.id;
+         });
+         var oldprice = existingItem.qty * existingItem.price;
+         existingItem.qty = qtyNum;
+         total = total - oldprice +  (existingItem.qty * existingItem.price) ;
+         if(dis != 0){
+             $('input#totalCost').val( numberWithCommas((total - ((total * dis) / 100) + ship).toFixed(3)) );
+         } else if(dis2 != 0){
+             $('input#totalCost').val( numberWithCommas((total - dis2 + ship).toFixed(3)) );
+         }
+         else {
+             $('input#totalCost').val( numberWithCommas((total + ship).toFixed(3)) );
+         }
+         $('#preMoney').val(numberWithCommas(total.toFixed(3)));
+         $('#preDis').html(numberWithCommas(((total * dis)/100).toFixed(3)))
+
+         console.log(existingItem)
+     });
       // Increase - Decrease Item Qty
-     $("#line_items").on('click','.qtybtn', function() {
+     $("table#line_items").on('click','.qtybtn', function() {
          var actionID =  $(this).attr("id").split('-');
          updownQty(actionID[0], actionID[1]);
      });
@@ -409,20 +503,26 @@
          const existingItem = stuff.find((item) => {
              return parseInt(id) === item.id;
          });
-         var dis = parseInt($('#discount').val());
+         var dis = parseInt($('#discountv1').val());
+         var dis2 = parseFloat($('#discountv2').val());
          var ship = parseFloat($('#shipping').val());
          var sum = 0;
          if(action == "up"){
 
              existingItem.qty++;
-             $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
+             $("#"+existingItem.row).closest('tr').find('td #prodQty').val(existingItem.qty);
              total = total + existingItem.price;
-             if((isNaN(dis) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
-                 sum = total - ((total * dis) / 100) + ship;
+             if((isNaN(dis) == false && isNaN(dis2) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
+                 if(dis != 0) sum = total - ((total * dis) / 100) + ship;
+                 else if(dis2 != 0) sum = total - dis2 + ship;
+                 else sum = total + ship;
              }else {
                  sum = total;
              }
              $('input#totalCost').val( sum.toFixed(3) );
+             $('#preMoney').val(total.toFixed(3))
+             $('#preDis').html(((total * dis)/100).toFixed(3))
+
          } else if (action =="down"){
              if(existingItem.qty == 1){
                  toastr.info('Xóa Hoặc số lượng bằng 1','',{
@@ -433,15 +533,20 @@
              }
              else{
                  existingItem.qty--;
-                 $("#"+existingItem.row).closest('tr').find('td #prodQty').html(existingItem.qty);
+                 $("#"+existingItem.row).closest('tr').find('td #prodQty').val(existingItem.qty);
                  // total = total - existingItem.price;
                      total = total - existingItem.price;
-                 if((isNaN(dis) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
-                     sum = total - ((total * dis) / 100) + ship;
+                 if((isNaN(dis) == false && isNaN(dis2) == false && isNaN(ship) == false) || (dis = '' && ship == '')){
+                     if(dis != 0) sum = total - ((total * dis) / 100) + ship;
+                     else if(dis2 != 0) sum = total - dis2 + ship;
+                     else sum = total + ship;
                  }else {
                      sum = total;
                  }
-                 $('input#totalCost').val( sum.toFixed(3) );
+                 $('input#totalCost').val( numberWithCommas(sum.toFixed(3)) );
+                 $('#preMoney').val(numberWithCommas(total.toFixed(3)))
+                 $('#preDis').html(numberWithCommas(((total * dis)/100).toFixed(3)))
+
              }
          }
      }
@@ -449,7 +554,8 @@
      //Delete selected line_items
      $('#line_items').on('click','.btndel',function (){
         var curRowID = $(this).closest('tr').attr('id');
-         var dis = parseInt($('#discount').val());
+         var dis = parseInt($('#discountv1').val());
+         var dis2 = parseFloat($('#discountv2').val());
          var ship = parseFloat($('#shipping').val());
         const curItem = stuff.find((item) => {
             return curRowID === item.row;
@@ -458,28 +564,35 @@
          total = total - sum;
         if (total <= 0 ){
             total = 0;
+            stt = 1;
             $('input#totalCost').val( total );
         }else{
+            stt--;
             if(dis != 0){
-            $('input#totalCost').val( (((total * dis) / 100) + ship).toFixed(3) );
-
-            }else {
-                $('input#totalCost').val( (total + ship).toFixed(3) );
-
+                $('input#totalCost').val( numberWithCommas((total - ((total * dis) / 100) + ship).toFixed(3)) );
+            } else if(dis2 != 0){
+                $('input#totalCost').val( numberWithCommas((total - dis2 + ship).toFixed(3)) );
+            }
+            else {
+                $('input#totalCost').val( numberWithCommas((total + ship).toFixed(3)) );
             }
         }
         $(this).closest('tr').remove();
         stuff = stuff.filter(x => {
             return  x.id != curItem.id;
         })
-        console.log(curItem);
+         $('#preMoney').val(numberWithCommas(total.toFixed(3)))
+         $('#preDis').html(numberWithCommas(((total * dis)/100).toFixed(3)))
+         console.log(curItem);
     });
 
 
-     $('#discount').on('keyup paste',function(){
-
-        $(this).val($(this).val().replace(/[^0-9]/g, ''));
-        var amount = parseInt($(this).val());
+     $('#discountv2').on('keyup paste',function(){
+         var str = $(this).val();
+         str = str.replace(/\D+/g, '');
+         $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.'));
+        var amount = parseFloat($(this).val());
+        $('#discountv1').val(0)
          var ship = parseFloat($('#shipping').val());
 
          if(isNaN(amount) || isNaN(ship)){
@@ -489,34 +602,76 @@
                 hold += parseFloat(x.price * x.qty);
             })
              hold += ship;
-             $('input#totalCost').val( hold.toFixed(3) );
+             $('input#totalCost').val( numberWithCommas(hold.toFixed(3)) );
             $(this).val(0);
-        }
+             $('#discount_unit').val(0);
+
+         }
         else{
-            var sum = total - ((total * amount) / 100) + ship;
-            $('input#totalCost').val( parseFloat(sum).toFixed(3) );
+             var sum = total - amount + ship;
+             if (sum < 0) $('input#totalCost').val(0);
+             else $('input#totalCost').val( numberWithCommas(parseFloat(sum).toFixed(3)) );
+             $('#preDis').html(0.000)
+             $('#discount_unit').val(2);
+
         }
-
-
     });
-     $('#shipping').on('keyup paste',function(){
-         $(this).val($(this).val().replace(/[^0-9.]/g, ''));
-         var amount = parseFloat($(this).val());
-         var dis = parseInt($('#discount').val());
+     $('#discountv1').on('keyup paste',function (e) {
+         if(parseFloat($(this).val()).toFixed(3) > 100.000) return false;
+         $(this).val($(this).val().replace(/[^0-9]/g, ''));
+         var amount = parseInt($(this).val());
+         var ship = parseFloat($('#shipping').val());
+         $('#discountv2').val(0)
 
-         if(isNaN(amount) || isNaN(dis)){
+         if(isNaN(amount) || isNaN(ship)){
+
+             var hold = 0;
+             stuff.forEach( x =>{
+                 hold += parseFloat(x.price * x.qty);
+             })
+             hold += ship;
+             $('input#totalCost').val( numberWithCommas(hold.toFixed(3)) );
+             $('#discount_unit').val(0);
+             $(this).val(0);
+         }
+         else{
+             var sum = total - ((total * amount) / 100) + ship;
+             $('input#totalCost').val( numberWithCommas(parseFloat(sum).toFixed(3)) );
+             $('#preDis').html(numberWithCommas(((total * amount)/100).toFixed(3)))
+             $('#discount_unit').val(1);
+         }
+     });
+
+     $('#shipping').on('keyup paste',function(){
+         var str = $(this).val();
+         str = str.replace(/\D+/g, '');
+         $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.'));
+
+         var amount = parseFloat($(this).val());
+         var dis = parseInt($('#discountv1').val());
+         var dis2 = parseFloat($('#discountv2').val());
+
+         if(isNaN(amount) || isNaN(dis) || isNaN(dis2)){
              var hold = 0;
              stuff.forEach( x =>{
                  hold += parseFloat(x.price * x.qty);
              })
              hold = hold - ((total * dis) / 100);
 
-             $('input#totalCost').val( hold.toFixed(3) );
+             $('input#totalCost').val( numberWithCommas(hold.toFixed(3)) );
              $(this).val(0);
          }
          else{
-             var sum = total - ((total * dis) / 100) + amount;
-             $('input#totalCost').val(parseFloat(sum).toFixed(3));
+             if(dis != 0){
+                 $('input#totalCost').val( numberWithCommas((total - ((total * dis) / 100) + amount).toFixed(3)) );
+             } else if(dis2 != 0){
+                 $('input#totalCost').val( numberWithCommas((total - dis2 + amount).toFixed(3)) );
+             }else {
+             var sum = total + amount;
+             $('input#totalCost').val(numberWithCommas(parseFloat(sum).toFixed(3)));
+
+             }
+
          }
 
 
@@ -525,7 +680,7 @@
      //Hàm này sẽ handle việc thêm sản phẩm mà đã có giảm giá + phí ship trước
      //Chưa hoạt động theo DRY
      function extraTotalPrice(){
-         var dis = parseInt($('#discount').val());
+         var dis = parseInt($('#discountv').val());
          var ship = parseFloat($('#shipping').val());
 
          if(dis == 0 || isNaN(dis) || dis == '' ||
@@ -536,7 +691,7 @@
                  hold += parseFloat(x.price * x.qty);
              })
              $('input#totalCost').val( hold.toFixed(3) );
-             $('#discount #shipping').val(0);
+             $('#discountv #shipping').val(0);
          } else {
              var sum = (total - ((total * dis) / 100)) + ship;
              $('input#totalCost').val( parseFloat(sum.toFixed(3)) );
@@ -563,16 +718,54 @@
          $('#line_items tbody tr').each(function () {
              cv.push({
                  prodID: parseInt($(this).find('td:first-child').attr("id")),
-                 prodQty: parseInt($(this).find('#prodQty').html()),
+                 prodQty: parseInt($(this).find('#prodQty').val()),
                  prodPrice: parseFloat($(this).find('#prodPrice').html()).toFixed(3)
              });
          });
          console.log(cv);
+         var dis = parseInt($('#discountv1').val());
+         var dis2 = parseFloat($('#discountv2').val().replaceAll('.','')/1000);
+         var shipping = parseFloat($('#shipping').val().replaceAll('.','')/1000);
+
+         var order_val = 0;
+         if(dis != 0) order_val = dis;
+         else if(dis2 != 0) order_val = dis2;
+         else if(dis2 == 0 && dis == 0) $('#discount_unit').val(0);
+         else order_val = 0;
+        var tot = parseFloat($('#totalCost').val().replaceAll('.','')/1000);
          var items = {
              items: cv,
              item_length: rowCount,
-         }
+             order:{
+                 discount_value: order_val,
+                 total: tot,
+                 shipping_cost: shipping
+             }
+         };
          var form = $('#orderForm, #refForm').serialize();
+         if($('#orderCusID').val() == '' || parseInt($('#orderCusID').val()) == 0){
+             toastr.warning('Chưa Tạo / Chọn Người Mua','',{
+                 timeOut: 3000,
+                 progressBar: true,
+                 progressAnimation: 'increasing'
+             });
+             return false;
+         } else if(rowCount == 0){
+             toastr.warning('Chưa Chọn Sản Phẩm','',{
+                 timeOut: 3000,
+                 progressBar: true,
+                 progressAnimation: 'increasing'
+             });
+             return false;
+         }else if($('#address_info').val() == ''){
+             toastr.warning('Chưa Chọn Địa Điểm Giao','',{
+                 timeOut: 3000,
+                 progressBar: true,
+                 progressAnimation: 'increasing'
+             });
+             return false;
+         }
+
          $.ajax({
              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
              type: 'POST',
@@ -658,10 +851,10 @@
              }
          });
          $('#district').each(function () {
-             $(this).prepend('<option>'+h2[2]+'</option>');
+             $(this).prepend('<option selected>'+h2[2]+'</option>');
          });
          $('#ward').each(function () {
-             $(this).prepend('<option>'+h2[1]+'</option>');
+             $(this).prepend('<option selected>'+h2[1]+'</option>');
          });
         $('#street').val(h2[0]);
 

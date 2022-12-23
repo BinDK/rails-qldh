@@ -1,9 +1,9 @@
   <tr>
     <td><%= l(order.created_at,format: :custom) %></td>
-    <td><%= order.total %></td>
     <td><%= order.status %></td>
     <td ><%= order.customer.name %> / <%= order.customer.phone %></td>
     <td><%= order.referrer.nil? ? 'Không có ai giới thiệu' : order.referrer.name %></td>
     <td class="text-wrap"><%= order.address_info %></td>
+    <td><%= order.total %></td>
     <td><button class="btn btn-outline-success float-right btnUp" id="order-<%= order.id %>" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>
   </tr>

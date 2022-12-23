@@ -138,18 +138,9 @@
     window.onload = orderSyle();
 
     function orderSyle() {
+        $('#side-good').addClass('active').css('background-color', '#62B6B7');
 
-        $('.nitem2').addClass('menu-open');
-        $('#side_order_menu').addClass('active');
-        $('#side_order_menu').css('background-color', '#F7A4A4')
-        $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
-
-        $('#side-order3').addClass('active');
-        $('#side-order3').css('background-color', '#B6E2A1');
-        $('#side-order3').css('color', '#000');
     }
-
-
     function debounce(fn, delay) {
         var timer = null;
         return function () {

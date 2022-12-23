@@ -21,7 +21,7 @@
               <h3 class="card-title">Tất cả NGT</h3>
 
               <div class="card-tools">
-                <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form',turbo_frame: :results}, url: ref_path  do |f| %>
+                <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form',turbo_frame: :results}, url: ref_manage_path  do |f| %>
                   <div class="input-group input-group-sm" style="width: 250px;">
                     <%= f.search_field :name_or_phone_cont,
                                        data: { action: 'input->search-form#search' },class:'form-control float-right',

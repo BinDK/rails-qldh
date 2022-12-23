@@ -35,17 +35,27 @@ Rails.application.routes.draw do
 
     end
 
-
     get 'index', to: 'home#index'
-    get 'cus', to: 'home#cus'
-    get 'ref', to: 'home#ref'
 
+  end
+
+  scope :orders do
     get 'new_order', to: 'home#new_order'
-
-    get 'product_manage', to: 'home#product_manage'
-
     get 'order_manage', to: 'home#order_manage'
 
+  end
+
+  scope :product do
+    get 'product_manage', to: 'home#product_manage'
+
+  end
+
+  scope :customers do
+    get 'cus_manage', to: 'home#cus'
+  end
+
+  scope :ref do
+    get 'ref_manage', to: 'home#ref'
   end
 
   root 'home#index'

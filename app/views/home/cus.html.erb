@@ -20,7 +20,7 @@
 
               <div class="card-tools">
                 <%#= search_form_for @q, data:{ turbo_frame: :results, turbo_action: 'advance'}, url: cus_path  do |f| %>
-                  <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form', turbo_frame: :results}, url: cus_path  do |f| %>
+                  <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form', turbo_frame: :results}, url: cus_manage_path  do |f| %>
 
                   <div class="input-group input-group-sm" style="width: 250px;">
                     <%= f.search_field :name_or_phone_cont,

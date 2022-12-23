@@ -32,6 +32,8 @@
           </button>
         </div>
         <div class="col-sm-4">
+          <a href="<%= new_order_path %>" type="button" class="btn rounded-5 float-right plx" style="background-color: #1462ff; color: rgb(245, 235, 216); border-radius: 12px;">Tạo đơn &nbsp;&nbsp;&nbsp; <i class="fa-solid fa-solid fa-angle-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -134,7 +136,7 @@
 
           <div class="row mt-2">
             <div class="col col-md-7 table-responsive">
-              <table class="table table-striped" id="lineItems">
+              <table class="table table-bordered table-striped" id="lineItems">
                 <thead>
                 <tr>
                   <th>Tên</th>
@@ -154,19 +156,19 @@
                 <table class="table" id="orderPrice">
                   <tbody><tr>
                     <th style="width:50%">Tổng phụ :</th>
-                    <td id="orderSub"></td>
+                    <td id="orderSub" class="text-right"></td>
                   </tr>
                   <tr>
                     <th id="orderDis">Giảm (10%):</th>
-                    <td id="orderDisMoney"></td>
+                    <td id="orderDisMoney" class="text-right"></td>
                   </tr>
                   <tr>
                     <th>Phí Ship:</th>
-                    <td id="orderShip"></td>
+                    <td id="orderShip" class="text-right"></td>
                   </tr>
                   <tr>
                     <th>Total:</th>
-                    <td id="orderTotal"></td>
+                    <td id="orderTotal"class="text-right"></td>
                   </tr>
                   </tbody></table>
               </div>
@@ -218,14 +220,7 @@
 
     function orderSyle() {
 
-        $('.nitem2').addClass('menu-open');
-        $('#side_order_menu').addClass('active');
         $('#side_order_menu').css('background-color', '#F7A4A4')
-        $('.right').removeClass('fa-angle-left').addClass('fa-angle-down');
-
-        $('#side-order2').addClass('active');
-        $('#side-order2').css('background-color', '#FFFBC1');
-        $('#side-order2').css('color', '#000');
     }
     function formatDate(date) {
         var d = new Date(date),
@@ -256,7 +251,14 @@
         };
     }
 
-
+    function numWithoutThreeDot(x){
+        var res = x.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+        return res;
+    }
+    function numWithThreeDot(x){
+        var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+        return res;
+    }
     $('#prodSearch').keyup(debounce(function (event){
         var kw = $('#prodSearch').val();
         if(kw == '' && kw.length == 0){
@@ -412,30 +414,32 @@
                 var items = extract(data.items);
                 for(let i = 0;i < items.length; i++  ){
                     hold += '<tr><td>'+items[i].name+'</td>';
-                    hold += '<td>'+items[i].quantity+'</td>';
-                    hold += '<td>'+items[i].price+'</td>';
-                    hold += '<td>'+parseFloat(items[i].quantity * items[i].price).toFixed(3) +'</td>';
+                    hold += '<td class="text-right">'+items[i].quantity+'</td>';
+                    hold += '<td class="text-right">'+numWithThreeDot(items[i].price)+'</td>';
+                    hold += '<td class="text-right">'+numWithThreeDot((items[i].quantity * items[i].price).toFixed(3)) +'</td>';
                     subtotal = subtotal +  (items[i].quantity * items[i].price);
                 }
                 $('#lineItems tbody').html(hold);
 
                 $('.orderStat').attr('id',data.order.id);
-                $('#orderSub').html(subtotal.toFixed(3));
+                $('#orderSub').html(numWithThreeDot(subtotal.toFixed(3)));
 
                 if(data.order.discount_unit == 'percentage'){
                     $('#orderDis').html('Giảm ('+data.order.discount_value+'%):')
-                    $('#orderDisMoney').html(parseFloat((subtotal.toFixed(3) * data.order.discount_value) / 100).toFixed(3))
+                    var c = (subtotal.toFixed(3) * data.order.discount_value) / 100;
+                    $('#orderDisMoney').html(numWithThreeDot(c.toFixed(3)))
                 } else if(data.order.discount_unit == 'by_price'){
                     $('#orderDis').html('Giảm ('+data.order.discount_value+'VNĐ):')
-                    $('#orderDisMoney').html(parseFloat(subtotal.toFixed(3) - data.order.discount_value).toFixed(3))
+                    var c = subtotal.toFixed(3) - data.order.discount_value;
+                    $('#orderDisMoney').html(numWithThreeDot(c.toFixed(3)))
                 }else{
                     $('#orderDis').html('Không Giảm')
                     $('#orderDisMoney').html(0)
                 }
 
-                $('#orderTotal').html(data.order.total);
+                $('#orderTotal').html(numWithThreeDot(parseFloat(data.order.total).toFixed(3)));
                 $('#orderStatus').html(data.order.status);
-                $('#orderShip').html(data.order.shipping_cost);
+                $('#orderShip').html(numWithThreeDot(parseFloat(data.order.shipping_cost).toFixed(3)));
                 $('#orderCre').html('Ngày tạo: '+formatDate(data.order.created_at));
                 $('#orderUpd').html(formatDate(data.order.updated_at));
                 $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );

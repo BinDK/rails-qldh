@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="moving project last commit">
+    <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="new_order working almost purfect, rename 1 add 1 col to Order table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/apix_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/apix_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/order.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/order.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/cus.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/cus.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/list/_listo.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/list/_listo.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/home/new_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/new_order.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/schema.rb" beforeDir="false" afterPath="$PROJECT_DIR$/db/schema.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/ref.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/ref.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,7 +259,7 @@
       <workItem from="1671608371546" duration="5343000" />
       <workItem from="1671618438225" duration="5287000" />
       <workItem from="1671633553947" duration="27888000" />
-      <workItem from="1671717058570" duration="55330000" />
+      <workItem from="1671717058570" duration="64389000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>
@@ -298,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670858534438</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="new_order working almost purfect, rename 1 add 1 col to Order table">
+      <created>1671808739035</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1671808739035</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -327,7 +339,8 @@
     <MESSAGE value="uncomment hello controller in index.js" />
     <MESSAGE value="moving project to new folder locally" />
     <MESSAGE value="moving project last commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="moving project last commit" />
+    <MESSAGE value="new_order working almost purfect, rename 1 add 1 col to Order table" />
+    <option name="LAST_COMMIT_MESSAGE" value="new_order working almost purfect, rename 1 add 1 col to Order table" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/qldh@Development__qldh.rcov" NAME="Development: qldh Coverage Results" MODIFIED="1670429511604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="qldh" />

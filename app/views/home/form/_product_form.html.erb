@@ -1,0 +1,54 @@
+<div class="card card-primary">
+  <div class="card-header">
+    <h3 class="card-title">Quick Example</h3>
+  </div>
+
+  <% if product.name.nil? %>
+  <%= form_with(url: save_product_path,model: product,
+                html: {autocomplete: 'off', id:"productForm"}, method: 'POST') do |form| %>
+    <div class="card-body">
+      <div class="form-group">
+        <%= form.label 'Tên Sản Phẩm', class:"form-label",for:"pname" %>
+        <%= form.text_field :name,class:"form-control",id:"pname" %>
+      </div>
+      <div class="form-group">
+        <%= form.label 'Giá Sản Pẩm', class:"form-label",for:"pprice" %>
+        <%= form.text_field :price,class:"form-control",id:"pprice" %>
+      </div>
+      <div class="form-group">
+        <%= form.label 'Dung Tích', class:"form-label",for:"pvol" %>
+        <%= form.text_field :volume,class:"form-control",id:"pvol" %>
+      </div>
+    </div>
+    <div class="card-footer justify-content-between">
+      <%= form.submit class:"btn btn-success", id:'createProd'%>
+    </div>
+  <% end %>
+
+  <% else %>
+    <%= form_with(url: update_product_path,model: product,
+                  html: {autocomplete: 'off', id:"productForm"}, method: 'PUT') do |form| %>
+      <div class="card-body">
+        <div class="form-group">
+          <%= form.label 'Tên Sản Phẩm', class:"form-label",for:"pname" %>
+          <%= form.text_field :name,class:"form-control",id:"pname" %>
+        </div>
+        <div class="form-group">
+          <%= form.label 'Giá Sản Pẩm', class:"form-label",for:"pprice" %>
+          <%= form.text_field :price,class:"form-control",id:"pprice" %>
+        </div>
+        <div class="form-group">
+          <%= form.label 'Dung Tích', class:"form-label",for:"pvol" %>
+          <%= form.text_field :volume,class:"form-control",id:"pvol" %>
+        </div>
+      </div>
+      <div class="card-footer justify-content-between">
+        <%= form.hidden_field :id %>
+        <%= form.submit class:"btn btn-success", id:'createProd'%>
+      </div>
+    <% end %>
+
+  <% end %>
+
+
+</div>

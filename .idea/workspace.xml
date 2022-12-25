@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="new_order working almost purfect, rename 1 add 1 col to Order table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/cus.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/cus.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/list/_listo.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/list/_listo.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/new_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/new_order.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/ref.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/ref.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/product.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/product.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/part/_product.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/part/_product.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/product_manage.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/products/product_manage.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/_sidebar.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,9 +22,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
         <option value="Ruby File" />
         <option value="ERB File" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -74,11 +70,11 @@
       <recent name="$PROJECT_DIR$/lib/assets/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views/home/products" />
       <recent name="$PROJECT_DIR$/app/views/home/list" />
       <recent name="$PROJECT_DIR$/app/views/home/part" />
       <recent name="$PROJECT_DIR$/app/views/home" />
       <recent name="$PROJECT_DIR$/app/views" />
-      <recent name="$PROJECT_DIR$/app/views/home/products" />
     </key>
   </component>
   <component name="RunManager" selected="Rails.Development: qldh">
@@ -259,7 +255,10 @@
       <workItem from="1671608371546" duration="5343000" />
       <workItem from="1671618438225" duration="5287000" />
       <workItem from="1671633553947" duration="27888000" />
-      <workItem from="1671717058570" duration="64389000" />
+      <workItem from="1671717058570" duration="65249000" />
+      <workItem from="1671943472255" duration="712000" />
+      <workItem from="1671944345135" duration="1733000" />
+      <workItem from="1671967970696" duration="18178000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

@@ -30,10 +30,44 @@ class HomeController < ApplicationController
   def product_manage
     @q = Product.all.ransack(params[:q])
     @pagy,@products = pagy(@q.result.order(created_at: :desc))
-
-
+    render 'home/products/product_manage'
   end
+  def new_product
+    @product = Product.new
+    render 'home/products/newp', {product: @product}
+  end
+  def save_product
+    @product = Product.new(product_params)
+    @product.price = params[:product][:price].to_s.gsub('.','').to_f/1000
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to product_manage_path }
 
+      else
+        format.html { render 'home/products/newp', status: :unprocessable_entity }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  def product_detail
+    @product = Product.find(params[:id])
+    render 'home/products/editp'
+  end
+  def update_product
+    @product = Product.find(params[:product][:id].to_s.to_i)
+    pricex = params[:product][:price].to_s.gsub('.','').to_f/1000
+    respond_to do |format|
+      if @product.update(name: params[:product][:name],
+                         price: pricex,
+                         volume: params[:product][:volume])
+        format.html { redirect_to product_manage_path }
+
+      else
+        format.html { render 'home/products/editp', status: :unprocessable_entity }
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+  end
   def order_manage
 
     @q = Order.ransack(params[:q])
@@ -50,7 +84,9 @@ class HomeController < ApplicationController
   end
   end
 
-
+  def product_params
+    params.fetch(:product).permit(:name, :price, :volume)
+  end
   # 0 to find all
   # other number to find specific product
   def product_find(desire)

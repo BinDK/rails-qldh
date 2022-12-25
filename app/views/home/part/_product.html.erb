@@ -1,6 +1,11 @@
 <tr>
   <td><%= product.name %></td>
-  <td><%= product.price %></td>
+  <td><%= product.price.to_s.gsub(/\d(?=(?:\d{3})+(?!\d))/, '.') %></td>
   <td><%= product.volume %></td>
-  <td><button class="btn btn-outline-success float-right btnUp" id="prod-<%= product.id %>" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button>
-  </td></tr>
+  <td>
+    <%= link_to product_detail_path(id: product.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
+      <i class="fas fa-circle-info"></i>
+  <% end %>
+
+  </td>
+      </tr>

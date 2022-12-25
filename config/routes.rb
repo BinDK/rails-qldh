@@ -47,7 +47,10 @@ Rails.application.routes.draw do
 
   scope :product do
     get 'product_manage', to: 'home#product_manage'
-
+    get 'new', to: 'home#new_product'
+    post 'save_product', to: 'home#save_product'
+    get 'product_detail', to: 'home#product_detail'
+    put 'update_product', to: 'home#update_product'
   end
 
   scope :customers do

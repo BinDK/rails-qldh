@@ -1,0 +1,91 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+    <div class="container-fluid">
+      <div class="row mb-2">
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Quản Lý Sản Phẩm',product_manage_path %></li>
+            <li class="breadcrumb-item active">Cập Nhật</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!--/ Content Header -->
+
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes -->
+      <div class="row">
+
+        <div class="col-md-6">
+          <%= render partial: "home/form/product_form", locals: { product: @product } %>
+        </div>
+
+        <div class="col-md-6">
+          <% if @product.errors.any? %>
+            <div style="color: red">
+              <h2> Thiếu <%= pluralize(@product.errors.count, "thông tin") %>:</h2>
+              <ul>
+                <% @product.errors.each do |error| %>
+                  <li><%= error.full_message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+
+
+
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<style>
+
+    .plk{
+        margin: 15px;
+    }
+    .plx:hover{
+        box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
+    }
+</style>
+<script>
+    window.onload = orderSyle();
+
+    function orderSyle() {
+        $('#side-good').addClass('active').css('background-color', '#62B6B7');
+
+    }
+
+    $('#btn1').click(function (e) {
+        toastr.info('Lorem ipsum dolor.','',{
+            timeOut: 2000,
+            progressBar: true,
+            progressAnimation: 'increasing'
+        });
+    });
+    $('.small-box-footer').click(function (e){
+        e.preventDefault();
+    });
+    $("#productForm #pprice").bind('keyup change paste propertyChange',function(){
+        var str = $(this).val();
+        str = str.replace(/\D+/g, '');
+        $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.'));
+    });
+</script>
+
+

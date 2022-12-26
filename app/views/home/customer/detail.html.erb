@@ -1,0 +1,260 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+    <div class="container-fluid">
+      <div class="row mb-2">
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Quản Lý Khách Hàng',cus_manage_path %></li>
+            <li class="breadcrumb-item active">Cập Nhật</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!--/ Content Header -->
+
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes -->
+      <div class="row">
+        <!-- Customer Info -->
+          <%= render partial: "home/customer/cusinfo", locals: { cus: @customer } %>
+        <!-- End Customer Info-->
+        <!-- Customer Info -->
+        <%= render partial: "home/customer/addr_order", locals: { addr: @addr } %>
+        <!-- End Customer Info-->
+
+
+
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<style>
+
+    .plk{
+        margin: 15px;
+    }
+    .plx:hover{
+        box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
+    }
+</style>
+<script>
+    window.onload = orderSyle();
+    var flagPhone = 0;
+    var customer_addres = <%= @addr2.to_s.html_safe %>;
+    var customer_order = <%= @orders.to_s.html_safe %>;
+
+    window.onload = printAddress(customer_addres)
+    function printAddress(adress){
+        hold = '';
+
+        if (adress == null){
+            $('addressPane').html('<h3>Không Tìm Thấy</h3>');
+        }else {
+            var no = 1;
+            for (let i = 0;i < adress.length;i++){
+
+
+                hold += '<div class="post"><div class="user-block">'+
+                  '<strong >Địa chỉ '+ no++ +'</strong></div>'+
+                  '<form class="addrForm" id="add-'+adress[i].id+'" autocomplete="off" >'+
+                  '<div class="row"><div class="col col-md-4"><div class="form-group">'+
+                  '<label for="province">Tỉnh - Thành Phố</label>'+
+                  '<select  class="form-control fpro fsel" id="province-'+adress[i].id+'">' +
+                  '<option value="-'+adress[i].province_city+'" selected="selected">'+adress[i].province_city+'</option></select></div></div>'+
+                  '<div class="col col-md-4"><div class="form-group">'+
+                  '<label for="district">Quận - Hyện</label>'+
+                  '<select  class="form-control fsel fdis" id="district-'+adress[i].id+'">' +
+                  '<option selected value="-'+adress[i].district+'" selected="selected">'+adress[i].district+'</option></select></div></div>'+
+                  '<div class="col col-md-4"><div class="form-group">'+
+                  '<label for="ward">Phường - Xã</label>'+
+                  '<select  class="form-control fsel fward" id="ward-'+adress[i].id+'">' +
+                  '<option value="-'+adress[i].ward+'" selected="selected">'+adress[i].ward+'</option></select></div></div></div>'+
+                  '<div class="input-group input-group-sm mb-0">'+
+                  '                        <input class="form-control" type="text" id="street-'+adress[i].id+'" value="'+adress[i].street+'" placeholder="Địa chỉ và tên đường">'+
+                  '<div class="input-group-append"><input type="hidden" name="addressID" value="'+adress[i].id+'"/>'+
+                  '<button class="btn btn-danger addrUP" id="'+adress[i].id+'">Cập Nhật</button></div></div></form></div>';
+            }
+            $('#addressPane').html('');
+            $('#addressPane').append(hold);
+        }
+    }
+
+    window.onload = printOrder(customer_order)
+    function numWithThreeDot(x){
+        var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+        return res;
+    }
+    function printOrder(orders){
+        var hold = '';
+        for (let i = 0;i < orders.length;i++) {
+            if(orders[i].discount_unit == 'percentage'){
+                var xx =  '<li>Giảm Giá: <b>'+orders[i].discount_value+'%</b></li>';
+            }
+            else  if(orders[i].discount_unit == 'by_price'){
+                var xx =  '<li>Giảm Giá: <b>'+numWithThreeDot(parseFloat(orders[i].discount_value).toFixed(3))+' VNĐ</b></li>';
+            }
+            else{
+                var xx =  '<li>Giảm Giá: <b>Không Giảm</b></li>';
+            }
+            hold += '<div class="time-label"><span class="bg-danger">' +
+              formatDate(orders[i].created_at) +
+              '</span></div>' +
+              '<div><div class="timeline-item">' +
+              '<h3 class="timeline-header border-0">' +
+              '<span class="text-bold text-blue"> Tổng Giá: '+orders[i].total+'</span> <ul>'+
+              xx +'<li>Phí ship: <b>'+orders[i].shipping_cost+'</b></li>'+
+              '<li>Cập Nhật Lần Cuối: '+formatDate(orders[i].updated_at)+'</li></ul>' +
+              '</h3></div></div>';
+        }
+        $('.timeline-inverse').html('');
+        $('.timeline-inverse').html(hold);
+        $('.timeline-inverse').append('<div><i class="far fa-clock bg-gray"></i></div>');
+
+
+    }
+
+
+
+    window.onload = cusPic();
+    function cusPic(){
+            $('#cuspic').attr('src','https://avatars.dicebear.com/api/adventurer/<%= @customer.name %>.svg')
+        }
+
+    function orderSyle() {
+        $('#side-cus').addClass('active').css('background-color', '#5403758f');
+    }
+    $('#btn1').click(function (e) {
+        toastr.info('Lorem ipsum dolor.','',{
+            timeOut: 2000,
+            progressBar: true,
+            progressAnimation: 'increasing'
+        });
+    });
+    $('.small-box-footer').click(function (e){
+        e.preventDefault();
+    });
+    $("#productForm #pprice").bind('keyup change paste propertyChange',function(){
+        var str = $(this).val();
+        str = str.replace(/\D+/g, '');
+        $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.'));
+    });
+
+
+    function formatDate(date) {
+        var d = new Date(date),
+          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+          year = d.getFullYear(),
+          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
+
+    $('#addressPane').on(' focus','.fpro',function (){
+        var id = $(this).attr('id').split('-')[1];
+        $.get("https://provinces.open-api.vn/api/?depth=1", function(data) {
+            var hold = ""
+            data.forEach(x => {
+                hold += '<option value="' + x.code + '-' + x.name + '">' + x.name + '</option>'
+            });
+            $('#province-'+id).html('');
+            $('#district-'+id).html('');
+            $('#ward-'+id).html('');
+
+            $('#province-'+id).append(hold);
+        });
+    });
+
+    $('#addressPane').on('focus','.fdis',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var proCode = $('#province-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/p/" + proCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.districts.length; i++) {
+                hold += '<option value="' + data.districts[i].code + '-' + data.districts[i].name + '">' + data.districts[i].name + '</option>';
+            }
+            $('#district-'+id).html('');
+            $('#district-'+id).append(hold);
+        });
+    });
+
+    $('#addressPane').on('focus','.fward',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var disCode = $('#district-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/d/" + disCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.wards.length; i++) {
+                hold += '<option value="' + data.wards[i].code + '-' + data.wards[i].name + '">' + data.wards[i].name + '</option>';
+            }
+
+            $('#ward-'+id).html('');
+            $('#ward-'+id).append(hold);
+        });
+    });
+    $('#addressPane').on('click','.addrUP',function (e) {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        var form = $('#add-'+id);
+        var actionUrlx = '<%= cus_addr_path %>';
+        var street = $('#street-'+id).val();
+        if(street == ''){
+            return false;
+        }
+       else if($(".fdis ,.fward ").find(":selected").val() == '') {
+            alert("You haven't selected anything!");
+            console.log('xxxxxx')
+            return false;
+        }
+       else{
+
+        var adress= {
+            address:{
+                province_city: $('#province-'+id).find(":selected").val().split('-')[1],
+                district: $('#district-'+id).find(":selected").val().split('-')[1],
+                ward: $('#ward-'+id).find(":selected").val().split('-')[1],
+                street: $('#street-'+id).val()
+            }
+        };
+        $.ajax({
+            type: "PUT",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+            },
+            url: actionUrlx,
+            data: form.serialize() + '&' + $.param(adress), // serializes the form's elements.
+            success: function (data) {
+                toastr.success(data.statusx, 'Cạp Nhật Địa CHỈ Thành Công', {
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+            }
+        });
+        }
+
+    });
+</script>
+
+

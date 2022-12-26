@@ -7,15 +7,30 @@ class HomeController < ApplicationController
     @prepared = Order.prepared_order_count
     @shipped = Order.shipped_order_count
     @completed = Order.completed_order_count
-
-
-
   end
+  #Customer
   def cus
     @q = Customer.all.ransack(params[:q])
     @pagy,@customers = pagy(@q.result.order(created_at: :desc))
 
   end
+  def customer_detail
+    @customer = Customer.find(params[:id])
+    @addr = Address.where(customer_id: @customer.id)
+    @addr2 = Address.where(customer_id: @customer.id).to_json
+
+    @orders = Order.order(created_at: :desc).where(customer_id: @customer.id).to_json
+    render 'home/customer/detail'
+  end
+  def update_customer
+
+  end
+
+  def update_customer_addr
+
+  end
+
+  #end Product
   def ref
     @q = Referrer.all.ransack(params[:q])
     @pagy,@refs = pagy(@q.result.order(created_at: :desc))
@@ -27,6 +42,7 @@ class HomeController < ApplicationController
 
   end
 
+  #Product
   def product_manage
     @q = Product.all.ransack(params[:q])
     @pagy,@products = pagy(@q.result.order(created_at: :desc))

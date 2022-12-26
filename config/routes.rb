@@ -55,6 +55,10 @@ Rails.application.routes.draw do
 
   scope :customers do
     get 'cus_manage', to: 'home#cus'
+    get 'customer_detail', to: 'home#customer_detail'
+    put 'update_customer', to: 'home#update_customer'
+    put 'update_customer_addr', to: 'home#update_customer_addr'
+
   end
 
   scope :ref do

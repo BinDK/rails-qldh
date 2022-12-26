@@ -282,27 +282,6 @@
         return a + ' ' + b;
     }
 
-    function printOrder(orders){
-        var hold = '';
-        for (let i = 0;i < orders.length;i++) {
-
-            hold += '<div class="time-label"><span class="bg-danger">' +
-              formatDate(orders[i].created_at) +
-              '</span></div>' +
-              '<div><div class="timeline-item">' +
-              '<h3 class="timeline-header border-0">' +
-              '<span class="text-bold text-blue"> Tổng Giá: '+orders[i].total+'</span> <ul>'+
-              '<li>Giảm Giá: <b>'+orders[i].discount+'</b></li>'+
-              '<li>Phí ship: <b>'+orders[i].shipping_cost+'</b></li>'+
-              '<li>Cập Nhật Lần Cuối: '+formatDate(orders[i].updated_at)+'</li></ul>' +
-              '</h3></div></div>';
-        }
-        $('.timeline-inverse').html('');
-        $('.timeline-inverse').html(hold);
-        $('.timeline-inverse').append('<div><i class="far fa-clock bg-gray"></i></div>');
-
-
-    }
     function printAddress(adress){
         hold = '';
 

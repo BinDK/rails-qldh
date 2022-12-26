@@ -1,0 +1,72 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header p-2">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
+      </ul>
+    </div>
+    <div class="card-body">
+
+      <div class="tab-content">
+
+        <div class="active tab-pane" id="addressPane">
+          <%# no = 0 %>
+          <%#= addr.each do |ar| %>
+<!--            <div class="post">-->
+<!--              <div class="user-block">-->
+<!--                <strong >Địa chỉ <%#= no+= 1 %></strong>-->
+<!--              </div>-->
+<!--                  <%#= form_with(url: update_customer_addr_path,model: ar,html: {autocomplete: 'off', id:"add-"}, method: 'PUT') do |form| %>
+                  <div class="row">-->
+
+<!--                    <div class="col col-md-4">-->
+<!--                      <div class="form-group">-->
+<!--                      <label for="province">Tỉnh - Thành Phố</label>-->
+                        <%#= form.select :province_city, html:{class:'form-control fpro fsel', id:'province-'} %>
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="col col-md-4">-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="district">Tỉnh - Thành Phố</label>-->
+                        <%#= form.select :district, html:{class:'form-control fdis', id:'district-'} %>
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="col col-md-4">-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="ward">Tỉnh - Thành Phố</label>-->
+                        <%#= form.select :district, html:{class:'form-control fdis', id:'ward-'} %>
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div class="input-group input-group-sm mb-0">-->
+                      <%#= form.text_field :street, html:{class:'form-control', id:'street-'} %>
+<!--                      <div class="input-group-append">-->
+                        <%#= form.hidden_field :id %>
+<!--                       </div>-->
+                      <%#= form.submit class:"btn btn-danger addrUP" do %>
+<!--                        <b>Cập Nhật</b>-->
+                      <%# end %>
+
+<!--                  </div>-->
+
+<!--                  </div>-->
+
+                <%# end %>
+
+<!--            </div>-->
+
+        <%# end %>
+        </div>
+
+        <!-- /.tab-pane -->
+        <div class="tab-pane" id="timeline">
+          <div class="timeline timeline-inverse">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

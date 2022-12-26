@@ -58,7 +58,7 @@
     var customer_addres = <%= @addr2.to_s.html_safe %>;
     var customer_order = <%= @orders.to_s.html_safe %>;
 
-    window.onload = printAddress(customer_addres)
+    // window.onload = printAddress(customer_addres)
     function printAddress(adress){
         hold = '';
 
@@ -169,7 +169,7 @@
                             progressBar: true,
                             progressAnimation: 'increasing'
                         });
-                        $('#cusUpdate').removeAttr('disabled')
+                        $('#cusUpdate').removeClass('disabled').removeAttr('disabled')
 
                     } else {
                         toastr.warning(data.customer.name, "Khách Hàng Tên:", {
@@ -182,7 +182,7 @@
                             $('#inpPhone').removeClass("border-warning").css('border-width','1px');
                         },2000);
 
-                        $('#cusUpdate').attr('disabled','disabled')
+                        $('#cusUpdate').attr('disabled','disabled').addClass('disabled')
                     }
                 }
             });
@@ -246,48 +246,7 @@
             $('#ward-'+id).append(hold);
         });
     });
-    $('#addressPane').on('click','.addrUP',function (e) {
-        e.preventDefault();
-        var id = $(this).attr('id');
-        var form = $('#add-'+id);
-        var actionUrlx = '<%= cus_addr_path %>';
-        var street = $('#street-'+id).val();
-        if(street == ''){
-            return false;
-        }
-       else if($(".fdis ,.fward ").find(":selected").val() == '') {
-            alert("You haven't selected anything!");
-            console.log('xxxxxx')
-            return false;
-        }
-       else{
 
-        var adress= {
-            address:{
-                province_city: $('#province-'+id).find(":selected").val().split('-')[1],
-                district: $('#district-'+id).find(":selected").val().split('-')[1],
-                ward: $('#ward-'+id).find(":selected").val().split('-')[1],
-                street: $('#street-'+id).val()
-            }
-        };
-        $.ajax({
-            type: "PUT",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-            },
-            url: actionUrlx,
-            data: form.serialize() + '&' + $.param(adress), // serializes the form's elements.
-            success: function (data) {
-                toastr.success(data.statusx, 'Cạp Nhật Địa CHỈ Thành Công', {
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-            }
-        });
-        }
-
-    });
 </script>
 
 

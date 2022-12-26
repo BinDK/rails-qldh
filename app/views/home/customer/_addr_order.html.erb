@@ -11,53 +11,50 @@
       <div class="tab-content">
 
         <div class="active tab-pane" id="addressPane">
-          <%# no = 0 %>
-          <%#= addr.each do |ar| %>
-<!--            <div class="post">-->
-<!--              <div class="user-block">-->
-<!--                <strong >Địa chỉ <%#= no+= 1 %></strong>-->
-<!--              </div>-->
-<!--                  <%#= form_with(url: update_customer_addr_path,model: ar,html: {autocomplete: 'off', id:"add-"}, method: 'PUT') do |form| %>
-                  <div class="row">-->
+          <% no = 0 %>
+          <% addr.each do |ar| %>
+            <div class="post">
+              <div class="user-block">
+                <strong >Địa chỉ <%= no+= 1 %></strong>
+              </div>
+                  <%= form_with(url: update_customer_addr_path,model: ar,html: {autocomplete: 'off', id:"add-"+ar.id.to_s}, method: 'PUT') do |form| %>
+                  <div class="row">
 
-<!--                    <div class="col col-md-4">-->
-<!--                      <div class="form-group">-->
-<!--                      <label for="province">Tỉnh - Thành Phố</label>-->
-                        <%#= form.select :province_city, html:{class:'form-control fpro fsel', id:'province-'} %>
-<!--                      </div>-->
-<!--                    </div>-->
+                    <div class="col col-md-4">
+                      <div class="form-group">
+                      <label for="province">Tỉnh - Thành Phố</label>
+                        <%= form.select :province_city, [ar.province_city], {},class:'form-control fpro fsel', id:'province-'+ ar.id.to_s %>
+                      </div>
+                    </div>
 
-<!--                    <div class="col col-md-4">-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="district">Tỉnh - Thành Phố</label>-->
-                        <%#= form.select :district, html:{class:'form-control fdis', id:'district-'} %>
-<!--                      </div>-->
-<!--                    </div>-->
+                    <div class="col col-md-4">
+                      <div class="form-group">
+                        <label for="district">Quận - Huyện</label>
+                        <%= form.select :district, [ar.district], {},class:'form-control fdis', id:'district-'+ ar.id.to_s %>
+                      </div>
+                    </div>
 
-<!--                    <div class="col col-md-4">-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="ward">Tỉnh - Thành Phố</label>-->
-                        <%#= form.select :district, html:{class:'form-control fdis', id:'ward-'} %>
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                    <div class="input-group input-group-sm mb-0">-->
-                      <%#= form.text_field :street, html:{class:'form-control', id:'street-'} %>
-<!--                      <div class="input-group-append">-->
-                        <%#= form.hidden_field :id %>
-<!--                       </div>-->
-                      <%#= form.submit class:"btn btn-danger addrUP" do %>
-<!--                        <b>Cập Nhật</b>-->
-                      <%# end %>
+                    <div class="col col-md-4">
+                      <div class="form-group">
+                        <label for="ward">Phường - Xã</label>
+                        <%= form.select :ward,[ar.ward], {} ,class:'form-control fward', id:'ward-'+ ar.id.to_s %>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="input-group input-group-sm mb-0">
+                      <%= form.text_field :street,class:'form-control', id:'street-'+ ar.id.to_s %>
+                      <div class="input-group-append">
+                        <%= form.hidden_field :id %>
+                      <%= form.submit class:"btn btn-danger addrUP" %>
+                       </div>
+                  </div>
 
-<!--                  </div>-->
+                  </div>
 
-<!--                  </div>-->
+                <% end %>
 
-                <%# end %>
+        <% end %>
 
-<!--            </div>-->
-
-        <%# end %>
         </div>
 
         <!-- /.tab-pane -->

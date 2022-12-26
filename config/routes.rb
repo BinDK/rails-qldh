@@ -63,6 +63,11 @@ Rails.application.routes.draw do
 
   scope :ref do
     get 'ref_manage', to: 'home#ref'
+    get 'ref_detail', to: 'home#ref_detail'
+    put 'update_ref', to: 'home#update_ref'
+
+    put 'update_customer_addr', to: 'home#update_customer_addr'
+
   end
 
   root 'home#index'

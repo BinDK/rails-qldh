@@ -3,9 +3,9 @@
   <td><%= customer.phone %></td>
   <td>
 
-    <button class="btn btn-outline-success float-right btnUp" id="cus-<%= customer.id %>" data-toggle="modal" data-target="#modal-xl">
-      <i class="fas fa-circle-info"></i></button>
-    <%#= link_to customer_detail_path(id: customer.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
-<!--      <i class="fas fa-circle-info"></i>-->
-    <%# end %>
+<!--    <button class="btn btn-outline-success float-right btnUp" id="cus-<%#= customer.id %>" data-toggle="modal" data-target="#modal-xl">-->
+<!--      <i class="fas fa-circle-info"></i></button>-->
+    <%= link_to customer_detail_path(id: customer.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
+      <i class="fas fa-circle-info"></i>
+    <% end %>
   </td></tr>

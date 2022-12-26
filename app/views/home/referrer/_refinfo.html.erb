@@ -1,0 +1,43 @@
+<div class="col-md-3">
+  <!-- Profile Image -->
+  <div class="card card-primary card-outline">
+    <div class="card-body box-profile">
+      <div class="text-center">
+        <img class="profile-user-img img-fluid img-circle"
+             src=""
+             alt="Cus pic" id="cuspic">
+      </div>
+
+      <h3 class="profile-username text-center" id="demoName"></h3>
+
+      <p class="text-muted text-center" id="demoPhone"></p>
+
+      <%= form_with(url: update_ref_path,model: ref,
+                    html: {autocomplete: 'off', id:"refInfo"}, method: 'PUT') do |form| %>
+        <ul class="list-group list-group-unbordered mb-3">
+          <li class="list-group-item">
+            <b>Tên</b> <%= form.text_field :name, class:'float-right text-right border-0', id:'inpName' %>
+          </li>
+          <li class="list-group-item">
+            <b>SĐT</b> <%= form.text_field :phone, class:'float-right text-right border-0', id:'inpPhone',maxLength: 10 %>
+          </li>
+          <li class="list-group-item">
+            <b class="text-wrap">Thông Tin NH</b> <%= form.text_area :banking_informations, class:'float-right text-right border-0', id:'inpBank',rows: 5 %>
+          </li>
+        </ul>
+        <%= form.hidden_field  :id %>
+        <%= form.submit class:"btn btn-primary btn-block", id:'refUpdate' do %>
+          <b>Cập Nhật</b>
+        <% end %>
+
+    <% end %>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    window.onload = cusPic();
+    function cusPic(){
+        $('#cuspic').attr('src','https://avatars.dicebear.com/api/adventurer/<%= @ref.name %>.svg')
+    }
+</script>

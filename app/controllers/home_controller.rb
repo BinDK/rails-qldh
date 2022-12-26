@@ -36,15 +36,66 @@ class HomeController < ApplicationController
   end
 
   def update_customer_addr
+    @addr = Address.find(params[:address][:id].to_s.to_i)
+    if params[:address][:province_city].nil? or
+      params[:address][:district].nil? or params[:address][:ward].nil?
+    pro = @addr.province_city
+    dis = @addr.district
+    war = @addr.ward
+    elsif params[:address][:province_city].split('-')[1].nil? and
+      params[:address][:district].split('-')[1].nil? and
+      params[:address][:ward].split('-')[1].nil?
+      pro = @addr.province_city
+      dis = @addr.district
+      war = @addr.ward
+    else
+      pro = params[:address][:province_city].split('-')[1]
+      dis = params[:address][:district].split('-')[1]
+      war = params[:address][:ward].split('-')[1]
+    end
+    str = params[:address][:street].empty? ? @addr.street : params[:address][:street]
+    respond_to do |format|
+      if @addr.update(province_city: pro, district: dis,
+                ward: war, street: str)
+        format.html { redirect_to  customer_detail, id: @addr.customer_id}
 
+      else
+        format.html { render 'home/customer/detail', status: :unprocessable_entity }
+        format.json { render json: @addr.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   #end Product
   def ref
     @q = Referrer.all.ransack(params[:q])
     @pagy,@refs = pagy(@q.result.order(created_at: :desc))
-
   end
+  def ref_detail
+    @ref = Referrer.find(params[:id])
+    @phone = @ref.phone
+    @orders = Order.order(created_at: :desc).where(referrer_id: @ref.id)
+    render 'home/referrer/detail'
+  end
+  def update_ref
+    @ref = Referrer.find(params[:referrer][:id].to_s.to_i)
+    nam = params[:referrer][:name].empty? ? @ref.name : params[:referrer][:name]
+    pho = params[:referrer][:phone].empty? ? @ref.phone : params[:referrer][:phone]
+    ban = params[:referrer][:banking_informations].empty? ? @ref.banking_informations : params[:referrer][:banking_informations]
+    @ref2 = Referrer.where(phone: pho)
+    pho = @ref.phone if @ref2.empty? == false
+    respond_to do |format|
+      if @ref.update(name:nam, phone:pho,
+        banking_informations:ban)
+        format.html { redirect_to  ref_detail, id: @ref.id}
+      else
+        format.html { render 'home/referrer/detail', status: :unprocessable_entity }
+        format.json { render json: @ref.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
   def new_order
     product_find(0)
     @customers = Customer.all
@@ -114,6 +165,9 @@ class HomeController < ApplicationController
   end
   def customer_params
     params.fetch(:customer).permit(:id,:name, :phone)
+  end
+  def ref_params
+    params.fetch(:referrer).permit(:id,:name, :phone,:banking_informations)
   end
   # 0 to find all
   # other number to find specific product

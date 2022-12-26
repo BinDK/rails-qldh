@@ -1,0 +1,169 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+    <div class="container-fluid">
+      <div class="row mb-2">
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Quản Lý Người Giới Thiệu',ref_manage_path %></li>
+            <li class="breadcrumb-item active">Cập Nhật</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!--/ Content Header -->
+
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes -->
+      <div class="row">
+        <!-- Customer Info -->
+          <%= render partial: "home/referrer/refinfo", locals: { ref: @ref } %>
+        <!-- End Customer Info-->
+        <!-- Customer Info -->
+        <%= render partial: "home/referrer/ref_order", locals: { orders: @orders } %>
+        <!-- End Customer Info-->
+
+
+
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<style>
+
+    .plk{
+        margin: 15px;
+    }
+    .plx:hover{
+        box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
+    }
+</style>
+<script>
+  var flagPhone = '<%= @phone %>';
+    window.onload = orderSyle();
+
+
+    function numWithThreeDot(x){
+        var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+        return res;
+    }
+
+    function orderSyle() {
+        $('#side-ref').addClass('active').css('background-color', '#3A76ABC9');
+    }
+
+  $('#refInfo').on('input propertychange','#inpPhone',function () {
+      $(this).val($(this).val().replace(/[^0-9+]/g, ''));
+      var hold = $(this).val().length;
+      var checkPhoneURL = "<%= ref_phone_check_path %>";
+      if (hold == 10 && $(this).val() !=flagPhone){
+          $.ajax({
+              type: "GET",
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              url: checkPhoneURL,
+              data: {
+                  phone:  $(this).val()
+              },
+              success: function(data) {
+                  if(data.status == true) {
+                      toastr.info('Được sử dụng số này', '', {
+                          timeOut: 2000,
+                          progressBar: true,
+                          progressAnimation: 'increasing'
+                      });
+                      $('#refUpdate').removeClass('disabled').removeAttr('disabled')
+
+                  } else {
+                      toastr.warning(data.ref.name, "NGT Tên:", {
+                          timeOut: 2000,
+                          progressBar: true,
+                          progressAnimation: 'increasing'
+                      });
+                      $('#inpPhone').addClass("border-warning").css('border-width','thick');
+                      setTimeout(function(){
+                          $('#inpPhone').removeClass("border-warning").css('border-width','1px');
+                      },2000);
+
+                      $('#refUpdate').attr('disabled','disabled').addClass('disabled')
+                  }
+              }
+          });
+      }
+
+  });
+    function formatDate(date) {
+        var d = new Date(date),
+          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+          year = d.getFullYear(),
+          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
+
+    $('#addressPane').on(' focus','.fpro',function (){
+        var id = $(this).attr('id').split('-')[1];
+        $.get("https://provinces.open-api.vn/api/?depth=1", function(data) {
+            var hold = ""
+            data.forEach(x => {
+                hold += '<option value="' + x.code + '-' + x.name + '">' + x.name + '</option>'
+            });
+            $('#province-'+id).html('');
+            $('#district-'+id).html('');
+            $('#ward-'+id).html('');
+
+            $('#province-'+id).append(hold);
+        });
+    });
+
+    $('#addressPane').on('focus','.fdis',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var proCode = $('#province-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/p/" + proCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.districts.length; i++) {
+                hold += '<option value="' + data.districts[i].code + '-' + data.districts[i].name + '">' + data.districts[i].name + '</option>';
+            }
+            $('#district-'+id).html('');
+            $('#district-'+id).append(hold);
+        });
+    });
+
+    $('#addressPane').on('focus','.fward',function (){
+        var id = $(this).attr('id').split('-')[1];
+        var disCode = $('#district-'+id).find(":selected").val().split("-")[0];
+        $.get("https://provinces.open-api.vn/api/d/" + disCode + "?depth=2", function(data) {
+            var hold = ""
+            for (let i = 0; i < data.wards.length; i++) {
+                hold += '<option value="' + data.wards[i].code + '-' + data.wards[i].name + '">' + data.wards[i].name + '</option>';
+            }
+
+            $('#ward-'+id).html('');
+            $('#ward-'+id).append(hold);
+        });
+    });
+
+</script>
+
+

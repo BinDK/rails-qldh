@@ -19,7 +19,7 @@
             <b>Tên</b> <%= form.text_field :name, class:'float-right text-right border-0', id:'inpName' %>
           </li>
           <li class="list-group-item">
-            <b>SĐT</b> <%= form.text_field :phone, class:'float-right text-right border-0', id:'inpPhone' %>
+            <b>SĐT</b> <%= form.text_field :phone, class:'float-right text-right border-0', id:'inpPhone',maxLength: 10 %>
           </li>
         </ul>
         <%= form.hidden_field  :id%>

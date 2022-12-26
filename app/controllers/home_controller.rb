@@ -18,12 +18,21 @@ class HomeController < ApplicationController
     @customer = Customer.find(params[:id])
     @addr = Address.where(customer_id: @customer.id)
     @addr2 = Address.where(customer_id: @customer.id).to_json
-
+    @phone = @customer.phone
     @orders = Order.order(created_at: :desc).where(customer_id: @customer.id).to_json
     render 'home/customer/detail'
   end
   def update_customer
+    @cus = Customer.find(params[:customer][:id].to_s.to_i)
+    respond_to do |format|
+      if @cus.update(customer_params)
+        format.html { redirect_to  customer_detail, id: @cus.id}
 
+      else
+        format.html { render 'home/customer/detail', status: :unprocessable_entity }
+        format.json { render json: @customer.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update_customer_addr
@@ -102,6 +111,9 @@ class HomeController < ApplicationController
 
   def product_params
     params.fetch(:product).permit(:name, :price, :volume)
+  end
+  def customer_params
+    params.fetch(:customer).permit(:id,:name, :phone)
   end
   # 0 to find all
   # other number to find specific product

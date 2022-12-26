@@ -53,8 +53,8 @@
     }
 </style>
 <script>
+  var flagPhone = '<%= @phone %>';
     window.onload = orderSyle();
-    var flagPhone = 0;
     var customer_addres = <%= @addr2.to_s.html_safe %>;
     var customer_order = <%= @orders.to_s.html_safe %>;
 
@@ -148,13 +148,46 @@
     $('.small-box-footer').click(function (e){
         e.preventDefault();
     });
-    $("#productForm #pprice").bind('keyup change paste propertyChange',function(){
+
+    $("#cusInfo").on('input propertyChange','#inpPhone',function(e){
         var str = $(this).val();
         str = str.replace(/\D+/g, '');
-        $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&.'));
+        $(this).val(str);
+        var checkPhoneURL = "<%= phone_check_path %>";
+        if ($(this).val().length == 10 && $(this).val() != flagPhone){
+            $.ajax({
+                type: "GET",
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                url: checkPhoneURL,
+                data: {
+                    phone:  $(this).val()
+                },
+                success: function(data) {
+                    if(data.status == true) {
+                        toastr.info(data.message, '', {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#cusUpdate').removeAttr('disabled')
+
+                    } else {
+                        toastr.warning(data.customer.name, "Khách Hàng Tên:", {
+                            timeOut: 2000,
+                            progressBar: true,
+                            progressAnimation: 'increasing'
+                        });
+                        $('#inpPhone').addClass("border-warning").css('border-width','thick');
+                        setTimeout(function(){
+                            $('#inpPhone').removeClass("border-warning").css('border-width','1px');
+                        },2000);
+
+                        $('#cusUpdate').attr('disabled','disabled')
+                    }
+                }
+            });
+        }
     });
-
-
     function formatDate(date) {
         var d = new Date(date),
           day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),

@@ -7,9 +7,9 @@
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="new_order working almost purfect, rename 1 add 1 col to Order table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/cus.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/cus.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/customer/_cusinfo.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/customer/_cusinfo.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/customer/detail.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/customer/detail.html.erb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/views/home/part/_customer.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/part/_customer.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +257,7 @@
       <workItem from="1671717058570" duration="65249000" />
       <workItem from="1671943472255" duration="712000" />
       <workItem from="1671944345135" duration="1733000" />
-      <workItem from="1671967970696" duration="30413000" />
+      <workItem from="1671967970696" duration="34142000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

@@ -1,6 +1,6 @@
 <tr>
   <td><%= product.name %></td>
-  <td><%= product.price.to_s.gsub(/\d(?=(?:\d{3})+(?!\d))/, '.') %></td>
+  <td><%= number_to_currency(product.price, precision:3) %></td>
   <td><%= product.volume %></td>
   <td>
     <%= link_to product_detail_path(id: product.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>

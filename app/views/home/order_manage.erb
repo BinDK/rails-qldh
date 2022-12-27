@@ -259,54 +259,7 @@
         var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
         return res;
     }
-    $('#prodSearch').keyup(debounce(function (event){
-        var kw = $('#prodSearch').val();
-        if(kw == '' && kw.length == 0){
-            findOderByKW(kw,0);
-        }else {
-            findOderByKW(kw,1);
-        }
 
-    },1000));
-    function findOderByKW(kw,choice) {
-        var actionUrl = '<%= find_oder_kw_path %>';
-
-        $.ajax({
-            type: "GET",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: {
-                kw: kw,
-                choice: choice
-            }, // serializes the form's elements.
-            success: function(data) {
-                var orders = data.orders.reverse();
-                var hold = '';
-
-                for(let i = 0;i < orders.length; i++  ){
-                    hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
-                    hold+= '<td>'+orders[i].total+'</td>'
-                    hold+= '<td>'+orders[i].status+'</td>'
-                    hold+= '<td>'+orders[i].name+' / '+orders[i].phone+'</td>'
-                    if(orders[i].refname){
-                        hold+= '<td>'+orders[i].refname+'</td>'
-                    }else{
-                        hold+= '<td>Không có ai giới thiệu</td>'
-                    }
-                    if(orders[i].address_info){
-                        hold+= '<td class="text-wrap">'+orders[i].address_info+'</td>'
-
-                    }else{
-                        hold+= '<td>Cập Nhật Địa Chỉ</td>'
-                    }
-                    hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
-                    hold+= '</tr>';
-                }
-                $('#prodTable tbody').html(hold);
-
-            }
-        });
-    }
 
     var $btns = $('.statBtn').click(function() {
         $btns.not(this).removeClass('btn-outline-custom');
@@ -318,7 +271,6 @@
             var hold = '';
             for(let i = 0;i < orders.length; i++  ){
                 hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
-                hold+= '<td>'+orders[i].total+'</td>'
                 hold+= '<td>'+orders[i].status+'</td>'
                 hold+= '<td>'+orders[i].name+' / '+orders[i].phone+'</td>'
                 if(orders[i].refname){
@@ -332,7 +284,8 @@
                 }else{
                     hold+= '<td>Cập Nhật Địa Chỉ</td>'
                 }
-                hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
+                hold+= '<td>'+numWithThreeDot(parseFloat(orders[i].total).toFixed(3))+' VNĐ</td>'
+                hold+= '<td><a href="/orders/order_detail?id='+orders[i].id+'" class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" ><i class="fas fa-circle-info"></i></a></td>';
                 hold+= '</tr>';
             }
             $('#prodTable tbody').html(hold);
@@ -340,163 +293,7 @@
         curBTN.toggleClass("btn-outline-custom");
     });
 
-    $('.orderStat').bind('change',function () {
-        var statSel = $(this).find(":selected");
-        var orderID = $(this).attr('id');
-        // var curRow = $('order-'+orderID).closest('tr');
-        var actionUrl = '<%= change_order_stat_path %>';
-        $.ajax({
-            type: "PUT",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: {
-                id: orderID,
-                order_status: statSel.html()
-            },
-            success: function(data) {
-                toastr.success('Đổi Thành Công','',{
-                    timeOut: 3000,
-                    progressBar: true,
-                    progressAnimation: 'increasing'
-                });
-                if(data.order){
 
-                $('#orderStatus').html(data.order.status);
-                $('#orderUpd').html(formatDate(data.order.updated_at));
-                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
-                } else{
-                    //Phải lấy row ở ngoài table
-                    $('#prodTable #order-'+orderID).closest('tr').remove();
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                    $("#modal-xl").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
-
-                }
-
-            }
-        });
-    });
-
-
-    $('#prodTable').on('click','.btnUp',function (){
-        var id =  $(this).attr('id').split('-')[1];
-        findOrder(parseInt(id))
-    });
-
-
-
-
-    //Do items là trả về array chứa array chứa mảng, nen mới xài func extract
-    function extract( array, newarray ){
-        if( !newarray ) newarray = [] ;
-        if( array ) for( var i = 0 ; i < array.length ; ++i )
-        {
-            if( array[i].constructor.name === "Array" ) extract( array[i], newarray ) ;
-            else newarray.push( array[i] ) ;
-        }
-        return newarray ;
-    }
-
-    function findOrder(id) {
-        var actionUrl = '<%= find_order_path %>';
-
-        $.ajax({
-            type: "GET",
-            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-            url: actionUrl,
-            data: {
-                orderID: id,
-            },
-            success: function(data) {
-                //Items
-                var hold = ''
-                var subtotal = 0;
-                var items = extract(data.items);
-                for(let i = 0;i < items.length; i++  ){
-                    hold += '<tr><td>'+items[i].name+'</td>';
-                    hold += '<td class="text-right">'+items[i].quantity+'</td>';
-                    hold += '<td class="text-right">'+numWithThreeDot(items[i].price)+'</td>';
-                    hold += '<td class="text-right">'+numWithThreeDot((items[i].quantity * items[i].price).toFixed(3)) +'</td>';
-                    subtotal = subtotal +  (items[i].quantity * items[i].price);
-                }
-                $('#lineItems tbody').html(hold);
-
-                $('.orderStat').attr('id',data.order.id);
-                $('#orderSub').html(numWithThreeDot(subtotal.toFixed(3)));
-
-                if(data.order.discount_unit == 'percentage'){
-                    $('#orderDis').html('Giảm ('+data.order.discount_value+'%):')
-                    var c = (subtotal.toFixed(3) * data.order.discount_value) / 100;
-                    $('#orderDisMoney').html(numWithThreeDot(c.toFixed(3)))
-                } else if(data.order.discount_unit == 'by_price'){
-                    $('#orderDis').html('Giảm ('+data.order.discount_value+'VNĐ):')
-                    var c = subtotal.toFixed(3) - data.order.discount_value;
-                    $('#orderDisMoney').html(numWithThreeDot(c.toFixed(3)))
-                }else{
-                    $('#orderDis').html('Không Giảm')
-                    $('#orderDisMoney').html(0)
-                }
-
-                $('#orderTotal').html(numWithThreeDot(parseFloat(data.order.total).toFixed(3)));
-                $('#orderStatus').html(data.order.status);
-                $('#orderShip').html(numWithThreeDot(parseFloat(data.order.shipping_cost).toFixed(3)));
-                $('#orderCre').html('Ngày tạo: '+formatDate(data.order.created_at));
-                $('#orderUpd').html(formatDate(data.order.updated_at));
-                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
-
-                //Customer
-
-                $('#cusName').html('<b>Tên: </b>'+ data.cus.name);
-                $('#cusAddr').html('<b>Địa Chỉ: </b>'+ data.order.address_info);
-                $('#cusPhone').html('<b>Điện Thoại: </b>'+ data.cus.phone);
-                $('#cusPayment').html('<b>Thanh Toán Bằng: </b>'+ data.order.payment_method);
-                //Refer
-                if(data.ref){
-                    $('#refName').html('<b>Tên: </b>'+data.ref.name);
-                    $('#refPhone').html('<b>Điện Thoại: </b>'+data.ref.phone);
-                    $('#refBank').html('<b>Thông Tin CK: </b>'+data.ref.banking_informations);
-                }else{
-                    $('#refName').html('<b>Không Có Người Giới Thiệu</b>');
-                    $('#refPhone').html('');
-                    $('#refBank').html('');
-                }
-
-            }
-        });
-    }
-
-
-    $('.btnPage').click(function (e) {
-        e.preventDefault();
-        var pageNo = $(this).attr('id');
-        var actionUrl = '<%= order_page_path %>';
-
-        $.ajax({
-            type: "GET",
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-            },
-            url: actionUrl,
-            data: {
-                page: parseInt(pageNo)
-            },
-            success: function (data) {
-                var hold = '';
-                var orders = data.orders;
-                for(let i = 0;i < orders.length; i++  ){
-                    hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
-                    hold+= '<td>'+orders[i].total+'</td>'
-                    hold+= '<td>'+orders[i].status+'</td>'
-                    hold+= '<td>'+orders[i].name+'</td>'
-                    hold+= '<td>'+orders[i].address_info+'</td>'
-                    hold+= '<td><button class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" data-toggle="modal" data-target="#modal-xl"><i class="fas fa-circle-info"></i></button></td>';
-                    hold+= '</tr>';
-                }
-                $('#prodTable tbody').html(hold);
-
-            }
-        });
-    });
 
 
 </script>

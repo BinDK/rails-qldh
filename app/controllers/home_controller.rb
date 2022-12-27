@@ -8,6 +8,7 @@ class HomeController < ApplicationController
     @shipped = Order.shipped_order_count
     @completed = Order.completed_order_count
   end
+
   #Customer
   def cus
     @q = Customer.all.ransack(params[:q])
@@ -17,9 +18,9 @@ class HomeController < ApplicationController
   def customer_detail
     @customer = Customer.find(params[:id])
     @addr = Address.where(customer_id: @customer.id)
-    @addr2 = Address.where(customer_id: @customer.id).to_json
+    # @addr2 = Address.where(customer_id: @customer.id).to_json
     @phone = @customer.phone
-    @orders = Order.order(created_at: :desc).where(customer_id: @customer.id).to_json
+    @orders = Order.order(created_at: :desc).where(customer_id: @customer.id)
     render 'home/customer/detail'
   end
   def update_customer
@@ -65,8 +66,10 @@ class HomeController < ApplicationController
       end
     end
   end
+  #End Customer
 
-  #end Product
+
+  #Ref
   def ref
     @q = Referrer.all.ransack(params[:q])
     @pagy,@refs = pagy(@q.result.order(created_at: :desc))
@@ -94,13 +97,8 @@ class HomeController < ApplicationController
       end
     end
   end
+  #End Ref
 
-
-  def new_order
-    product_find(0)
-    @customers = Customer.all
-
-  end
 
   #Product
   def product_manage
@@ -144,12 +142,35 @@ class HomeController < ApplicationController
       end
     end
   end
+  #end Product
+
+
+  #Order
+  def new_order
+    product_find(0)
+    @customers = Customer.all
+
+  end
+
   def order_manage
 
     @q = Order.ransack(params[:q])
     @pagy,@orders = pagy(@q.result.includes(:customer,:referrer).order(created_at: :desc).all_except('hoàn tất đơn'))
     # @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
   end
+  def order_detail
+    @order = Order.includes(:customer,:referrer).find(params[:id])
+    @items = LineItem.includes(:product).where(order_id: @order.id)
+    @subtotal = 0
+    @items.each do |s|
+      @subtotal = @subtotal + (s.price * s.quantity)
+     end
+
+    render 'home/order/detail'
+  end
+
+  #End Order
+
 
   private
   def http_auth

@@ -152,7 +152,11 @@ class ApixController < ApplicationController
       Order.delete(params[:id].to_s.to_i)
       render json: {msg: 'Đã Xóa Đơn Hàng Này'}, status: :ok
     else
+      if(params[:order_status].to_s == 'Hoàn Tất Đơn')
+        @o.update(status: params[:order_status].to_s, completed_at: Time.new)
+      else
       @o.update(status: params[:order_status].to_s)
+      end
       render json: {order: @o}, status: :ok
     end
   end

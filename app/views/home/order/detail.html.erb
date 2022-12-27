@@ -1,0 +1,247 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+
+    <div class="container-fluid">
+      <div class="row mb-2">
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Quản Lý Đơn Hàng',order_manage_path %></li>
+            <li class="breadcrumb-item active">Chi Tiết</li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!--/ Content Header -->
+
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes -->
+      <div class="row">
+
+        <div class="col-12">
+
+        <!-- Order detail -->
+          <div class="invoice p-3 mb-3">
+            <div class="row">
+              <div class="col-12">
+                <h4>
+                  <small class="float-right" id="orderCre">Ngày Tạo: <%= l(@order.created_at, format: :custom) %></small>
+                </h4>
+              </div>
+
+            </div>
+
+            <div class="row invoice-info">
+              <div class="col-sm-4 invoice-col">
+                Thông Tin Khách
+                <address>
+                  <span id="cusName"><b>Tên: </b><%= link_to @order.customer.name,
+                                                             customer_detail_path(id: @order.customer.id),
+                                                             class:'text-bold text-blue'  %></span><br>
+                  <span id="cusAddr" class="text-wrap"><b>Địa Chỉ: </b><%= @order.address_info %></span><br>
+                  <span id="cusPhone"><b>Điện Thoại: </b><%= @order.customer.phone %></span><br>
+                  <span id="cusPayment"><b>Thanh Toán Bằng: </b><%= @order.payment_method %></span>
+                </address>
+              </div>
+
+              <div class="col-sm-4 invoice-col">
+                Người giới thiệu
+                <address>
+
+                <% if @order.referrer.nil? %>
+                    <b>Không Có Người Giới Thiệu</b>
+                  <% else %>
+                    <span id="refName"><b>Tên: <%= link_to @order.referrer.name,
+                                                           ref_detail_path(id: @order.referrer.id),
+                                                           class:'text-bold text-success'%></b></span><br>
+                    <span id="refPhone"><b>Điện Thoại: <%= @order.referrer.phone %></b></span><br>
+                    <span id="refBank"><b>Thông Tin CK: <%= @order.referrer.banking_informations %></b></span><br>
+                <% end %>
+                  </address>
+
+                  </div>
+
+              <div class="col-sm-4 invoice-col">
+                <b>Thông Tin Khác</b><br>
+                <br>
+                <b>Trạng Thái: </b> <span id="orderStatus"><%= @order.status %></span><br>
+
+                <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"><%= l(@order.updated_at, format: :custom) %></span><br>
+                <% if @order.status == 'Hoàn Tất Đơn' %>
+                  <b>Ngày Hoàn Tất: </b> <span id="orderComp"><%= l(@order.completed_at, format: :custom) %></span>
+                  <% else %>
+                  <b>Ngày Hoàn Tất: </b>
+                  <% end %>
+              </div>
+
+            </div>
+
+            <div class="row mt-2">
+              <div class="col col-md-7 table-responsive">
+                <table class="table table-bordered table-striped" id="lineItems">
+                  <thead>
+                  <tr>
+                    <th>Tên</th>
+                    <th>Số Lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng Giá SP</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @items.each do |x|  %>
+                    <tr><td><%= x.product.name %></td>
+                    <td class="text-right"><%= x.quantity %></td>
+                    <td class="text-right"><%= number_to_currency(x.price, precision:3) %></td>
+                    <td class="text-right"><%= number_to_currency((x.quantity * x.price), precision:3) %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col col-md-5">
+
+                <div class="table-responsive">
+                  <table class="table" id="orderPrice">
+                    <tbody><tr>
+                      <th style="width:50%">Tổng phụ :</th>
+                      <td id="orderSub" class="text-right"><%= number_to_currency(@subtotal,precision: 3) %></td>
+                    </tr>
+                    <tr>
+                      <% if @order.discount_unit == 'percentage' %>
+                        <th id="orderDis">Giảm (<%= @order.discount_value %>%):</th>
+                        <td id="orderDisMoney" class="text-right"><%=  number_to_currency((@subtotal * @order.discount_value)/100, precision: 3) %></td>
+                      <% elsif @order.discount_unit == 'by_price' %>
+                        <th id="orderDis">Giảm (<%= number_to_currency(@order.discount_value, precision:3) %>):</th>
+                        <td id="orderDisMoney" class="text-right"><%=  number_to_currency(@subtotal - @order.discount_value, precision:3) %></td>
+
+                      <% else %>
+                        <th id="orderDis">Giảm: </th>
+                        <td id="orderDisMoney" class="text-right">Không Có</td>
+                    <%end  %>
+
+
+                    </tr>
+                    <tr>
+                      <th>Phí Ship:</th>
+                      <td id="orderShip" class="text-right"><%=  number_to_currency(@order.shipping_cost, precision:3) %></td>
+                    </tr>
+                    <tr>
+                      <th>Total:</th>
+                      <td id="orderTotal"class="text-right"><%=  number_to_currency(@order.total, precision:3) %></td>
+                    </tr>
+                    </tbody></table>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mt-2 mb-2">
+              <div class="col-3">
+                <div class="form-group">
+                  <label>Select</label>
+                  <select class="form-control orderStat" id="<%= @order.id %>" autocomplete="off">
+                    <% if @order.status == 'Mới Tạo' %>
+                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
+                    <option id="2">Sẵn Sàng Giao</option>
+                    <option id="3">Giao Thành Công</option>
+                    <option id="4">Hoàn Tất Đơn</option>
+                    <option id="5">Hủy</option>
+                      <% elsif @order.status == 'Sẵn Sàng Giao' %>
+                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
+                      <option id="3">Giao Thành Công</option>
+                      <option id="4">Hoàn Tất Đơn</option>
+                      <option id="5">Hủy</option>
+                    <% elsif @order.status == 'Giao Thành Công' %>
+                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
+                      <option id="4">Hoàn Tất Đơn</option>
+                      <option id="5">Hủy</option>
+                  <% else %>
+                      <option disabled="disabled" selected>Chọn Để Hủy</option>
+                      <option id="5">Hủy</option>
+                    <% end %>
+
+                  </select>
+                </div>
+              </div>
+              <div class="col-9">
+
+              </div>
+            </div>
+
+          </div>
+        <!-- End Order detail-->
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+
+    function orderSyle() {
+
+        $('#side_order_menu').css('background-color', '#F7A4A4')
+    }
+// window.onload = changeNum();
+    function changeNum(){
+    $('#orderShip').html(numberWithCommas(parseFloat($('#orderShip').html()).toFixed(3)))
+    }
+function numWithThreeDot(x){
+    var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+    return res;
+}
+$('.orderStat').bind('change',function () {
+    var statSel = $(this).find(":selected");
+    var orderID = $(this).attr('id');
+    // var curRow = $('order-'+orderID).closest('tr');
+    var actionUrl = '<%= change_order_stat_path %>';
+    $.ajax({
+        type: "PUT",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        url: actionUrl,
+        data: {
+            id: orderID,
+            order_status: statSel.html()
+        },
+        success: function(data) {
+            toastr.success('Đổi Thành Công','',{
+                timeOut: 3000,
+                progressBar: true,
+                progressAnimation: 'increasing'
+            });
+            if(data.order){
+
+                $('#orderStatus').html(data.order.status);
+                $('#orderUpd').html(formatDate(data.order.updated_at));
+                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
+            } else{
+                //Phải lấy row ở ngoài table
+                $('#prodTable #order-'+orderID).closest('tr').remove();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-xl").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+
+            }
+
+        }
+    });
+});
+
+
+</script>

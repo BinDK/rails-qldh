@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   scope :orders do
     get 'new_order', to: 'home#new_order'
     get 'order_manage', to: 'home#order_manage'
+    get 'order_detail', to: 'home#order_detail'
 
   end
 

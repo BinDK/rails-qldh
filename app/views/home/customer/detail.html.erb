@@ -32,7 +32,7 @@
           <%= render partial: "home/customer/cusinfo", locals: { cus: @customer } %>
         <!-- End Customer Info-->
         <!-- Customer Info -->
-        <%= render partial: "home/customer/addr_order", locals: { addr: @addr } %>
+        <%= render partial: "home/customer/addr_order", locals: { addr: @addr , orders: @orders} %>
         <!-- End Customer Info-->
 
 
@@ -55,8 +55,8 @@
 <script>
   var flagPhone = '<%= @phone %>';
     window.onload = orderSyle();
-    var customer_addres = <%= @addr2.to_s.html_safe %>;
-    var customer_order = <%= @orders.to_s.html_safe %>;
+<!--    var customer_addres = <%#= @addr2.to_s.html_safe %>;-->
+<!--    var customer_order = <%#= @orders.to_s.html_safe %>;-->
 
     // window.onload = printAddress(customer_addres)
     function printAddress(adress){
@@ -94,11 +94,7 @@
         }
     }
 
-    window.onload = printOrder(customer_order)
-    function numWithThreeDot(x){
-        var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-        return res;
-    }
+    // window.onload = printOrder(customer_order)
     function printOrder(orders){
         var hold = '';
         for (let i = 0;i < orders.length;i++) {
@@ -138,16 +134,8 @@
     function orderSyle() {
         $('#side-cus').addClass('active').css('background-color', '#5403758f');
     }
-    $('#btn1').click(function (e) {
-        toastr.info('Lorem ipsum dolor.','',{
-            timeOut: 2000,
-            progressBar: true,
-            progressAnimation: 'increasing'
-        });
-    });
-    $('.small-box-footer').click(function (e){
-        e.preventDefault();
-    });
+
+
 
     $("#cusInfo").on('input propertyChange','#inpPhone',function(e){
         var str = $(this).val();

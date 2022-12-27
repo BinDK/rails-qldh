@@ -3,7 +3,7 @@
     <h3 class="card-title">Quick Example</h3>
   </div>
 
-  <% if product.name.nil? %>
+  <% if product.id.nil? %>
   <%= form_with(url: save_product_path,model: product,
                 html: {autocomplete: 'off', id:"productForm"}, method: 'POST') do |form| %>
     <div class="card-body">

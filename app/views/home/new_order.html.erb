@@ -306,7 +306,7 @@
                  }));
              });
          },
-         minLength: 2,
+         minLength: 1,
          select: function( event, ui ) {
              $('#refPhone').val(ui.item.label.split(' - ')[1]);
              $('#orderrefID').val(ui.item.objID);
@@ -326,7 +326,7 @@
                  }));
              });
                  },
-         minLength: 2,
+         minLength: 1,
          select: function( event, ui ) {
              $('#cusPhone').val(ui.item.label.split(' - ')[1]);
              $('#oldCusID').val(ui.item.objID);
@@ -441,7 +441,7 @@
                  hold += '<td class="text-center"><i type="button" class="fas fa-angle-down qtybtn" id="down-'+data.prod.id+'"></i>' +
                      '&nbsp;&nbsp;<input type="number" min="1" class="border-0 border-bottom-1 bg-transparent btnx text-center" id="prodQty" value="1">&nbsp;&nbsp;' +
                      '<i type="button" class="fas fa-angle-up qtybtn" id="up-'+data.prod.id+'"></i></td>';
-                 hold += '<td><span id="prodPrice">'+data.prod.price+'</span></td>';
+                 hold += '<td><span id="prodPrice">'+numberWithCommas(parseFloat(data.prod.price).toFixed(3))+'</span></td>';
                  hold += '<td><button type="button" class="btn btn-sm btn-outline-warning btndel">Xóa</button></td>';
                  hold += '</tr>';
              $("#line_items tbody").append(hold);
@@ -764,7 +764,7 @@
              });
              return false;
          }
-
+          $(this).addClass('disabled').attr('disabled','disabled')
          $.ajax({
              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
              type: 'POST',
@@ -778,12 +778,20 @@
                      progressBar: true,
                      progressAnimation: 'increasing'
                  });
+
+                  setTimeout(function(){
+                      window.location = '<%= order_detail_url %>?id='+data.id
+                  },1000);
               } else{
                   toastr.warning(data.message,'',{
                       timeOut: 3000,
                       progressBar: true,
                       progressAnimation: 'increasing'
                   });
+
+                  setTimeout(function(){
+                      $(this).removeClass('disabled').removeAttr('disabled')
+                  },3000);
               }
 
              }

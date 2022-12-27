@@ -7,13 +7,8 @@
     <list default="true" id="1230615a-ecf2-40c2-97ce-8e24bd551ebb" name="Changes" comment="new_order working almost purfect, rename 1 add 1 col to Order table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/controllers/apix_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/apix_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/home_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/home_controller.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/customer/_addr_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/customer/_addr_order.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/customer/detail.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/customer/detail.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/order_manage.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order_manage.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/part/_order.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/referrer/_ref_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/referrer/_ref_order.html.erb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/new_order.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/new_order.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/order/detail.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/order/detail.html.erb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,7 +259,7 @@
       <workItem from="1671944345135" duration="1733000" />
       <workItem from="1671967970696" duration="34291000" />
       <workItem from="1672037554198" duration="26224000" />
-      <workItem from="1672125877539" duration="15010000" />
+      <workItem from="1672125877539" duration="24812000" />
     </task>
     <task id="LOCAL-00001" summary="update credential">
       <created>1669295983959</created>

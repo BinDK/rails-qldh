@@ -13,6 +13,10 @@ class ApixController < ApplicationController
   before_action :product_params, only: %i[ add_prod update_prod ]
   def add_order
     @number = params[:item_length].to_s.to_i
+    @uni = params[:unit].to_s.to_i
+    @dis_val = params[:order][:discount_value].to_f
+    final_calculate(@number, @uni, @dis_val, params[:order][:shipping_cost].to_f)
+
     if @number.eql? 0
       render json: {status: "MISSING", message: "Chưa Chọn Sản Phẩm"}, status: :ok
     else
@@ -22,10 +26,11 @@ class ApixController < ApplicationController
     @ord.status = "Mới Tạo"
     @ord.completed_at = nil
     @ord.referrer_id = @hold
-    @ord.discount_unit = params[:unit].to_s.to_i
+    @ord.discount_unit = @uni
+    @ord.total = @total
     @ord.save
     add_items(@ord.id,@number)
-    render json: {status: "SUCCESS", message: "Tạo Đơn Hàng THành Công"}, status: :ok
+    render json: {status: "SUCCESS", id: @ord.id ,message: "Tạo Đơn Hàng THành Công"}, status: :ok
 
     end
   end
@@ -323,7 +328,20 @@ class ApixController < ApplicationController
   end
   # end for order
 
-
+  def final_calculate(number_item,uni,dis_val,shipping_cost)
+    @items = params[:items]
+    @total = 0
+    number_item.times do |i|
+      @total = @total + ( @items.values[i][:prodQty].to_i * @items.values[i][:prodPrice].to_f)
+    end
+    if uni.eql? 1
+      @total = @total - ((@total * dis_val)/100) + shipping_cost
+    elsif uni.eql? 2
+      @total = @total -  dis_val + shipping_cost
+    else
+      @total = @total + shipping_cost
+    end
+  end
   def add_items(order_id,number_item)
     @items = params[:items]
     number_item.times do |i|
@@ -332,6 +350,7 @@ class ApixController < ApplicationController
                           product_id:   @items.values[i][:prodID],
                           order_id: order_id)
       @product.save
+
     end
   end
 

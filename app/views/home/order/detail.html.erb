@@ -220,24 +220,7 @@ $('.orderStat').bind('change',function () {
             order_status: statSel.html()
         },
         success: function(data) {
-            toastr.success('Đổi Thành Công','',{
-                timeOut: 3000,
-                progressBar: true,
-                progressAnimation: 'increasing'
-            });
-            if(data.order){
-
-                $('#orderStatus').html(data.order.status);
-                $('#orderUpd').html(formatDate(data.order.updated_at));
-                $('#orderComp').html(data.order.completed_at ? formatDate(data.order.completed_at) : 'Chưa Hoàn Tất' );
-            } else{
-                //Phải lấy row ở ngoài table
-                $('#prodTable #order-'+orderID).closest('tr').remove();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-                $("#modal-xl").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
-
-            }
+            location.reload();
 
         }
     });

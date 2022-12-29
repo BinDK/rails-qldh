@@ -30,7 +30,7 @@ class HomeController < ApplicationController
         format.html { redirect_to  customer_detail, id: @cus.id}
 
       else
-        format.html { render 'home/customer/detail', status: :unprocessable_entity }
+        format.html { redirect_to customer_detail, id:@cus.id, status: :unprocessable_entity }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
@@ -92,7 +92,7 @@ class HomeController < ApplicationController
         banking_informations:ban)
         format.html { redirect_to  ref_detail, id: @ref.id}
       else
-        format.html { render 'home/referrer/detail', status: :unprocessable_entity }
+        format.html { redirect_to  ref_detail, id: @ref.id, status: :unprocessable_entity}
         format.json { render json: @ref.errors, status: :unprocessable_entity }
       end
     end

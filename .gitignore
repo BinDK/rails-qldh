@@ -39,3 +39,21 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Rubymine
+.idea/*
+
+# VSCode
+.vscode
+
+# Master key
+/config/master.key
+
+
+
+# Ignore coverage
+/coverage
+
+# Ignore env
+.env
+.env.*

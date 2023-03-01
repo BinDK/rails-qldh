@@ -1,4 +1,4 @@
-class ApixController < ApplicationController
+class ApiController < ApplicationController
   # protect_from_forgery with: :null_session
   before_action :set_prod, only: %i[ update_prod delete_prod ]
   before_action :set_order, only: %i[ find_order ]
@@ -55,7 +55,6 @@ class ApixController < ApplicationController
                         customer: @cus, message: "Đã Có Người Sử Dụng"}, status: :ok
         end
   end
-
   def ref_phone_check
     @ref = Referrer.find_by_phone(params[:phone])
     if @ref == nil
@@ -136,8 +135,6 @@ class ApixController < ApplicationController
       render json: {prod: @products }, status: :ok
     end
   end
-
-
   #End for product
 
   #For order

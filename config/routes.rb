@@ -2,37 +2,37 @@ Rails.application.routes.draw do
 
   scope :home do
 
-    scope :api do
+    namespace :api do
 
-      post 'add_order', to: 'apix#add_order'
-      get 'phone_check', to: 'apix#phone_check'
-      get 'ref_phone_check', to: 'apix#ref_phone_check'
-      get 'product_info', to: 'apix#product_info'
-      post 'customer_check', to: 'apix#customer_check'
-      get 'customer_address', to: 'apix#customer_address'
-      get 'cus_name_search', to: 'apix#cus_name_search'
-      get 'ref_name_search', to: 'apix#ref_name_search'
+      post 'add_order', to: 'api#add_order'
+      get 'phone_check', to: 'api#phone_check'
+      get 'ref_phone_check', to: 'api#ref_phone_check'
+      get 'product_info', to: 'api#product_info'
+      post 'customer_check', to: 'api#customer_check'
+      get 'customer_address', to: 'api#customer_address'
+      get 'cus_name_search', to: 'api#cus_name_search'
+      get 'ref_name_search', to: 'api#ref_name_search'
 
 
-      post 'add_prod', to: 'apix#add_prod'
-      get 'find_prod', to: 'apix#find_prod'
-      put 'update_prod', to: 'apix#update_prod'
-      delete 'delete_prod', to: 'apix#delete_prod'
-      get 'prod_page', to: 'apix#prod_page'
+      # post 'add_prod', to: 'api#add_prod'
+      # get 'find_prod', to: 'api#find_prod'
+      # put 'update_prod', to: 'api#update_prod'
+      # delete 'delete_prod', to: 'api#delete_prod'
+      # get 'prod_page', to: 'api#prod_page'
+      resources :products
 
-      get 'find_order', to: 'apix#find_order'
-      get 'find_oder_kw', to: 'apix#find_oder_kw'
+      get 'find_order', to: 'api#find_order'
+      get 'find_oder_kw', to: 'api#find_oder_kw'
 
-      put 'change_order_stat', to: 'apix#change_order_stat'
-      get 'find_order_by_stat', to: 'apix#find_order_by_stat'
-      get 'order_page', to: 'apix#order_page'
+      put 'change_order_stat', to: 'api#change_order_stat'
+      get 'find_order_by_stat', to: 'api#find_order_by_stat'
+      get 'order_page', to: 'api#order_page'
 
-      get 'cus_search', to: 'apix#cus_search'
-      get 'ref_search', to: 'apix#ref_search'
-      put 'cus_info', to: 'apix#cus_info_update'
-      put 'cus_addr', to: 'apix#cus_addr_update'
-      put 'ref_info', to: 'apix#ref_info_update'
-
+      get 'cus_search', to: 'api#cus_search'
+      get 'ref_search', to: 'api#ref_search'
+      put 'cus_info', to: 'api#cus_info_update'
+      put 'cus_addr', to: 'api#cus_addr_update'
+      put 'ref_info', to: 'api#ref_info_update'
     end
 
     get 'index', to: 'home#index'

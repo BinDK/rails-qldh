@@ -265,7 +265,7 @@
         $btns.not(this).removeClass('btn-outline-custom');
         var curBTN = $(this);
         var choice = curBTN.attr('title').split('-')[0];
-        $.get("<%= find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
+        $.get("<%= api_orders_find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
             console.log(data)
                 var orders = data.orders.reverse();
             var hold = '';
@@ -292,10 +292,6 @@
         });
         curBTN.toggleClass("btn-outline-custom");
     });
-
-
-
-
 </script>
 
 

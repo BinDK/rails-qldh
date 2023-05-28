@@ -1,13 +1,10 @@
 <div class="content-wrapper">
+
   <!-- Content Header (Page header) -->
   <div class="content-header">
-
     <div class="container-fluid">
       <div class="row mb-2">
-
-        <div class="col-sm-6">
-        </div>
-
+        <div class="col-sm-6"></div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
@@ -15,22 +12,17 @@
             <li class="breadcrumb-item active">Chi Tiết</li>
           </ol>
         </div>
-
       </div>
     </div>
-
   </div>
   <!--/ Content Header -->
-
 
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
       <!-- Small boxes -->
       <div class="row">
-
         <div class="col-12">
-
         <!-- Order detail -->
           <div class="invoice p-3 mb-3">
             <div class="row">
@@ -39,7 +31,6 @@
                   <small class="float-right" id="orderCre">Ngày Tạo: <%= l(@order.created_at, format: :custom) %></small>
                 </h4>
               </div>
-
             </div>
 
             <div class="row invoice-info">
@@ -48,7 +39,7 @@
                 <address>
                   <span id="cusName"><b>Tên: </b><%= link_to @order.customer.name,
                                                              customer_detail_path(id: @order.customer.id),
-                                                             class:'text-bold text-blue'  %></span><br>
+                                                             class:'text-bold text-blue' %></span><br>
                   <span id="cusAddr" class="text-wrap"><b>Địa Chỉ: </b><%= @order.address_info %></span><br>
                   <span id="cusPhone"><b>Điện Thoại: </b><%= @order.customer.phone %></span><br>
                   <span id="cusPayment"><b>Thanh Toán Bằng: </b><%= @order.payment_method %></span>
@@ -58,17 +49,16 @@
               <div class="col-sm-4 invoice-col">
                 Người giới thiệu
                 <address>
-
                 <% if @order.referrer.nil? %>
-                    <b>Không Có Người Giới Thiệu</b>
-                  <% else %>
-                    <span id="refName"><b>Tên: <%= link_to @order.referrer.name,
-                                                           ref_detail_path(id: @order.referrer.id),
-                                                           class:'text-bold text-success'%></b></span><br>
-                    <span id="refPhone"><b>Điện Thoại: <%= @order.referrer.phone %></b></span><br>
-                    <span id="refBank"><b>Thông Tin CK: <%= @order.referrer.banking_informations %></b></span><br>
+                  <b>Không Có Người Giới Thiệu</b>
+                <% else %>
+                  <span id="refName"><b>Tên: <%= link_to @order.referrer.name,
+                                                         ref_detail_path(id: @order.referrer.id),
+                                                         class:'text-bold text-success'%></b></span><br>
+                  <span id="refPhone"><b>Điện Thoại: <%= @order.referrer.phone %></b></span><br>
+                  <span id="refBank"><b>Thông Tin CK: <%= @order.referrer.banking_informations %></b></span><br>
                 <% end %>
-                  </address>
+                </address>
 
                   </div>
 
@@ -84,26 +74,25 @@
                   <b>Ngày Hoàn Tất: </b>
                   <% end %>
               </div>
-
             </div>
 
             <div class="row mt-2">
               <div class="col col-md-7 table-responsive">
                 <table class="table table-bordered table-striped" id="lineItems">
                   <thead>
-                  <tr>
-                    <th>Tên</th>
-                    <th>Số Lượng</th>
-                    <th>Giá</th>
-                    <th>Tổng Giá SP</th>
-                  </tr>
+                    <tr>
+                      <th>Tên</th>
+                      <th>Số Lượng</th>
+                      <th>Giá</th>
+                      <th>Tổng Giá SP</th>
+                    </tr>
                   </thead>
                   <tbody>
                   <% @items.each do |x|  %>
                     <tr><td><%= x.product.name %></td>
-                    <td class="text-right"><%= x.quantity %></td>
-                    <td class="text-right"><%= number_to_currency(x.price, precision:3) %></td>
-                    <td class="text-right"><%= number_to_currency((x.quantity * x.price), precision:3) %></td>
+                      <td class="text-right"><%= x.quantity %></td>
+                      <td class="text-right"><%= number_to_currency(x.price, precision:3) %></td>
+                      <td class="text-right"><%= number_to_currency((x.quantity * x.price), precision:3) %></td>
                     </tr>
                   <% end %>
                   </tbody>
@@ -121,65 +110,39 @@
                     <tr>
                       <% if @order.discount_unit == 'percentage' %>
                         <th id="orderDis">Giảm (<%= @order.discount_value %>%):</th>
-                        <td id="orderDisMoney" class="text-right"><%=  number_to_currency((@subtotal * @order.discount_value)/100, precision: 3) %></td>
+                        <td id="orderDisMoney" class="text-right"><%= number_to_currency((@subtotal * @order.discount_value)/100, precision: 3) %></td>
                       <% elsif @order.discount_unit == 'by_price' %>
                         <th id="orderDis">Giảm (<%= number_to_currency(@order.discount_value, precision:3) %>):</th>
-                        <td id="orderDisMoney" class="text-right"><%=  number_to_currency(@subtotal - @order.discount_value, precision:3) %></td>
-
+                        <td id="orderDisMoney" class="text-right"><%= number_to_currency(@subtotal - @order.discount_value, precision:3) %></td>
                       <% else %>
                         <th id="orderDis">Giảm: </th>
                         <td id="orderDisMoney" class="text-right">Không Có</td>
-                    <%end  %>
-
-
+                      <% end  %>
                     </tr>
                     <tr>
                       <th>Phí Ship:</th>
-                      <td id="orderShip" class="text-right"><%=  number_to_currency(@order.shipping_cost, precision:3) %></td>
+                      <td id="orderShip" class="text-right"><%= number_to_currency(@order.shipping_cost, precision:3) %></td>
                     </tr>
                     <tr>
                       <th>Total:</th>
-                      <td id="orderTotal"class="text-right"><%=  number_to_currency(@order.total, precision:3) %></td>
+                      <td id="orderTotal"class="text-right"><%= number_to_currency(@order.total, precision:3) %></td>
                     </tr>
                     </tbody></table>
                 </div>
               </div>
             </div>
-
-
+            <!-- Begin Order Status Dropdown -->
             <div class="row mt-2 mb-2">
               <div class="col-3">
                 <div class="form-group">
                   <label>Select</label>
                   <select class="form-control orderStat" id="<%= @order.id %>" autocomplete="off">
-                    <% if @order.status == 'Mới Tạo' %>
-                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
-                    <option id="2">Sẵn Sàng Giao</option>
-                    <option id="3">Giao Thành Công</option>
-                    <option id="4">Hoàn Tất Đơn</option>
-                    <option id="5">Hủy</option>
-                      <% elsif @order.status == 'Sẵn Sàng Giao' %>
-                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
-                      <option id="3">Giao Thành Công</option>
-                      <option id="4">Hoàn Tất Đơn</option>
-                      <option id="5">Hủy</option>
-                    <% elsif @order.status == 'Giao Thành Công' %>
-                      <option disabled="disabled" selected>Thay đỏi Trạng Thái</option>
-                      <option id="4">Hoàn Tất Đơn</option>
-                      <option id="5">Hủy</option>
-                  <% else %>
-                      <option disabled="disabled" selected>Chọn Để Hủy</option>
-                      <option id="5">Hủy</option>
-                    <% end %>
-
+                    <%= options_for_order_status(@order.status) %>
                   </select>
                 </div>
               </div>
-              <div class="col-9">
-
-              </div>
             </div>
-
+        <!-- End Order Status Dropdown -->
           </div>
         <!-- End Order detail-->
 
@@ -188,43 +151,24 @@
       </div>
     </div>
   </section>
-  <!-- /.content -->
+  <!-- /.Main content -->
 </div>
 
 <script type="text/javascript" charset="utf-8">
-    window.onload = orderSyle();
-
-    function orderSyle() {
-
-        $('#side_order_menu').css('background-color', '#F7A4A4')
-    }
-// window.onload = changeNum();
-    function changeNum(){
-    $('#orderShip').html(numberWithCommas(parseFloat($('#orderShip').html()).toFixed(3)))
-    }
-function numWithThreeDot(x){
-    var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-    return res;
+window.onload = function() {
+    $('#side_order_menu').css('background-color', '#F7A4A4');
 }
-$('.orderStat').bind('change',function () {
-    var statSel = $(this).find(":selected");
-    var orderID = $(this).attr('id');
-    // var curRow = $('order-'+orderID).closest('tr');
-    var actionUrl = '<%= change_order_stat_path %>';
+
+$('.orderStat').on('change',function () {
+    let statSel = $(this).find(":selected");
+    let orderID = $(this).attr('id');
+
     $.ajax({
         type: "PUT",
-        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-        url: actionUrl,
-        data: {
-            id: orderID,
-            order_status: statSel.html()
-        },
-        success: function(data) {
-            location.reload();
-
-        }
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));},
+        url: '<%= api_orders_change_order_stat_path %>',
+        data: { id: orderID, order_status: statSel.html() },
+        success: function() {location.reload()}
     });
 });
-
-
 </script>

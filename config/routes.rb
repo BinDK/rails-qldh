@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   scope :home do
+    get 'index', to: 'home#index'
 
     namespace :api do
 
@@ -21,12 +22,13 @@ Rails.application.routes.draw do
       # get 'prod_page', to: 'api#prod_page'
       resources :products
 
-      get 'find_order', to: 'api#find_order'
-      get 'find_oder_kw', to: 'api#find_oder_kw'
-
-      put 'change_order_stat', to: 'api#change_order_stat'
-      get 'find_order_by_stat', to: 'api#find_order_by_stat'
-      get 'order_page', to: 'api#order_page'
+      namespace :orders do
+        get 'find_order', to: 'find_order'
+        get 'find_oder_kw', to: 'find_oder_kw'
+        put 'change_order_stat', to: 'change_order_stat'
+        get 'find_order_by_stat', to: 'find_order_by_stat'
+        get 'order_page', to: 'order_page'
+      end
 
       get 'cus_search', to: 'api#cus_search'
       get 'ref_search', to: 'api#ref_search'
@@ -34,9 +36,6 @@ Rails.application.routes.draw do
       put 'cus_addr', to: 'api#cus_addr_update'
       put 'ref_info', to: 'api#ref_info_update'
     end
-
-    get 'index', to: 'home#index'
-
   end
 
   scope :orders do

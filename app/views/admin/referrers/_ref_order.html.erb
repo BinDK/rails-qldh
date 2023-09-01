@@ -1,0 +1,51 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header p-2">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Lịch Sử Giới Thiệu</a></li>
+      </ul>
+    </div>
+
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane active" id="timeline">
+          <div class="timeline timeline-inverse">
+
+            <% if orders.size == 0 %>
+              Chưa có đơn nào
+            <% else %>
+        <% orders.each do |o| %>
+
+              <div class="time-label">
+                <span class="bg-danger"><%= l(o.created_at,format: :custom) %></span>
+              </div>
+
+              <div>
+                <div class="timeline-item">
+              <h3 class="timeline-header border-0">
+              <span class="text-bold text-blue"> Tổng Giá: <%=  number_to_currency(o.total,precision:3) %></span> <ul>
+                  <% if o.discount_unit == 'percentage' %>
+                  <li>Giảm Giá theo %: <b><%=  o.discount_value %>%</b></li>
+
+                <% elsif o.discount_unit == 'by_price' %>
+                  <li>Giảm Giá: <b><%=  number_to_currency(o.discount_value,precision:3) %></b></li>
+                  <% else %>
+                  <li>Không Giảm Giá</li>
+
+              <%end  %>
+              <li>Phí ship: <b><%=  o.shipping_cost.to_s %></b></li>
+              <li>Cập Nhật Lần Cuối: <%= l(o.updated_at,format: :custom) %></li>
+              <li><%= link_to 'Chi Tiết', order_detail_path(id: o.id),class:'text-bold text-danger'%></li></ul>
+              </h3>
+                </div>
+              </div>
+            <% end %>
+          <div><i class="far fa-clock bg-gray"></i></div>
+            <% end %>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

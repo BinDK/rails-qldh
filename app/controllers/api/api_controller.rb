@@ -1,4 +1,4 @@
-class ApiController < ApplicationController
+class Api::ApiController < ApplicationController
   # protect_from_forgery with: :null_session
   before_action :set_prod, only: %i[ update_prod delete_prod ]
   before_action :set_order, only: %i[ find_order ]
@@ -11,6 +11,7 @@ class ApiController < ApplicationController
   before_action :ref_params, only: %i[ add_order ]
   before_action :order_params, only: %i[ add_order ]
   before_action :product_params, only: %i[ add_prod update_prod ]
+
   def add_order
     @number = params[:item_length].to_s.to_i
     @uni = params[:unit].to_s.to_i
@@ -20,18 +21,18 @@ class ApiController < ApplicationController
     if @number.eql? 0
       render json: {status: "MISSING", message: "Chưa Chọn Sản Phẩm"}, status: :ok
     else
-    @bb = add_ref(ref_params,params[:orderrefID].to_s.to_i)
-    @hold = @bb.nil? ? nil : @bb.id
-    @ord = Order.new(order_params)
-    @ord.status = "Mới Tạo"
-    @ord.completed_at = nil
-    @ord.referrer_id = @hold
-    @ord.discount_unit = @uni
-    @ord.total = @total
-    @ord.save
-    add_items(@ord.id,@number)
-    render json: {status: "SUCCESS", id: @ord.id ,message: "Tạo Đơn Hàng THành Công"}, status: :ok
+      @bb = add_ref(ref_params,params[:orderrefID].to_s.to_i)
+      @hold = @bb.nil? ? nil : @bb.id
+      @ord = Order.new(order_params)
+      @ord.status = "Mới Tạo"
+      @ord.completed_at = nil
+      @ord.referrer_id = @hold
+      @ord.discount_unit = @uni
+      @ord.total = @total
+      @ord.save
+      add_items(@ord.id,@number)
 
+      render json: { status: "SUCCESS", id: @ord.id, message: "Tạo Đơn Hàng THành Công" }, status: :ok
     end
   end
 
@@ -356,7 +357,7 @@ class ApiController < ApplicationController
     return  cust.id
   end
 
-  def add_ref(param,order_ref_id)
+  def add_ref(param, order_ref_id)
     @ref = Referrer.new(param)
     if @ref.name.empty? and @ref.phone.empty? and @ref.banking_informations.empty? and  order_ref_id== 0
       @ref = nil

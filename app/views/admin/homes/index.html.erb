@@ -1,0 +1,123 @@
+ <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+
+      <div class="container-fluid">
+        <div class="row mb-2">
+
+        <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+        </div>
+
+        <div class="col-sm-6">
+          <a href="<%= new_admin_order_path %>" type="button" class="btn rounded-5 float-right plx" style="background-color: #1462ff; color: rgb(245, 235, 216); border-radius: 12px;">Tạo đơn &nbsp;&nbsp;&nbsp; <i class="fa-solid fa-solid fa-angle-right"></i>
+            </a>
+        </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!--/ Content Header -->
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3><%= @new %></h3>
+
+                <p>Đơn hàng mới</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3><%= @prepared %></h3>
+                <p>Đơn hàng đã chuẩn bị</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3><%= @shipped %></h3>
+
+                <p>Đã Giao Thành Công</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3><%= @completed %></h3>
+
+                <p>Đã Thanh Toán</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.Small boxes -->
+
+        <!-- Main row -->
+
+        <!-- /.row (main row) -->
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+
+  <style>
+
+.plk{
+  margin: 15px;
+}
+.plx:hover{
+  box-shadow: 0px 4px 5px 1px rgb(167, 217, 236);
+}
+</style>
+  <script>
+  window.onload = turnOn();
+    function turnOn(){
+      $('#side-home').addClass('active');
+    }
+
+        $('#btn1').click(function (e) {
+        toastr.info('Lorem ipsum dolor.','',{
+            timeOut: 2000,
+            progressBar: true,
+            progressAnimation: 'increasing'
+        });
+        });
+        $('.small-box-footer').click(function (e){
+            e.preventDefault();
+        });
+
+  </script>
+
+

@@ -147,7 +147,7 @@ class HomeController < ApplicationController
 
   #Order
   def new_order
-    product_find(0)
+    @products = Product.all
     @customers = Customer.all
 
   end
@@ -159,12 +159,12 @@ class HomeController < ApplicationController
     # @pagy,@orders = pagy(Order.order(created_at: :desc).all_except('hoàn tất đơn'))
   end
   def order_detail
-    @order = Order.includes(:customer,:referrer).find(params[:id])
+    @order = Order.includes(:customer, :referrer).find(params[:id])
     @items = LineItem.includes(:product).where(order_id: @order.id)
     @subtotal = 0
     @items.each do |s|
       @subtotal = @subtotal + (s.price * s.quantity)
-     end
+    end
 
     render 'home/order/detail'
   end
@@ -174,11 +174,12 @@ class HomeController < ApplicationController
 
   private
   def http_auth
-    return true if Rails.env == "development"
-    authenticate_or_request_with_http_basic do |username,password|
-     username == Rails.application.credentials.dig(:http_auth,:uname).to_s &&
-     password == Rails.application.credentials.dig(:http_auth,:pass).to_s
-  end
+    return true if Rails.env == 'development'
+
+    authenticate_or_request_with_http_basic do |username, password|
+      username == Rails.application.credentials.dig(:http_auth,:uname).to_s &&
+        password == Rails.application.credentials.dig(:http_auth,:pass).to_s
+    end
   end
 
   def product_params

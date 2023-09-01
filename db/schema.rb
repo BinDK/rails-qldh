@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_22_122649) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_01_125840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_22_122649) do
     t.text "banking_informations"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["phone"], name: "index_referrers_on_phone", unique: true
   end
 
   add_foreign_key "addresses", "customers"

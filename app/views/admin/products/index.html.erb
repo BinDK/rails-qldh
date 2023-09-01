@@ -1,0 +1,333 @@
+<div class="content-wrapper">
+  <div class="content-header">
+
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+          <a href="<%= new_admin_product_path %>" type="button" class="btn rounded-5 float-right plx" style="background-color: rgb(20, 98, 255); color: rgb(245, 235, 216); border-radius: 12px;">Tạo Sản Phẩm&nbsp;&nbsp;&nbsp;
+            <i class="fa-solid fa-solid fa-angle-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-12">
+
+                <div class="card">
+                  <!-- /.card-header -->
+                  <div class="card-header">
+                    <h3 class="card-title">Tất cả sản phẩm</h3>
+
+                    <div class="card-tools">
+                      <%= search_form_for @q, data: {controller: 'search-form', search_form_target: 'form', turbo_frame: :results}, url: admin_products_path  do |f| %>
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                          <%= f.search_field :name_or_volume_cont, class:'form-control float-right',
+                                             autofocus:true,autocomplete:'off', placeholder:'Tên / dung tích',
+                                             data: { action: 'input->search-form#search' }  %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                  <%= turbo_frame_tag :results do %>
+                    <%= render partial: "admin/list/listp", locals: { products: @products } %>
+                  <% end %>
+
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+</div>
+<div class="modal fade" id="modal-md">
+
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm Sản Phẩm </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productForm" autocomplete="off">
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="pname">Tên Sản Phẩm</label>
+          <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
+        </div>
+        <div class="form-group">
+          <label for="pprice">Giá Sản Pẩm</label>
+          <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Dung Tích</label>
+          <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" id="createProd">Thêm</button>
+      </div>
+      </form>
+
+    </div>
+    <!-- /.modal-content -->
+
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-md2">
+
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Cập Nhật Sản Phẩm </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="productUForm" autocomplete="off">
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="pname">Tên Sản Phẩm</label>
+            <input type="email" class="form-control" id="pname" name="product[name]" placeholder="Nhập Tên">
+          </div>
+
+          <div class="form-group">
+            <label for="pprice">Giá Sản Pẩm</label>
+            <input type="email" class="form-control" id="pprice" name="product[price]" placeholder="Giá">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Dung Tích</label>
+            <input type="email" class="form-control" id="pvol" name="product[volume]" placeholder="lít, ml...">
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger delProd" ><i class="fas fa-delete-left"></i></button>
+          <input type="hidden" name="id" id="prodID">
+          <button type="button" class="btn btn-primary uProd" ><i class="fas fa-floppy-disk"></i></button>
+        </div>
+      </form>
+
+    </div>
+    <!-- /.modal-content -->
+
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+
+    function orderSyle() {
+        $('#side-good').addClass('active').css('background-color', '#62B6B7');
+
+    }
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+
+    $('#prodSearch').keyup(debounce(function (event){
+        var kw = $('#prodSearch').val();
+        if(kw == '' && kw.length == 0){
+            findProductByKW(kw,0);
+        }else {
+            findProductByKW(kw,1);
+        }
+
+    },3000));
+
+    $('#prodTable, #results').on('click','.btnUp',function (){
+      var id =  $(this).attr('id').split('-')[1];
+        findProduct(parseInt(id),3)
+    });
+
+    function findProductByKW(kw,choice) {
+        var actionUrl = '<%= api_products_path %>';
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                kw: kw,
+                choice: choice
+            }, // serializes the form's elements.
+            success: function(data) {
+
+
+                var hold = ''
+                for(let i = 0;i < data.prod.length; i++  ){
+
+                    hold += '<tr><td>'+data.prod[i].name+'</td>';
+                    hold += '<td>'+data.prod[i].price+'</td>';
+                    hold += '<td>'+data.prod[i].volume+'</td>';
+                    hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod[i].id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                }
+                $('#prodTable tbody').html(hold);
+
+            }
+        });
+    }
+
+
+    function findProduct(id,choice) {
+        var actionUrl = '<%= api_products_path %>';
+
+        $.ajax({
+            type: "GET",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                id: id,
+                choice: choice
+            },
+            success: function(data) {
+
+              $('form#productUForm #pname').val(data.prod.name);
+              $('form#productUForm #pprice').val(data.prod.price.replace('.',','));
+              $('form#productUForm #pvol').val(data.prod.volume);
+              $('form#productUForm #prodID').val(data.prod.id)
+
+            }
+        });
+    }
+
+    // document.getElementById("pprice").addEventListener("input", function() {
+    //     var stringMoney = this.value;
+    //     var convert = stringMoney.replace(/\,/g, '');
+    //     this.value = convert.toLocaleString()
+    // });
+    $("#productForm #pprice, #productUForm #pprice ").keyup(function(){
+        var str = $(this).val();
+        str = str.replace(/\D+/g, '');
+        $(this).val(str.replace(/\d(?=(?:\d{3})+(?!\d))/g, '$&,'));
+    });
+
+    $("#createProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= api_products_path %>';
+        var fixx = parseFloat($('#productForm #pprice').val().split(',').join("")/1000).toFixed(3);
+        var prod= {
+            product:{
+                name: $('#productForm #pname').val(),
+                price: fixx,
+                volume:  $('#productForm #pvol').val()
+            }
+        };
+
+        $.ajax({
+            type: "POST",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: $.param(prod), // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.prod.name,data.message,{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                var hold = ''
+                hold += '<tr><td>'+data.prod.name+'</td>';
+                hold += '<td>'+data.prod.price+'</td>';
+                hold += '<td>'+data.prod.volume+'</td>';
+                hold += '<td> <button class="btn btn-outline-success float-right btnUp" id="prod-'+data.prod.id+'" data-toggle="modal" data-target="#modal-md2"><i class="fas fa-circle-info"></i></button></td></tr>';
+                    $('#prodTable tbody').append(hold);
+
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-md").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+                $('form#productForm input').val('');
+            }
+        });
+    });
+
+    $(".delProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= api_products_url %>';
+        var id = $('#prodID').val();
+        $.ajax({
+            type: "DELETE",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: {
+                id:id
+            }, // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.message,'',{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                findProductByKW('',0);
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-md2").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+            }
+        });
+    });
+
+        $(".uProd").click(function(e) {
+        e.preventDefault();
+        var actionUrl = '<%= api_products_url %>';
+            var fixx = parseFloat($('#productUForm #pprice').val().split(',').join("")/1000).toFixed(3);
+            var prod= {
+                id: parseInt($('#productUForm #prodID').val()),
+                product:{
+                    name: $('#productUForm #pname').val(),
+                    price: fixx,
+                    volume:  $('#productUForm #pvol').val()
+                }
+            };
+        $.ajax({
+            type: "PUT",
+            beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+            url: actionUrl,
+            data: $.param(prod), // serializes the form's elements.
+            success: function(data) {
+                toastr.success(data.message,'',{
+                    timeOut: 3000,
+                    progressBar: true,
+                    progressAnimation: 'increasing'
+                });
+
+                findProductByKW('',0);
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $("#modal-md2").removeAttr("role").removeAttr("aria-modal").removeClass('show').css('display','none');
+            }
+        });
+    });
+
+
+
+</script>
+
+

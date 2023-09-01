@@ -1,5 +1,4 @@
 <div class="content-wrapper">
-
   <!-- Content Header (Page header) -->
   <div class="content-header">
     <div class="container-fluid">
@@ -7,8 +6,8 @@
         <div class="col-sm-6"></div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><%= link_to 'Trang Chủ',root_path %></li>
-            <li class="breadcrumb-item"><%= link_to 'Quản Lý Đơn Hàng',order_manage_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Trang Chủ', admin_root_path %></li>
+            <li class="breadcrumb-item"><%= link_to 'Quản Lý Đơn Hàng',admin_orders_path %></li>
             <li class="breadcrumb-item active">Chi Tiết</li>
           </ol>
         </div>
@@ -32,7 +31,6 @@
                 </h4>
               </div>
             </div>
-
             <div class="row invoice-info">
               <div class="col-sm-4 invoice-col">
                 Thông Tin Khách
@@ -45,7 +43,6 @@
                   <span id="cusPayment"><b>Thanh Toán Bằng: </b><%= @order.payment_method %></span>
                 </address>
               </div>
-
               <div class="col-sm-4 invoice-col">
                 Người giới thiệu
                 <address>
@@ -59,14 +56,11 @@
                   <span id="refBank"><b>Thông Tin CK: <%= @order.referrer.banking_informations %></b></span><br>
                 <% end %>
                 </address>
-
-                  </div>
-
+              </div>
               <div class="col-sm-4 invoice-col">
                 <b>Thông Tin Khác</b><br>
                 <br>
                 <b>Trạng Thái: </b> <span id="orderStatus"><%= @order.status %></span><br>
-
                 <b>Cập Nhật Lần Cuối: </b> <span id="orderUpd"><%= l(@order.updated_at, format: :custom) %></span><br>
                 <% if @order.status == 'Hoàn Tất Đơn' %>
                   <b>Ngày Hoàn Tất: </b> <span id="orderComp"><%= l(@order.completed_at, format: :custom) %></span>
@@ -75,7 +69,6 @@
                   <% end %>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col col-md-7 table-responsive">
                 <table class="table table-bordered table-striped" id="lineItems">
@@ -98,9 +91,7 @@
                   </tbody>
                 </table>
               </div>
-
               <div class="col col-md-5">
-
                 <div class="table-responsive">
                   <table class="table" id="orderPrice">
                     <tbody><tr>
@@ -127,11 +118,12 @@
                       <th>Total:</th>
                       <td id="orderTotal"class="text-right"><%= number_to_currency(@order.total, precision:3) %></td>
                     </tr>
-                    </tbody></table>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
-            <!-- Begin Order Status Dropdown -->
+          </div>
+        <!-- Begin Order Status Dropdown -->
             <div class="row mt-2 mb-2">
               <div class="col-3">
                 <div class="form-group">
@@ -143,11 +135,9 @@
               </div>
             </div>
         <!-- End Order Status Dropdown -->
-          </div>
-        <!-- End Order detail-->
-
         </div>
-
+        <!-- End Order detail-->
+        </div>
       </div>
     </div>
   </section>

@@ -1,0 +1,148 @@
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-1">
+
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <!-- Customer Table -->
+
+        <!-- Ref table -->
+        <div class="col-12">
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tất cả NGT</h3>
+
+              <div class="card-tools">
+                <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form',turbo_frame: :results}, url: ref_manage_path  do |f| %>
+                  <div class="input-group input-group-sm" style="width: 250px;">
+                    <%= f.search_field :name_or_phone_cont,
+                                       data: { action: 'input->search-form#search' },class:'form-control float-right',
+                                       autofocus:true,autocomplete:'off',placeholder:'Tên / SĐT'  %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <%= turbo_frame_tag :results do %>
+              <%= render partial: "admin/list/listr", locals: { refs: @refs } %>
+            <% end%>
+
+          </div>
+          <!-- /.card -->
+        </div>
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+</div>
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Chi Tiết Người Giớ Thiệu</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src=""
+                       alt="Ref pic" id="refpic">
+                </div>
+
+                <h3 class="profile-username text-center" id="demoName"></h3>
+
+                <p class="text-muted text-center" id="demoPhone"></p>
+
+                <form id="refInfo" autocomplete="off">
+                  <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                      <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="referrer[name]">
+                    </li>
+                    <li class="list-group-item">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" maxlength="10" name="referrer[phone]">
+                    </li>
+                    <li class="list-group-item">
+                      <small></small><b>Banking info</b></small> <textarea type="text" class="float-right border-0" rows="5" id="inpBank" name="referrer[banking_informations]"></textarea>
+                    </li>
+                  </ul>
+                  <input type="hidden" name="idRef" id="idRef" value="0">
+                  <button class="btn btn-primary btn-block" id="refUpdate"><b>Cập Nhật</b></button>
+                </form>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#timeline" data-toggle="tab">Lịch Sử Giới Thiệu</a></li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+
+
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane active" id="timeline">
+                    <div class="timeline timeline-inverse">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+  var flagPhone = 0;
+    function orderSyle() {
+        $('#side-ref').addClass('active').css('background-color', '#3A76ABC9');
+    }
+
+
+
+</script>
+
+

@@ -1,0 +1,15 @@
+  <tr>
+    <td><%= l(order.created_at,format: :custom) %></td>
+    <td><%= order.status %></td>
+    <td ><%= order.customer.name %> / <%= order.customer.phone %></td>
+    <td><%= order.referrer.nil? ? 'Không có ai giới thiệu' : order.referrer.name %></td>
+    <td class="text-wrap"><%= order.address_info %></td>
+<!--    <td class="text-wrap"><%#= order.total.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/, '.') %></td>-->
+    <td class="text-right"><%= number_to_currency(order.total,precision:3) %></td>
+
+    <td>
+      <%= link_to order_detail_path(id: order.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
+        <i class="fas fa-circle-info"></i>
+      <% end %>
+    </td>
+  </tr>

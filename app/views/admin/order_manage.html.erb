@@ -1,5 +1,3 @@
-<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.css"/>-->
-<!--<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>-->
 <div class="content-wrapper">
   <div class="content-header">
     <div class="container-fluid">
@@ -154,7 +152,8 @@
 
               <div class="table-responsive">
                 <table class="table" id="orderPrice">
-                  <tbody><tr>
+                  <tbody>
+                  <tr>
                     <th style="width:50%">Tổng phụ :</th>
                     <td id="orderSub" class="text-right"></td>
                   </tr>
@@ -168,9 +167,10 @@
                   </tr>
                   <tr>
                     <th>Total:</th>
-                    <td id="orderTotal"class="text-right"></td>
+                    <td id="orderTotal" class="text-right"></td>
                   </tr>
-                  </tbody></table>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -216,81 +216,38 @@
   }
 </style>
 <script type="text/javascript" charset="utf-8">
-    window.onload = orderSyle();
+    window.onload = function() {
+        $('#side_order_menu').css('background-color', '#F7A4A4');
+    };
 
-    function orderSyle() {
-
-        $('#side_order_menu').css('background-color', '#F7A4A4')
-    }
     function formatDate(date) {
-        var d = new Date(date),
-          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
-          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
-          year = d.getFullYear(),
-          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
-          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
-          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
-
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        a = [ day,month,year].join('/');
-        b = [hour, min].join(':');
-
-        return a + ' ' + b;
+        var d = new Date(date);
+        return [d.getDate(), d.getMonth() + 1, d.getFullYear()].join('/') + ' ' + [d.getHours(), d.getMinutes()].join(':');
     }
 
-
-    function debounce(fn, delay) {
-        var timer = null;
-        return function () {
-            var context = this, args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-                fn.apply(context, args);
-            }, delay);
-        };
-    }
-
-    function numWithoutThreeDot(x){
-        var res = x.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-        return res;
-    }
     function numWithThreeDot(x){
-        var res = x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-        return res;
+        return x.toString().replaceAll('.','').replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
     }
 
-
-    var $btns = $('.statBtn').click(function() {
-        $btns.not(this).removeClass('btn-outline-custom');
-        var curBTN = $(this);
-        var choice = curBTN.attr('title').split('-')[0];
+    $('.statBtn').click(function() {
+        $('.statBtn').not(this).removeClass('btn-outline-custom');
+        var choice = $(this).attr('title').split('-')[0];
         $.get("<%= api_orders_find_order_by_stat_path %>", {choice:parseInt(choice)},function(data) {
-            console.log(data)
-                var orders = data.orders.reverse();
             var hold = '';
-            for(let i = 0;i < orders.length; i++  ){
-                hold+= '<tr><td>'+ formatDate(orders[i].created_at) +'</td>'
-                hold+= '<td>'+orders[i].status+'</td>'
-                hold+= '<td>'+orders[i].name+' / '+orders[i].phone+'</td>'
-                if(orders[i].refname){
-                    hold+= '<td>'+orders[i].refname+'</td>'
-                }else{
-                    hold+= '<td>Không có ai giới thiệu</td>'
-                }
-                if(orders[i].address_info){
-                    hold+= '<td class="text-wrap">'+orders[i].address_info+'</td>'
-
-                }else{
-                    hold+= '<td>Cập Nhật Địa Chỉ</td>'
-                }
-                hold+= '<td>'+numWithThreeDot(parseFloat(orders[i].total).toFixed(3))+' VNĐ</td>'
-                hold+= '<td><a href="/orders/order_detail?id='+orders[i].id+'" class="btn btn-outline-success float-right btnUp" id="order-'+orders[i].id+'" ><i class="fas fa-circle-info"></i></a></td>';
-                hold+= '</tr>';
-            }
+            data.orders.reverse().forEach(order => {
+                hold += `<tr>
+                            <td>${formatDate(order.created_at)}</td>
+                            <td>${order.status}</td>
+                            <td>${order.name} / ${order.phone}</td>
+                            <td>${order.refname || 'Không có ai giới thiệu'}</td>
+                            <td class="text-wrap">${order.address_info || 'Cập Nhật Địa Chỉ'}</td>
+                            <td>${numWithThreeDot(parseFloat(order.total).toFixed(3))} VNĐ</td>
+                            <td><a href="/orders/order_detail?id=${order.id}" class="btn btn-outline-success float-right btnUp" id="order-${order.id}"><i class="fas fa-circle-info"></i></a></td>
+                        </tr>`;
+            });
             $('#prodTable tbody').html(hold);
         });
-        curBTN.toggleClass("btn-outline-custom");
+        $(this).toggleClass("btn-outline-custom");
     });
 </script>
 

@@ -1,6 +1,6 @@
   <aside class="main-sidebar elevation-4 sidebar-light-olive">
     <!-- Brand Logo -->
-    <a href="<%= root_path %>" class="brand-link">
+    <a href="<%= admin_root_path %>" class="brand-link">
       <%= image_tag('logo.png',class: 'brand-image img-circle elevation-3 logoxx') %>
 
       <span class="brand-text font-weight-bold text-decoration-none text-red text-bold nav-link:hover{color:red;}">Quản
@@ -40,7 +40,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item nitem1">
-            <a href="<%= root_path %>" id="side-home" class="nav-link ">
+            <a href="<%= admin_root_path %>" id="side-home" class="nav-link ">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Trang Chủ
@@ -49,7 +49,7 @@
           </li>
 
           <li class="nav-item nitem2">
-            <a href="<%= order_manage_path %>" id="side_order_menu" class="nav-link">
+            <a href="<%= admin_orders_path %>" id="side_order_menu" class="nav-link">
               <i class="nav-icon fas fa-bag-shopping"></i>
               <p>
                 Quản Lý Đơn Hàng
@@ -59,13 +59,13 @@
           </li>
 
           <li class="nav-item nitem3">
-            <a href="<%= product_manage_path %>" id="side-good" class="nav-link">
+            <a href="<%= admin_products_path %>" id="side-good" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>Quản Lý Sản Phẩm</p>
             </a>
           </li>
           <li class="nav-item nitem3">
-            <a href="<%= cus_manage_path %>" id="side-cus" class="nav-link ">
+            <a href="<%= admin_customers_path %>" id="side-cus" class="nav-link ">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Khách Hàng
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item nitem4">
-            <a href="<%= ref_manage_path %>" id="side-ref" class="nav-link ">
+            <a href="<%= admin_referrers_path %>" id="side-ref" class="nav-link ">
               <i class="nav-icon fas fa-handshake"></i>
               <p>
                 Người Giới Thiệu

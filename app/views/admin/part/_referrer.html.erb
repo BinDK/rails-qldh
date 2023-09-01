@@ -1,0 +1,9 @@
+<tr>
+  <td><%= ref.name %></td>
+  <td><%= ref.phone %></td>
+  <td>
+    <%= link_to admin_referrer_path(id: ref.id),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
+      <i class="fas fa-circle-info"></i>
+    <% end %>
+  </td>
+</tr>

@@ -1,4 +1,4 @@
-class ApixController < ApplicationController
+class Api::ApiController < ApplicationController
   # protect_from_forgery with: :null_session
   before_action :set_prod, only: %i[ update_prod delete_prod ]
   before_action :set_order, only: %i[ find_order ]
@@ -11,6 +11,7 @@ class ApixController < ApplicationController
   before_action :ref_params, only: %i[ add_order ]
   before_action :order_params, only: %i[ add_order ]
   before_action :product_params, only: %i[ add_prod update_prod ]
+
   def add_order
     @number = params[:item_length].to_s.to_i
     @uni = params[:unit].to_s.to_i
@@ -20,18 +21,18 @@ class ApixController < ApplicationController
     if @number.eql? 0
       render json: {status: "MISSING", message: "Chưa Chọn Sản Phẩm"}, status: :ok
     else
-    @bb = add_ref(ref_params,params[:orderrefID].to_s.to_i)
-    @hold = @bb.nil? ? nil : @bb.id
-    @ord = Order.new(order_params)
-    @ord.status = "Mới Tạo"
-    @ord.completed_at = nil
-    @ord.referrer_id = @hold
-    @ord.discount_unit = @uni
-    @ord.total = @total
-    @ord.save
-    add_items(@ord.id,@number)
-    render json: {status: "SUCCESS", id: @ord.id ,message: "Tạo Đơn Hàng THành Công"}, status: :ok
+      @bb = add_ref(ref_params,params[:orderrefID].to_s.to_i)
+      @hold = @bb.nil? ? nil : @bb.id
+      @ord = Order.new(order_params)
+      @ord.status = "Mới Tạo"
+      @ord.completed_at = nil
+      @ord.referrer_id = @hold
+      @ord.discount_unit = @uni
+      @ord.total = @total
+      @ord.save
+      add_items(@ord.id,@number)
 
+      render json: { status: "SUCCESS", id: @ord.id, message: "Tạo Đơn Hàng THành Công" }, status: :ok
     end
   end
 
@@ -55,7 +56,6 @@ class ApixController < ApplicationController
                         customer: @cus, message: "Đã Có Người Sử Dụng"}, status: :ok
         end
   end
-
   def ref_phone_check
     @ref = Referrer.find_by_phone(params[:phone])
     if @ref == nil
@@ -136,8 +136,6 @@ class ApixController < ApplicationController
       render json: {prod: @products }, status: :ok
     end
   end
-
-
   #End for product
 
   #For order
@@ -359,7 +357,7 @@ class ApixController < ApplicationController
     return  cust.id
   end
 
-  def add_ref(param,order_ref_id)
+  def add_ref(param, order_ref_id)
     @ref = Referrer.new(param)
     if @ref.name.empty? and @ref.phone.empty? and @ref.banking_informations.empty? and  order_ref_id== 0
       @ref = nil

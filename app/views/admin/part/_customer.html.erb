@@ -1,0 +1,8 @@
+<tr>
+  <td><%= customer.name %></td>
+  <td><%= customer.phone %></td>
+  <td>
+    <%= link_to admin_customer_path(customer),method: :get, class:'btn btn-outline-success float-right btnUp' do %>
+      <i class="fas fa-circle-info"></i>
+    <% end %>
+  </td></tr>

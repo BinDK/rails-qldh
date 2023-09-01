@@ -1,0 +1,178 @@
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-1">
+
+      </div>
+    </div>
+  </div>
+
+  <section class="content">
+    <div class="container-fluid">
+
+      <div class="row">
+        <!-- Customer Table -->
+        <div class="col-12">
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Tất cả KH</h3>
+
+              <div class="card-tools">
+                <%#= search_form_for @q, data:{ turbo_frame: :results, turbo_action: 'advance'}, url: cus_path  do |f| %>
+                  <%= search_form_for @q, data:{controller: 'search-form', search_form_target: 'form', turbo_frame: :results}, url: cus_manage_path  do |f| %>
+
+                  <div class="input-group input-group-sm" style="width: 250px;">
+                    <%= f.search_field :name_or_phone_cont,
+                                       class:'form-control float-right',
+                                       autofocus:true,autocomplete:'off',
+                                       placeholder:'Tên / SĐT',
+                                       # oninput: 'this.form.requestSubmit()'
+                                       data: { action: 'input->search-form#search' }
+                    %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <%= turbo_frame_tag :results do %>
+              <%= render partial: "admin/list/listc", locals: { customer: @customers } %>
+            <% end%>
+          </div>
+          <!-- /.card -->
+        </div>
+
+        <!-- Ref table -->
+
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+
+</div>
+
+<div class="modal fade" id="modal-xl">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Bảng Chi tiết KH</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src=""
+                       alt="Cus pic" id="cuspic">
+                </div>
+
+                <h3 class="profile-username text-center" id="demoName"></h3>
+
+                <p class="text-muted text-center" id="demoPhone"></p>
+
+                <form id="cusInfo" autocomplete="off">
+                  <ul class="list-group list-group-unbordered mb-3">
+
+                    <li class="list-group-item">
+                      <b>Tên</b> <input type="text" class="float-right text-right border-0" id="inpName" name="customer[name]">
+                    </li>
+                    <li class="list-group-item">
+                      <b>SĐT</b> <input type="text" class="float-right text-right border-0" id="inpPhone" maxlength="10" name="customer[phone]">
+                    </li>
+                  </ul>
+                  <input type="hidden" name="idCus" id="idCus" value="0">
+                  <button class="btn btn-primary btn-block" id="cusUpdate"><b>Cập Nhật</b></button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#addressPane" data-toggle="tab">Các Địa Chỉ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Lịch Sử Đơn Hàng</a></li>
+                </ul>
+              </div>
+              <div class="card-body">
+
+                <div class="tab-content">
+
+                  <div class="active tab-pane" id="addressPane">
+
+                  </div>
+
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="timeline">
+                    <div class="timeline timeline-inverse">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    window.onload = orderSyle();
+    var flagPhone = 0;
+
+    function orderSyle() {
+        $('#side-cus').addClass('active').css('background-color', '#5403758f');
+    }
+
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn.apply(context, args);
+            }, delay);
+        };
+    }
+
+
+    function formatDate(date) {
+        var d = new Date(date),
+          day = d.getDate() < 10 ? '0'+ d.getDate() : d.getDate(),
+          month = (d.getMonth() + 1) < 10 ? '0'+ (d.getMonth() + 1) : (d.getMonth() + 1),
+          year = d.getFullYear(),
+          hour = d.getHours() < 10 ? '0'+ d.getHours() : d.getHours(),
+          min = d.getMinutes() < 10 ? '0'+ d.getMinutes() : d.getMinutes(),
+          sec = d.getSeconds()< 10 ? '0'+ d.getSeconds() : d.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        a = [ day,month,year].join('/');
+        b = [hour, min].join(':');
+
+        return a + ' ' + b;
+    }
+
+
+
+
+</script>
+
+

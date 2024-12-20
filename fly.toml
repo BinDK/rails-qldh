@@ -11,7 +11,7 @@ processes = []
     SERVER_COMMAND = "bin/rails fly:server"
     BUNDLER_VERSION = "2.3.23"
     NODE_VERSION = "18.12.1"
-    RUBY_VERSION = "3.0.2"
+    RUBY_VERSION = "3.0.7"
 [deploy]
   release_command = "bin/rails fly:release"
 
